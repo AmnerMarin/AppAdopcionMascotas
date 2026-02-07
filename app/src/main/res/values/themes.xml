@@ -3,7 +3,16 @@
     <style name="Base.Theme.AppAdopcionMascotas" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/primary_color</item>
+        <item name="colorSecondary">@color/tag_color</item>
+        <item name="colorAccent">@color/degraded_color</item>
+        <item name="colorControlNormal">@color/white</item>
     </style>
 
     <style name="Theme.AppAdopcionMascotas" parent="Base.Theme.AppAdopcionMascotas" />
+    <style name="EtiquetaTitulo">
+        <item name="android:textSize"> 17sp</item>
+        <item name="fontFamily">@font/inter_regular</item>
+    </style>
+
 </resources>
