@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">AppAdopcionMascotas</string>
+    <string name="contrasenia">Contraseña</string>
+    <string name="texto_correo_ejemplo">correo@ejemplo.com</string>
+    <string name="correo_electronico_label">Correo electrónico</string>
+    <string name="inicar_sesion_para_continuar">Inicia sesión para continuar</string>
+    <string name="iniciar_sesion">Iniciar Sesión</string>
+    <string name="asteriscos">********</string>
+    <string name="iniciar_sesion_nombre_boton">Iniciar Sesión</string>
+    <string name="no_tienes_una_cuenta_registrarse">¿No tienes una cuenta? Registrarse</string>
+    <string name="logo_de_adoptapet">Logo de adoptapet</string>
 </resources>

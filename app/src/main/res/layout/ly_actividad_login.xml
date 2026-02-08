@@ -10,6 +10,7 @@
 
     <ImageView
         android:id="@+id/imagenLogo"
+        android:contentDescription="@string/logo_de_adoptapet"
         android:layout_width="303dp"
         android:layout_height="118dp"
         android:layout_marginTop="67dp"
@@ -38,7 +39,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Iniciar Sesión"
+                android:text="@string/iniciar_sesion"
                 android:textAlignment="center"
                 android:textColor="@color/text_dark"
                 android:textSize="20sp"
@@ -47,7 +48,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Inicia sesión para continuar"
+                android:text="@string/inicar_sesion_para_continuar"
                 android:textAlignment="center"
                 android:textColor="@color/gray"
                 android:textSize="14sp"
@@ -56,7 +57,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Correo electrónico"
+                android:text="@string/correo_electronico_label"
                 android:textStyle="bold"
                 android:textColor="@color/text_dark"
                 android:textSize="12sp" />
@@ -72,7 +73,7 @@
                     android:layout_width="match_parent"
                     android:background="@drawable/fondo_escribir_texto"
                     android:layout_height="55dp"
-                    android:hint="correo@ejemplo.com"
+                    android:hint="@string/texto_correo_ejemplo"
                     android:inputType="textEmailAddress"
                     android:paddingStart="15dp"
                     android:textSize="14sp" />
@@ -82,7 +83,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Contraseña"
+                android:text="@string/contrasenia"
                 android:textStyle="bold"
                 android:textColor="@color/text_dark"
                 android:textSize="12sp" />
@@ -101,7 +102,7 @@
                     android:layout_width="match_parent"
                     android:background="@drawable/fondo_escribir_texto"
                     android:layout_height="55dp"
-                    android:hint="********"
+                    android:hint="@string/asteriscos"
                     android:inputType="textPassword"
                     android:paddingStart="15dp"
                     android:textSize="14sp" />
@@ -112,7 +113,7 @@
                 android:id="@+id/btnIniciarSesion"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
-                android:text="Iniciar Sesión"
+                android:text="@string/iniciar_sesion_nombre_boton"
                 android:textAllCaps="false"
                 android:backgroundTint="@color/primary_color"
                 android:textColor="@android:color/white"
@@ -123,7 +124,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="¿No tienes una cuenta? Registrarse"
+                android:text="@string/no_tienes_una_cuenta_registrarse"
                 android:textAlignment="center"
                 android:textColor="@color/gray"/>
 
