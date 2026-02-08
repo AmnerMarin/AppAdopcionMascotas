@@ -5,6 +5,7 @@
     <color name="gray">#acabb2</color>
     <color name="primary_color">#38c392</color>
     <color name="degraded_color">#C8E6C9</color>
+    <color name="verde_fondo">#f8fdfa</color>
     <color name="text_dark">#333333</color>
     <color name="fondo">#f8fdfa</color>
     <color name="tag_color">#6b9ce5</color>
