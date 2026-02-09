@@ -15,4 +15,9 @@
         <item name="fontFamily">@font/inter_regular</item>
     </style>
 
+
+    <style name="ShapeAppearance.App.SmallComponent" parent="ShapeAppearance.Material3.SmallComponent">
+        <item name="cornerSize">16dp</item>
+    </style>
+
 </resources>
