@@ -21,4 +21,13 @@
     <string name="_4_nuevos">4 nuevos</string>
     <string name="mensajes_recibidos">Mensajes Recibidos</string>
     <string name="consulta_de_usuarios_interesados">Consulta de usuarios interesados</string>
+    <string name="maria_garcia">María García</string>
+    <string name="maria_email_com">maria@email.com</string>
+    <string name="fecha_ejemplo">31/1/2026</string>
+    <string name="interesado_en">Interesado en:</string>
+    <string name="luna">Luna</string>
+    <string name="hola_estoy_interesada_en_adoptar_a_luna_podr_a_visitarla_este_fin_de_semana">Hola, estoy interesada en adoptar a Luna. ¿Podría visitarla este fin de semana?</string>
+    <string name="responder">Responder</string>
+    <string name="golden_retriever">Golden Retriever</string>
+    <string name="perro">Perro</string>
 </resources>

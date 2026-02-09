@@ -33,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-            android:text="María García"
+            android:text="@string/maria_garcia"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -44,7 +44,7 @@
             android:id="@+id/tvEmailUsuario"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="maria@email.com"
+            android:text="@string/maria_email_com"
             android:textColor="@color/gray"
             android:textSize="13sp"
             app:layout_constraintStart_toStartOf="@id/tvNombreUsuario"
@@ -53,7 +53,7 @@
             android:id="@+id/tvFecha"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="31/1/2026"
+            android:text="@string/fecha_ejemplo"
             android:textColor="@color/gray"
             android:textSize="12sp"
             android:drawablePadding="4dp"
@@ -73,7 +73,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Interesado en:"
+                android:text="@string/interesado_en"
                 android:textColor="@color/gray"
                 android:textSize="12sp" />
 
@@ -81,7 +81,7 @@
                 android:id="@+id/tvMascotaInteres"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Luna"
+                android:text="@string/luna"
                 android:textColor="@color/black"
                 android:textSize="15sp"
                 android:textStyle="bold" />
@@ -92,7 +92,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:text="Hola, estoy interesada en adoptar a Luna. ¿Podría visitarla este fin de semana?"
+            android:text="@string/hola_estoy_interesada_en_adoptar_a_luna_podr_a_visitarla_este_fin_de_semana"
             android:textColor="#555555"
             android:lineSpacingExtra="3dp"
             app:layout_constraintTop_toBottomOf="@id/containerInteres" />
@@ -103,7 +103,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Responder"
+            android:text="@string/responder"
             android:textColor="@color/white"
             app:backgroundTint="#1DB954"
             app:icon="@drawable/email"
