@@ -13,4 +13,7 @@
     <string name="unete_a_nuestra_comunidad">Únete a nuestra comunidad</string>
     <string name="crear_cuenta">Crear Cuenta</string>
     <string name="tipo_de_cuenta">Tipo de cuenta</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="mensajes">Mensajes</string>
+    <string name="perfil">Perfil</string>
 </resources>

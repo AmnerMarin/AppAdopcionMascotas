@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/itemDashboard"
+        android:icon="@drawable/selector_dashboard"
+        android:title="@string/dashboard"/>
+    <item
+        android:id="@+id/itemMensajes"
+        android:icon="@drawable/selecto_mensajes"
+        android:title="@string/mensajes" />
+    <item
+        android:id="@+id/itemPerfil"
+        android:icon="@drawable/selector_perfil"
+        android:title="@string/perfil" />
+</menu>
