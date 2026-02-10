@@ -26,6 +26,7 @@
         app:itemIconTint="@color/nav_item_color"
         app:itemTextColor="@color/nav_item_color"
         android:background="@color/verde_fondo"
+        app:itemActiveIndicatorStyle="@style/PastillaSimple"
         app:itemRippleColor="@null"
         app:menu="@menu/menu_refugio" />
 
