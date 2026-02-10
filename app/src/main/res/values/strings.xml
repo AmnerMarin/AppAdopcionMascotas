@@ -30,4 +30,11 @@
     <string name="responder">Responder</string>
     <string name="golden_retriever">Golden Retriever</string>
     <string name="perro">Perro</string>
+    <string name="panel_del_refugio">Panel del Refugio</string>
+    <string name="_4_activos">4 activos</string>
+    <string name="animales_publicados">Animales publicados</string>
+    <string name="adoptados">Adoptados</string>
+    <string name="_5">5</string>
+    <string name="publicados">Publicados</string>
+    <string name="gestiona_tus_publicaciones">Gestiona tus publicaciones</string>
 </resources>
