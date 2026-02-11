@@ -1,5 +1,6 @@
 package sistemas.unc.edu.appadopcionmascotas;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -10,6 +11,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import sistemas.unc.edu.appadopcionmascotas.fragments.DashboardFragment;
 import sistemas.unc.edu.appadopcionmascotas.fragments.MensajesFragment;
@@ -18,12 +20,16 @@ import sistemas.unc.edu.appadopcionmascotas.fragments.PerfilFragment;
 public class ActividadRefugio extends AppCompatActivity {
 
     BottomNavigationView bottom_nav_refugio;
+    FloatingActionButton fabAdd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ly_actividad_refugio);
 
         bottom_nav_refugio = findViewById(R.id.bottom_nav_refugio);
+        fabAdd = findViewById(R.id.fabAdd);
+
 
         cargarFragment(new DashboardFragment());
         bottom_nav_refugio.setOnItemSelectedListener(item -> {
@@ -41,7 +47,16 @@ public class ActividadRefugio extends AppCompatActivity {
             }
             return cargarFragment(selectedFragment);
         });
+
+        fabAdd.setOnClickListener(view -> {
+            Intent intent = new Intent(view.getContext(), ActividadAgregarAnimal.class);
+            view.getContext().startActivity(intent);
+
+        });
+
     }
+
+
 
     private boolean cargarFragment(Fragment fragment) {
         if (fragment != null) {

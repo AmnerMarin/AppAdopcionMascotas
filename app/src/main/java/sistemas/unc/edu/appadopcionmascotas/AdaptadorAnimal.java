@@ -1,5 +1,6 @@
 package sistemas.unc.edu.appadopcionmascotas;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +39,10 @@ public class AdaptadorAnimal extends RecyclerView.Adapter<AdaptadorAnimal.ViewHo
         holder.btnVer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //abrir el fragmet de ver
+                //abrir la activity ver
+                Intent intent = new Intent(view.getContext(), ActividadVerAnimal.class);
+                view.getContext().startActivity(intent);
+
 
             }
         });
@@ -46,7 +50,10 @@ public class AdaptadorAnimal extends RecyclerView.Adapter<AdaptadorAnimal.ViewHo
         holder.btnEditar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //abrir el fragment de editar
+                //abrir la activity ver
+                Intent intent = new Intent(view.getContext(), ActividadEditarAnimal.class);
+                view.getContext().startActivity(intent);
+
             }
         });
     }
