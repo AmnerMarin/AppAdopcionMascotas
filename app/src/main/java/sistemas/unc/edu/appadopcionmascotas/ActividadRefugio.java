@@ -36,7 +36,7 @@ public class ActividadRefugio extends AppCompatActivity {
             Fragment selectedFragment = null;
             int id = item.getItemId();
 
-            if(id == R.id.itemDashboard){
+            if (id == R.id.itemDashboard) {
                 selectedFragment = new DashboardFragment();
             }
             else if(id == R.id.itemMensajes){
@@ -55,8 +55,6 @@ public class ActividadRefugio extends AppCompatActivity {
         });
 
     }
-
-
 
     private boolean cargarFragment(Fragment fragment) {
         if (fragment != null) {

@@ -1,0 +1,141 @@
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="12dp"
+    app:cardCornerRadius="32dp"
+    app:cardElevation="12dp"
+    app:strokeColor="#F0F0F0"
+    app:strokeWidth="1dp"
+    android:backgroundTint="#FFFFFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Imagen -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="240dp">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/perro_prueba"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.LargeComponent"/>
+
+            <!-- Botón favorito -->
+            <ImageButton
+                android:id="@+id/btnFavorito"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="top|end"
+                android:layout_margin="18dp"
+                android:background="@drawable/bg_circle_white"
+                android:src="@drawable/favorito"
+                android:padding="12dp"
+                android:scaleType="centerInside"
+                android:contentDescription="Favorito"
+                android:elevation="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                app:tint="#E53935"/>
+
+        </FrameLayout>
+
+        <!-- Contenido -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <!-- Nombre + Tipo -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/txtNombre"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Luna"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:textColor="#1A1A1A"/>
+
+                <TextView
+                    android:id="@+id/txtTipo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Perro"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="6dp"
+                    android:background="@drawable/bg_chip_green"/>
+            </LinearLayout>
+
+            <!-- Raza -->
+            <TextView
+                android:id="@+id/txtRaza"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Golden Retriever"
+                android:textSize="15sp"
+                android:textColor="#666666"
+                android:layout_marginTop="8dp"/>
+
+            <!-- Características -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="14dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/txtEdad"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="3 años"
+                    android:textSize="14sp"
+                    android:textColor="#888888"/>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="0dp"
+                    android:backgroundTint="#EDEDED">
+
+                    <TextView
+                        android:id="@+id/txtSexo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hembra"
+                        android:textSize="12sp"
+                        android:textColor="#444444"
+                        android:textStyle="bold"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="6dp"/>
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

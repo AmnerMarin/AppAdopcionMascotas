@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:paddingBottom="24dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <!-- HEADER -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Filtros"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#212121"
+                android:layout_centerVertical="true"/>
+
+            <ImageView
+                android:id="@+id/btnClose"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/huella"
+                app:tint="#666666"
+                android:layout_alignParentEnd="true"
+                android:padding="8dp"/>
+        </RelativeLayout>
+
+        <!-- ================= TIPO ================= -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tipo"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/groupType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:singleSelection="true"
+            app:selectionRequired="true"
+            android:layout_marginBottom="16dp">
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Todos"
+                android:checkable="true"
+                android:checked="true"
+                app:chipCornerRadius="24dp"
+                app:chipBackgroundColor="#F1F1F1"
+                app:checkedIconVisible="false"/>
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Perros"
+                android:checkable="true"
+                app:chipCornerRadius="24dp"
+                app:chipBackgroundColor="#F1F1F1"
+                app:checkedIconVisible="false"/>
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Gatos"
+                android:checkable="true"
+                app:chipCornerRadius="24dp"
+                app:chipBackgroundColor="#F1F1F1"
+                app:checkedIconVisible="false"/>
+        </com.google.android.material.chip.ChipGroup>
+
+        <!-- ================= EDAD ================= -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edad"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/groupAge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:singleSelection="true"
+            android:layout_marginBottom="16dp">
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Todas"
+                android:checkable="true"
+                android:checked="true"
+                app:chipCornerRadius="24dp"
+                app:chipBackgroundColor="#F1F1F1"
+                app:checkedIconVisible="false"/>
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Joven (0-2 años)"
+                android:checkable="true"
+                app:chipCornerRadius="24dp"
+                app:chipBackgroundColor="#F1F1F1"
+                app:checkedIconVisible="false"/>
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Adulto (3-7 años)"
+                android:checkable="true"
+                app:chipCornerRadius="24dp"
+                app:chipBackgroundColor="#F1F1F1"
+                app:checkedIconVisible="false"/>
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Senior (7+ años)"
+                android:checkable="true"
+                app:chipCornerRadius="24dp"
+                app:chipBackgroundColor="#F1F1F1"
+                app:checkedIconVisible="false"/>
+        </com.google.android.material.chip.ChipGroup>
+
+        <!-- ================= TAMAÑO ================= -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tamaño"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/groupSize"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:singleSelection="true"
+            android:layout_marginBottom="16dp">
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Todos"
+                android:checkable="true"
+                android:checked="true"
+                app:chipCornerRadius="24dp"
+                app:chipBackgroundColor="#F1F1F1"
+                app:checkedIconVisible="false"/>
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pequeño"
+                android:checkable="true"
+                app:chipCornerRadius="24dp"
+                app:chipBackgroundColor="#F1F1F1"
+                app:checkedIconVisible="false"/>
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mediano"
+                android:checkable="true"
+                app:chipCornerRadius="24dp"
+                app:chipBackgroundColor="#F1F1F1"
+                app:checkedIconVisible="false"/>
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Grande"
+                android:checkable="true"
+                app:chipCornerRadius="24dp"
+                app:chipBackgroundColor="#F1F1F1"
+                app:checkedIconVisible="false"/>
+        </com.google.android.material.chip.ChipGroup>
+
+        <!-- ================= SEXO ================= -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sexo"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/groupSex"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:singleSelection="true"
+            android:layout_marginBottom="32dp">
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Todos"
+                android:checkable="true"
+                android:checked="true"
+                app:chipCornerRadius="24dp"
+                app:chipBackgroundColor="#F1F1F1"
+                app:checkedIconVisible="false"/>
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Macho"
+                android:checkable="true"
+                app:chipCornerRadius="24dp"
+                app:chipBackgroundColor="#F1F1F1"
+                app:checkedIconVisible="false"/>
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hembra"
+                android:checkable="true"
+                app:chipCornerRadius="24dp"
+                app:chipBackgroundColor="#F1F1F1"
+                app:checkedIconVisible="false"/>
+        </com.google.android.material.chip.ChipGroup>
+
+        <!-- BOTONES -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnClear"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:text="Limpiar"
+                android:textColor="#212121"
+                app:strokeColor="#DDDDDD"
+                app:strokeWidth="1dp"
+                app:cornerRadius="14dp"
+                android:backgroundTint="@android:color/transparent"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnApply"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:text="Aplicar filtros"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:backgroundTint="#00C853"
+                app:cornerRadius="14dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
