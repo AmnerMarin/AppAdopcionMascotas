@@ -45,7 +45,7 @@ public class ActividadVerAnimal extends AppCompatActivity {
                 } else {
                     btnGuardar.setText("Guardar");
 
-                    btnGuardar.setIconResource(R.drawable.corazon);
+                    btnGuardar.setIconResource(R.drawable.favorito);
 
                     btnGuardar.setIconTint(ColorStateList.valueOf(
                             ContextCompat.getColor(getApplicationContext(), R.color.text_dark)));

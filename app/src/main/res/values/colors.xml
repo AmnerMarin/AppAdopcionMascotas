@@ -5,6 +5,7 @@
     <color name="white1">#FFFFFF</color>
     <color name="gray">#acabb2</color>
     <color name="primary_color">#38c392</color>
+    <color name="greenPrimary">#0FC803</color>
     <color name="degraded_color">#C8E6C9</color>
     <color name="verde_fondo">#f8fdfa</color>
     <color name="text_dark">#333333</color>
@@ -14,4 +15,5 @@
     <color name="gray_ligth">#F1F3F5</color>
     <color name="danger_red">#FF3B30</color>
     <color name="azul_vivido">#226dfe</color>
+
 </resources>

@@ -25,21 +25,25 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnFav"
-        style="?attr/materialIconButtonStyle"
-        android:layout_width="44dp"
-        android:layout_height="44dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:elevation="15dp"
-        app:icon="@drawable/favorito"
-        app:iconTint="@color/white"
-        app:iconSize="22dp"
-        app:backgroundTint="@color/tag_color"
-        app:cornerRadius="22dp"
+    <ImageButton
+        android:id="@+id/btnFavorito"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="18dp"
+        android:background="@drawable/bg_circle_white"
+        android:src="@drawable/favorito"
+        android:padding="12dp"
+        android:scaleType="centerInside"
+        android:contentDescription="Favorito"
+        android:elevation="8dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        app:tint="#E53935"
+
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollDetalle"
@@ -252,7 +256,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:padding="12dp"
-                                    android:src="@drawable/corazon"
+                                    android:src="@drawable/favorito"
                                     app:tint="#F59E0B" />
                             </com.google.android.material.card.MaterialCardView>
 
@@ -521,7 +525,7 @@
                     android:textStyle="bold"
                     app:backgroundTint="@color/btn_guardar_selector"
                     app:cornerRadius="18dp"
-                    app:icon="@drawable/corazon"
+                    app:icon="@drawable/favorito"
                     app:iconPadding="10dp"
                     app:iconTint="@color/text_dark"
                     app:strokeColor="@color/gray"

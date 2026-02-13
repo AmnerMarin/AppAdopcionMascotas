@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/iteminicioadoptante"
+        android:icon="@drawable/selector_dashboard"
+        android:title="Inicio"/>
+    <item
+        android:id="@+id/itemfavoritosdoptante"
+        android:icon="@drawable/favorito"
+        android:title="Favoritos"/>
+    <item
+        android:id="@+id/itemrefugiosdoptante"
+        android:icon="@drawable/selector_dashboard"
+        android:title="Refugios"/>
+    <item
+        android:id="@+id/itemMensajesadoptante"
+        android:icon="@drawable/selecto_mensajes"
+        android:title="Mensajes" />
+    <item
+        android:id="@+id/itemPerfilAdoptante"
+        android:icon="@drawable/selector_perfil"
+        android:title="@string/perfil" />
+</menu>
