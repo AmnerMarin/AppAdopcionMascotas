@@ -45,7 +45,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:fontFamily="@font/inter_regular"
-                    android:text="Editar animal"
+                    android:text="Publicar animal"
                     android:textColor="@color/white"
                     android:textSize="20sp"
                     android:textStyle="bold"
@@ -59,7 +59,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
                     android:fontFamily="@font/inter_regular"
-                    android:text="Modifica la información de Luna"
+                    android:text="Completa la información del animal"
                     android:textColor="#E8FFFFFF"
                     android:textSize="13sp"
                     app:layout_constraintEnd_toEndOf="@id/txtTitulo"
@@ -74,7 +74,7 @@
                 android:padding="16dp">
 
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/cardFoto"
+                    android:id="@+id/cardFotoPublicar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:cardBackgroundColor="@color/white"
@@ -93,7 +93,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter_regular"
-                            android:text="Foto del animal"
+                            android:text="Foto del animal *"
                             android:textColor="@color/text_dark"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -103,43 +103,60 @@
                             android:layout_height="10dp" />
 
                         <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/cardSeleccionarFotoPublicar"
                             android:layout_width="match_parent"
                             android:layout_height="190dp"
                             app:cardBackgroundColor="#F2F4F7"
                             app:cardCornerRadius="16dp"
-                            app:cardElevation="0dp">
-
-                            <ImageView
-                                android:id="@+id/imgAnimal"
+                            app:cardElevation="0dp"
+                            app:strokeColor="#40000000"
+                            app:strokeWidth="1dp">
+                            <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:scaleType="centerCrop"
-                                tools:src="@drawable/siberiano" />
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                android:background="@drawable/dotted_border_background"
+                                android:padding="16dp">
+
+                                <ImageView
+                                    android:id="@+id/imgUploadIcon"
+                                    android:layout_width="48dp"
+                                    android:layout_height="48dp"
+                                    android:src="@drawable/subir"
+                                    app:tint="@color/gray" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:fontFamily="@font/inter_regular"
+                                    android:text="Toca para seleccionar una foto"
+                                    android:textColor="@color/text_dark"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/inter_regular"
+                                    android:text="Desde galería o cámara"
+                                    android:textColor="@color/text_dark"
+                                    android:textSize="12sp" />
+
+                                <ImageView
+                                    android:id="@+id/imgAnimal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:scaleType="centerCrop"
+                                    android:visibility="gone"
+                                    tools:src="@drawable/siberiano" />
+
+                            </LinearLayout>
                         </com.google.android.material.card.MaterialCardView>
 
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="12dp" />
 
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btnCambiarFoto"
-                            android:layout_width="match_parent"
-                            android:layout_height="46dp"
-                            android:fontFamily="@font/inter_regular"
-                            android:insetTop="0dp"
-                            android:insetBottom="0dp"
-                            android:text="Cambiar foto"
-                            android:textAllCaps="false"
-                            android:textColor="@color/text_dark"
-                            android:textSize="13sp"
-                            android:textStyle="bold"
-                            app:backgroundTint="@color/white"
-                            app:cornerRadius="14dp"
-                            app:icon="@drawable/subir"
-                            app:iconPadding="10dp"
-                            app:iconTint="@color/text_dark"
-                            app:strokeColor="#22000000"
-                            app:strokeWidth="1dp" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
@@ -188,13 +205,13 @@
                             app:boxStrokeWidthFocused="0dp">
 
                             <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/edtNombre"
+                                android:id="@+id/edtNombrePublicar"
                                 android:layout_width="match_parent"
                                 android:layout_height="48dp"
-                                android:text="Luna"
+                                android:hint="Ej: Luna"
                                 android:textColor="@color/text_dark"
-                                android:textSize="14sp" />
-                        </com.google.android.material.textfield.TextInputLayout>
+                                android:textSize="14sp"
+                                android:textColorHint="@color/gray" /> </com.google.android.material.textfield.TextInputLayout>
 
                         <View
                             android:layout_width="match_parent"
@@ -225,13 +242,14 @@
                             app:boxStrokeWidthFocused="0dp">
 
                             <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                                android:id="@+id/actEspecie"
+                                android:id="@+id/actEspeciePublicar"
                                 android:layout_width="match_parent"
                                 android:layout_height="54dp"
+                                android:hint="Selecciona una especie"
                                 android:inputType="none"
-                                android:text="Perro"
                                 android:textColor="@color/text_dark"
-                                android:textSize="14sp" />
+                                android:textSize="14sp"
+                                android:textColorHint="@color/gray" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <View
@@ -263,12 +281,13 @@
                             app:boxStrokeWidthFocused="0dp">
 
                             <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/edtRaza"
+                                android:id="@+id/edtRazaPublicar"
                                 android:layout_width="match_parent"
                                 android:layout_height="48dp"
-                                android:text="Golden Retriever"
+                                android:hint="Ej: Golden Retriever"
                                 android:textColor="@color/text_dark"
-                                android:textSize="14sp" />
+                                android:textSize="14sp"
+                                android:textColorHint="@color/gray" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <View
@@ -305,11 +324,13 @@
                                     app:boxStrokeWidth="0dp">
 
                                     <com.google.android.material.textfield.TextInputEditText
-                                        android:id="@+id/edtEdad"
+                                        android:id="@+id/edtEdadPublicar"
                                         android:layout_width="match_parent"
                                         android:layout_height="48dp"
-                                        android:text="3 años"
-                                        android:textSize="14sp" />
+                                        android:hint="Ej: 3 años"
+                                        android:textColor="@color/text_dark"
+                                        android:textSize="14sp"
+                                        android:textColorHint="@color/gray" />
                                 </com.google.android.material.textfield.TextInputLayout>
                             </LinearLayout>
 
@@ -339,12 +360,14 @@
                                     app:boxStrokeWidth="0dp">
 
                                     <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                                        android:id="@+id/actTamano"
+                                        android:id="@+id/actTamanoPublicar"
                                         android:layout_width="match_parent"
                                         android:layout_height="48dp"
+                                        android:hint="Tamaño"
                                         android:inputType="none"
-                                        android:text="Grande"
-                                        android:textSize="14sp" />
+                                        android:textColor="@color/text_dark"
+                                        android:textSize="14sp"
+                                        android:textColorHint="@color/gray" />
                                 </com.google.android.material.textfield.TextInputLayout>
                             </LinearLayout>
                         </LinearLayout>
@@ -371,11 +394,13 @@
                             app:boxStrokeWidth="0dp">
 
                             <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/edtTemperamento"
+                                android:id="@+id/edtTemperamentoPublicar"
                                 android:layout_width="match_parent"
                                 android:layout_height="48dp"
-                                android:text="Amigable, juguetona, energética"
-                                android:textSize="14sp" />
+                                android:hint="Ej: Amigable, juguetón, energético"
+                                android:textColor="@color/text_dark"
+                                android:textSize="14sp"
+                                android:textColorHint="@color/gray" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <View
@@ -400,14 +425,16 @@
                             app:boxStrokeWidth="0dp">
 
                             <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/edtHistoria"
+                                android:id="@+id/edtHistoriaPublicar"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="top"
+                                android:hint="Cuéntanos la historia de este animal..."
                                 android:minLines="4"
                                 android:paddingTop="12dp"
-                                android:text="Luna fue rescatada de la calle..."
-                                android:textSize="14sp" />
+                                android:textColor="@color/text_dark"
+                                android:textSize="14sp"
+                                android:textColorHint="@color/gray" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -417,14 +444,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:orientation="horizontal"
-                    android:weightSum="2.5">
+                    android:gravity="center"
+                    android:weightSum="2">
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnCancelar"
+                        android:id="@+id/btnCancelarPublicar"
                         android:layout_width="0dp"
                         android:layout_height="52dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_weight="0.9"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="6dp"
                         android:text="Cancelar"
                         android:textAllCaps="false"
                         android:textColor="@color/selector_cancelar_texto"
@@ -435,36 +463,20 @@
                         app:strokeWidth="1dp" />
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnGuardarCambios"
+                        android:id="@+id/btnPublicar"
                         android:layout_width="0dp"
                         android:layout_height="52dp"
-                        android:layout_weight="1.6"
-                        android:text="Guardar cambios"
+                        android:layout_weight="1"
+                        android:layout_marginStart="6dp"
+                        android:text="Publicar"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
                         android:textStyle="bold"
                         app:backgroundTint="@color/primary_color"
                         app:cornerRadius="18dp"
-                        app:icon="@drawable/guardar"
+                        app:icon="@drawable/check"
                         app:iconPadding="8dp" />
                 </LinearLayout>
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnEliminarPublicacion"
-                    android:layout_width="match_parent"
-                    android:layout_height="44dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginBottom="24dp"
-                    android:text="Eliminar publicación"
-                    android:textAllCaps="false"
-                    android:textColor="@color/selector_eliminar_texto"
-                    android:textStyle="bold"
-                    app:backgroundTint="@color/selector_eliminar_fondo"
-                    app:cornerRadius="14dp"
-                    app:icon="@drawable/basura"
-                    app:iconGravity="textStart"
-                    app:iconPadding="10dp"
-                    app:iconTint="@color/selector_eliminar_texto" />
 
             </LinearLayout>
         </LinearLayout>
