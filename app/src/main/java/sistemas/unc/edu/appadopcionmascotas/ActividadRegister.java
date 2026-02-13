@@ -41,14 +41,14 @@ public class ActividadRegister extends AppCompatActivity {
                     txtLabelNombre.setText("Nombre del refugio"); // Cambiamos  el nombre para refugio
                     etNombre.setHint("Ej: Refugio Huellitas");
 
-                    txtLabelUbicacion.setVisibility(View.VISIBLE);//mostramos la dirección
-                    btnIngresarAlMapa.setVisibility(View.VISIBLE);
+                    txtLabelUbicacion.setVisibility(View.VISIBLE);//mostramos el label de la ubicacion
+                    btnIngresarAlMapa.setVisibility(View.VISIBLE); //mostramos el boton de la ubicacion
                 } else if (checkedId == R.id.btnAdoptante) {
 
                     txtLabelNombre.setText("Nombre completo"); // Cambios para adoptante
                     etNombre.setHint("Ej: María García");
 
-                    txtLabelUbicacion.setVisibility(View.GONE);   // Ocultamos la direccion
+                    txtLabelUbicacion.setVisibility(View.GONE);
                     btnIngresarAlMapa.setVisibility(View.GONE);
                 }
             }
