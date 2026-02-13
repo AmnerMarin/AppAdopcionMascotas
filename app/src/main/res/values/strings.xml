@@ -28,4 +28,8 @@
     <string name="luna">Luna</string>
     <string name="hola_estoy_interesada_en_adoptar_a_luna_podr_a_visitarla_este_fin_de_semana">Hola, estoy interesada en adoptar a Luna. ¿Podría visitarla este fin de semana?</string>
     <string name="responder">Responder</string>
+    <string name="direcci_n_del_refugio">Dirección del refugio</string>
+    <string name="ej_av_las_flores_123">Ej: Av. Las Flores 123</string>
+    <string name="direccion">Dirección</string>
+    <string name="seleccionar_ubicaci_n">Seleccionar ubicación</string>
 </resources>
