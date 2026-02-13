@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppAdopcionMascotas">
         <activity
+            android:name=".ActividadPublicarAnimal"
+            android:exported="false" />
+        <activity
             android:name=".ActividadEditarAnimal"
             android:exported="false" />
         <activity
