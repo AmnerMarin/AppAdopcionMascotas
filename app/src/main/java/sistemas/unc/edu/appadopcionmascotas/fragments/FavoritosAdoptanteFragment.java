@@ -2,13 +2,22 @@ package sistemas.unc.edu.appadopcionmascotas.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import sistemas.unc.edu.appadopcionmascotas.Model.Animal;
 import sistemas.unc.edu.appadopcionmascotas.R;
+import sistemas.unc.edu.appadopcionmascotas.UI.AdaptadorAnimalAdoptante;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -63,4 +72,34 @@ public class FavoritosAdoptanteFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.ly_fragment_favoritos_adoptante, container, false);
     }
-}
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        RecyclerView rvFavoritos = view.findViewById(R.id.rv_animales_favoritos);
+        rvFavoritos.setLayoutManager(new LinearLayoutManager(getContext()));
+
+
+        listaAnimales.add(new Animal("Luna", "Golden Retriever", "Perro", "3 años", "Hembra", null, true));
+        listaAnimales.add(new Animal("Rocky", "Pastor Alemán", "Perro", "4 años", "Macho", null, true));
+        listaAnimales.add(new Animal("Nala", "Mestizo", "Gato", "5 meses", "Hembra", null, true));
+        listaAnimales.add(new Animal("Toby", "Beagle", "Perro", "2 años", "Macho", null, false));
+
+        AdaptadorAnimalAdoptante adaptadorAnimalAdoptante = new AdaptadorAnimalAdoptante(getContext(), filtrar_animales());
+        rvFavoritos.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvFavoritos.setAdapter(adaptadorAnimalAdoptante);
+    }
+    List<Animal> listaAnimales = new ArrayList<>();
+    private List<Animal> listaAnimalesFiltrados = new ArrayList<>();
+
+    private List<Animal> filtrar_animales() {
+        listaAnimalesFiltrados.clear();
+            for (Animal animal : listaAnimales) {
+                if (animal.isFavorito()) {
+                    listaAnimalesFiltrados.add(animal);
+                }
+            }
+            return listaAnimalesFiltrados;
+        }
+    }

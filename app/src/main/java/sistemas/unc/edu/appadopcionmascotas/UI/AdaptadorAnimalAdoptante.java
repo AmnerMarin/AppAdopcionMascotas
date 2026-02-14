@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import sistemas.unc.edu.appadopcionmascotas.ActividadVerAnimal;
@@ -25,6 +26,7 @@ public class AdaptadorAnimalAdoptante extends RecyclerView.Adapter<AdaptadorAnim
 
     private Context contexto;
     private List<Animal> listaanimales;
+    private List<Animal> listaanimalesfiltrados = new ArrayList<>();
 
     //Generar Constructor
 

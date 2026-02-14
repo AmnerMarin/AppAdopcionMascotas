@@ -3,12 +3,492 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.PerfilAdoptanteFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
+        android:id="@+id/scrollMain"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
 
+        <LinearLayout
+            android:id="@+id/llContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- HEADER -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/header"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:background="@drawable/bg_header_green"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/imgAvatar"
+                    android:layout_width="72dp"
+                    android:layout_height="70dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/white"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_perfil"
+                    android:tint="@color/primary_color"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shapeAppearanceOverlay="@style/RoundedCornersImage" />
+
+                <TextView
+                    android:id="@+id/tvNombre"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="8dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="María García"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@id/imgAvatar"
+                    app:layout_constraintTop_toTopOf="@id/imgAvatar" />
+
+                <TextView
+                    android:id="@+id/tvEmailHeader"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="maria@gmail.com"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@id/tvNombre"
+                    app:layout_constraintTop_toBottomOf="@id/tvNombre" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- STATS: Favoritos / Adoptados -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardStats"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="6dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="140dp"
+                    android:orientation="horizontal"
+                    android:padding="16dp">
+
+                    <!-- Favoritos -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardFavoritos"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="8dp"
+                        app:cardCornerRadius="16dp"
+                        android:backgroundTint="@color/gray_ligth"
+                        app:cardElevation="0dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:id="@+id/icFavoritos"
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
+                                android:src="@drawable/favorito"
+                                android:tint="@color/primary_color"/>
+
+                            <TextView
+                                android:id="@+id/tvFavoritosCount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="2"
+                                android:textSize="24sp"
+                                android:textStyle="bold"
+                                android:layout_marginTop="8dp"
+                                android:textColor="@color/gray_oscuro"/>
+
+                            <TextView
+                                android:id="@+id/tvFavoritosLabel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Favoritos"
+                                android:textSize="13sp"
+                                android:layout_marginTop="4dp"
+                                android:textColor="@color/gray"/>
+
+                        </LinearLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Adoptados -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardAdoptados"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginStart="8dp"
+                        app:cardCornerRadius="16dp"
+                        app:cardBackgroundColor="#EEF1F6"
+                        app:cardElevation="0dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:id="@+id/icAdoptados"
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
+                                android:src="@drawable/huella"
+                                android:tint="@color/azul_vivido"/>
+
+                            <TextView
+                                android:id="@+id/tvAdoptadosCount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textSize="24sp"
+                                android:textStyle="bold"
+                                android:layout_marginTop="8dp"
+                                android:textColor="@color/gray_oscuro"/>
+
+                            <TextView
+                                android:id="@+id/tvAdoptadosLabel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Adoptados"
+                                android:textSize="13sp"
+                                android:layout_marginTop="4dp"
+                                android:textColor="@color/gray"/>
+
+                        </LinearLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- INFO PERSONAL -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardInfoPersonal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="12dp"
+                app:cardCornerRadius="20dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="#E0E0E0">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:theme="@style/ThemeOverlay.Material3.Light">
+
+                    <TextView
+                        android:id="@+id/tvInfoTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:text="Información personal"
+                        android:textColor="@color/gray_oscuro"
+                        android:textSize="16sp" />
+
+                    <!-- Email item -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/itemEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="72dp"
+                        android:layout_marginBottom="10dp"
+                        app:cardCornerRadius="14dp"
+                        app:cardElevation="0dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="16dp">
+
+                            <ImageView
+                                android:id="@+id/iconEmail"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/email"
+                                android:tint="@color/gray_oscuro"/>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_marginStart="12dp">
+
+                                <TextView
+                                    android:id="@+id/lbEmail"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Email"
+                                    android:textSize="12sp"
+                                    android:textColor="@color/gray"/>
+
+                                <TextView
+                                    android:id="@+id/tvEmail"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="maria@email.com"
+                                    android:textSize="14sp"
+                                    android:textColor="@color/gray_oscuro"/>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Teléfono item -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/itemPhone"
+                        android:layout_width="match_parent"
+                        android:layout_height="72dp"
+                        android:layout_marginBottom="10dp"
+                        app:cardCornerRadius="14dp"
+                        app:cardElevation="0dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="16dp">
+
+                            <ImageView
+                                android:id="@+id/iconPhone"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/telefono"
+                                android:tint="@color/gray_oscuro"/>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_marginStart="12dp">
+
+                                <TextView
+                                    android:id="@+id/lbPhone"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Teléfono"
+                                    android:textSize="12sp"
+                                    android:textColor="@color/gray"/>
+
+                                <TextView
+                                    android:id="@+id/tvPhone"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="+34 123 456 789"
+                                    android:textSize="14sp"
+                                    android:textColor="@color/gray_oscuro"/>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Ubicación item -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/itemLocation"
+                        android:layout_width="match_parent"
+                        android:layout_height="72dp"
+                        app:cardCornerRadius="14dp"
+                        app:cardElevation="0dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="16dp">
+
+                            <ImageView
+                                android:id="@+id/iconLocation"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/ubicacion"
+                                android:tint="@color/gray_oscuro"/>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_marginStart="12dp">
+
+                                <TextView
+                                    android:id="@+id/lbLocation"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Ubicación"
+                                    android:textSize="12sp"
+                                    android:textColor="@color/gray"/>
+
+                                <TextView
+                                    android:id="@+id/tvLocation"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Madrid, España"
+                                    android:textSize="14sp"
+                                    android:textColor="@color/gray_oscuro"/>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- OPCIONES -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardOptions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="12dp"
+                app:cardCornerRadius="20dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="#E0E0E0">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- Favoritos -->
+                    <LinearLayout
+                        android:id="@+id/rowFavoritos"
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:gravity="center_vertical"
+                        android:paddingStart="27dp"
+                        android:paddingEnd="16dp">
+
+                        <ImageView
+                            android:id="@+id/iconFav"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/favorito"
+                            android:tint="@color/primary_color"/>
+
+                        <TextView
+                            android:id="@+id/tvFavLabel"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:text="Mis favoritos"
+                            android:textSize="14sp"
+                            android:textColor="@color/gray_oscuro"/>
+
+                        <ImageView
+                            android:id="@+id/iconFavArrow"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/adelante"
+                            android:tint="@color/gray"/>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#E0E0E0"/>
+
+                    <!-- Configuración -->
+                    <LinearLayout
+                        android:id="@+id/rowConfig"
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:gravity="center_vertical"
+                        android:paddingStart="27dp"
+                        android:paddingEnd="16dp">
+
+                        <ImageView
+                            android:id="@+id/iconConfig"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/configuracion"
+                            android:tint="@color/gray"/>
+
+                        <TextView
+                            android:id="@+id/tvConfigLabel"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:text="Configuración"
+                            android:textSize="14sp"
+                            android:textColor="@color/gray_oscuro"/>
+
+                        <ImageView
+                            android:id="@+id/iconConfigArrow"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/adelante"
+                            android:tint="@color/gray_oscuro"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- BOTÓN CERRAR SESIÓN -->
+            <com.google.android.material.button.MaterialButton
+                app:icon="@drawable/salir"
+                app:iconTint="@color/danger_red"
+                app:iconGravity="textStart"
+                app:iconPadding="5dp"
+                android:id="@+id/btnLogout"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_margin="16dp"
+                android:text="Cerrar sesión"
+                android:textColor="@color/danger_red"
+                app:cornerRadius="16dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="#F44336"
+                app:backgroundTint="@color/white1"/>
+
+        </LinearLayout>
+
+    </ScrollView>
 </FrameLayout>

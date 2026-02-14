@@ -1,5 +1,6 @@
 package sistemas.unc.edu.appadopcionmascotas;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.View;
@@ -61,5 +62,12 @@ public class ActividadVerAnimal extends AppCompatActivity {
                 }
             }
         });
+
+        MaterialButton btnContactar = findViewById(R.id.btnContactar);
+        btnContactar.setOnClickListener(e->{
+                Intent i = new Intent(this, ActividadContactarRefugio.class);
+                startActivity(i);
+        });
+
     }
 }

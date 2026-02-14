@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -22,7 +21,6 @@ import java.util.List;
 
 import sistemas.unc.edu.appadopcionmascotas.Model.Animal;
 import sistemas.unc.edu.appadopcionmascotas.R;
-import sistemas.unc.edu.appadopcionmascotas.UI.AdaptadorAnimal;
 import sistemas.unc.edu.appadopcionmascotas.UI.AdaptadorAnimalAdoptante;
 
 /**
@@ -87,7 +85,7 @@ public class InicioAdoptanteFragment extends Fragment {
 
         btnFiltro.setOnClickListener(v -> mostrarFiltros());
 
-        RecyclerView rcvanimalesadoptantes = view.findViewById(R.id.rcvanimalesadoptantes);
+        RecyclerView rcvanimalesadoptantes = view.findViewById(R.id.faadoptantesrv_animales_favoritos);
         rcvanimalesadoptantes.setLayoutManager(new LinearLayoutManager(getContext()));
 
         List<Animal> listaAnimales = new ArrayList<>();
@@ -122,7 +120,6 @@ public class InicioAdoptanteFragment extends Fragment {
         });
 
         btnApply.setOnClickListener(v -> {
-
             dialog.dismiss();
         });
 

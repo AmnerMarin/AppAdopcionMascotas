@@ -3,12 +3,69 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.FavoritosAdoptanteFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+            <com.google.android.material.appbar.MaterialToolbar
+                android:background="@drawable/bg_header_green"
+                android:id="@+id/favoritos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:navigationIconTint="#ffffff"
+                app:navigationIcon="@drawable/corazon_lleno"
+                app:title="Favoritos"
+                app:titleTextColor="@color/white1"
+                app:subtitle="Mascotas que has guardado"
+                app:subtitleTextColor="@color/white"
+                android:paddingBottom="30dp"
+                android:paddingTop="15dp">
+            </com.google.android.material.appbar.MaterialToolbar>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingHorizontal="20dp"
+                android:layout_marginTop="16dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Tus mascotas favoritas"
+                    android:textColor="#222222"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    />
+
+                <TextView
+                    android:id="@+id/lb_num_favoritos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2 mascotas"
+                    android:textSize="12sp"
+                    android:textColor="#9E9E9E"/>
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_animales_favoritos"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:clipToPadding="false"
+                android:paddingTop="12dp" />
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </FrameLayout>

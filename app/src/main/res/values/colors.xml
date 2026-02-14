@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#FF000000</color>
-    <color name="white">#E8E8E8</color>
+    <color name="white">#EDEDED</color>
     <color name="white1">#FFFFFF</color>
     <color name="gray">#acabb2</color>
     <color name="primary_color">#38c392</color>
@@ -15,5 +15,6 @@
     <color name="gray_ligth">#F1F3F5</color>
     <color name="danger_red">#FF3B30</color>
     <color name="azul_vivido">#226dfe</color>
+    <color name="gray_oscuro">#727272</color>
 
 </resources>

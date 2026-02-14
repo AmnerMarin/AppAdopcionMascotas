@@ -20,12 +20,29 @@
 
     <!-- BottomNavigationView color de fondo para la pastilla activa -->
     <style name="PastillaSimple" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
-        <item name="android:color">@color/degraded_color</item>
+        <item name="android:color">@color/fondo</item>
     </style>
 
     <!-- ShapeableImageView estilo de imagen con redondeado -->
     <style name="ShapeAppearance.App.SmallComponent" parent="ShapeAppearance.Material3.SmallComponent">
         <item name="cornerSize">16dp</item>
+    </style>
+
+
+    <style name="TextInputRounded" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <!-- Define el radio de las esquinas -->
+        <item name="shapeAppearanceOverlay">@style/RoundedCornersShape</item>
+
+    </style>
+
+    <style name="RoundedCornersShape">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item> <!-- cambia el valor -->
+    </style>
+    <style name="RoundedCornersImage">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item> <!-- cambia el valor -->
     </style>
 
 </resources>

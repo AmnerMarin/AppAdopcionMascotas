@@ -3,12 +3,54 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.RefugiosListaFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="15dp"
+            >
+            <com.google.android.material.appbar.MaterialToolbar
+                android:background="@drawable/bg_header_green"
+                android:id="@+id/contactar_retroceder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:navigationIconTint="#ffffff"
+                app:navigationIcon="@drawable/ubicacion1"
+                app:title="Refugios cercanos"
+                app:titleTextColor="@color/white1"
+                app:subtitle="Encuentra Refugios en tu zona"
+                app:subtitleTextColor="@color/white"
+                android:paddingBottom="30dp"
+                android:paddingTop="15dp">
+            </com.google.android.material.appbar.MaterialToolbar>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="200dp">
+            </View>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Todos los refugios"
+                android:textSize="18dp"
+                android:layout_marginBottom="15dp"
+                >
+            </TextView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_refugios"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </androidx.recyclerview.widget.RecyclerView>
+
+        </LinearLayout>
+
+    </ScrollView>
 </FrameLayout>

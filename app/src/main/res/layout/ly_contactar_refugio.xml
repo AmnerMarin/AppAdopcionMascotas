@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F3F4F6">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <!-- HEADER -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:background="@drawable/bg_header_green">
+
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/contactar_retroceder"
+                    android:layout_width="39dp"
+                    android:layout_height="29dp"
+                    app:navigationIcon="@drawable/atras"
+                    android:backgroundTint="@color/white"
+                    app:navigationIconTint="#ffffff">
+
+                </com.google.android.material.appbar.MaterialToolbar>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Contactar refugio"
+                    android:fontFamily="@font/inter_regular"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="8dp"/>
+
+                <TextView
+                    android:id="@+id/contactar_nombre_refugio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Refugio Esperanza Animal"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"/>
+
+            </LinearLayout>
+
+            <!-- TARJETA INFO -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="6dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="12dp"
+                    android:gravity="center_vertical">
+
+                    <!-- Icono tintable -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ubicacion"
+                            android:tint="@color/azul_vivido"/>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/inter_regular"
+                                android:text="Dirección"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/contactar_direccion_refugio"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Calle Principal 123, Ciudad"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+                    <!--                    telefono-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="15dp">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/telefono"
+                            android:tint="@color/primary_color" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Teléfono"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/contactar_telefono_refugio"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="+51 940704917"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <!--                    email-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="15dp">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/email"
+                            android:tint="@color/danger_red" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Email"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/contactar_email_refugio"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="JuanPerez123@gmail.com"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!--            form-->
+            <LinearLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <!-- TÍTULO -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Enviar mensaje"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="20dp"/>
+
+                <!-- ===== NOMBRE ===== -->
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Tu nombre"
+                    android:textColor="@color/gray_oscuro"
+                    android:layout_marginBottom="4dp"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    app:startIconDrawable="@drawable/ic_perfil"
+                    android:backgroundTint="@color/gray_oscuro"
+                    style="@style/TextInputRounded"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/contactar_nombre_adoptante"
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp"
+                        android:hint="Juan Perez"
+                        android:inputType="text"
+                        android:paddingStart="15dp"
+                        android:textSize="14sp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- ===== EMAIL ===== -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Email"
+                    android:layout_marginBottom="4dp"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    app:startIconDrawable="@drawable/email"
+                    style="@style/TextInputRounded"
+                    android:backgroundTint="@color/gray_oscuro"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/contactar_email_adoptante"
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp"
+                        android:hint="JuanPerez@gmail.com"
+                        android:inputType="textEmailAddress"
+                        android:paddingStart="15dp"
+                        android:textSize="14sp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- ===== TELÉFONO ===== -->
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Teléfono"
+                    android:layout_marginBottom="4dp"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    style="@style/TextInputRounded"
+                    app:startIconDrawable="@drawable/telefono"
+                    android:backgroundTint="@color/gray_oscuro"
+                    app:hintEnabled="false">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/contactar_telefono_adoptante"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:hint="+34 123 456 789"
+                        android:inputType="phone"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- ===== MENSAJE (MULTILÍNEA REAL) ===== -->
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Mensaje"
+                    android:layout_marginBottom="4dp"/>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <!-- Campo Material -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:hintEnabled="false"
+                        style="@style/TextInputRounded">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/contactar_mensaje_adoptante"
+                            android:layout_width="match_parent"
+                            android:layout_height="120dp"
+                            android:hint="Me gustaría conocer más..."
+                            android:inputType="textMultiLine"
+                            android:gravity="top"
+                            android:paddingStart="44dp"
+                            android:paddingTop="12dp"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Icono superpuesto -->
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="12dp"
+                        android:src="@drawable/ic_mensajes"
+                        android:backgroundTint="@color/gray_oscuro"/>
+
+                </FrameLayout>
+            </LinearLayout>
+            <!-- BOTÓN -->
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="Enviar mensaje"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:layout_margin="16dp"
+                android:backgroundTint="@color/primary_color"
+                app:icon="@drawable/ic_enviar"
+                app:iconGravity="textStart"
+                app:cornerRadius="28dp"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
