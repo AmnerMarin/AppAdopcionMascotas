@@ -2,13 +2,22 @@ package sistemas.unc.edu.appadopcionmascotas.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import sistemas.unc.edu.appadopcionmascotas.Model.Refugio;
 import sistemas.unc.edu.appadopcionmascotas.R;
+import sistemas.unc.edu.appadopcionmascotas.UI.AdaptadorUbicacionRefugios;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -62,5 +71,50 @@ public class RefugiosListaFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.ly_fragment_refugios_lista, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        RecyclerView recycler = view.findViewById(R.id.rv_refugios);
+
+        recycler.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        // 👉 Lista de prueba
+        List<Refugio> listaRefugios = new ArrayList<>();
+
+        listaRefugios.add(new Refugio(
+                "Amigos Peludos",
+                "Rescatamos mascotas abandonadas",
+                "Av. Principal 123",
+                "999111222"
+        ));
+
+        listaRefugios.add(new Refugio(
+                "Patitas Felices",
+                "Cuidado y adopción responsable",
+                "Calle Luna 456",
+                "988333444"
+        ));
+
+        listaRefugios.add(new Refugio(
+                "Refugio Esperanza",
+                "Protección animal",
+                "Jr. Sol 789",
+                "977555666"
+        ));
+
+        listaRefugios.add(new Refugio(
+                "Huellitas",
+                "Amor y hogar temporal",
+                "Av. Verde 321",
+                "966777888"
+        ));
+
+        // 👉 Adapter
+        AdaptadorUbicacionRefugios adapter = new AdaptadorUbicacionRefugios(getContext(),listaRefugios);
+
+        recycler.setAdapter(adapter);
     }
 }
