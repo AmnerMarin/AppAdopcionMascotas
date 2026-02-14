@@ -32,7 +32,7 @@
         android:layout_marginTop="18dp"
         android:layout_marginEnd="18dp"
         android:background="@drawable/bg_circle_white"
-        android:src="@drawable/favorito"
+        android:src="@drawable/selector_favoritos"
         android:padding="12dp"
         android:scaleType="centerInside"
         android:contentDescription="Favorito"
@@ -256,7 +256,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:padding="12dp"
-                                    android:src="@drawable/favorito"
+                                    android:src="@drawable/selector_favoritos"
                                     app:tint="#F59E0B" />
                             </com.google.android.material.card.MaterialCardView>
 
@@ -525,7 +525,7 @@
                     android:textStyle="bold"
                     app:backgroundTint="@color/btn_guardar_selector"
                     app:cornerRadius="18dp"
-                    app:icon="@drawable/favorito"
+                    app:icon="@drawable/selector_favoritos"
                     app:iconPadding="10dp"
                     app:iconTint="@color/text_dark"
                     app:strokeColor="@color/gray"

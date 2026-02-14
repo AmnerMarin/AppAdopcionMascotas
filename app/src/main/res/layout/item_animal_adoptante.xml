@@ -37,7 +37,7 @@
                 android:layout_gravity="top|end"
                 android:layout_margin="18dp"
                 android:background="@drawable/bg_circle_white"
-                android:src="@drawable/favorito"
+                android:src="@drawable/selector_favoritos"
                 android:padding="12dp"
                 android:scaleType="centerInside"
                 android:contentDescription="Favorito"

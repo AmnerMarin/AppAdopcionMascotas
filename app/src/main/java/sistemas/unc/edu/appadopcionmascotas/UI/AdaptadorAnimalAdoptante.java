@@ -70,7 +70,7 @@ public class AdaptadorAnimalAdoptante extends RecyclerView.Adapter<AdaptadorAnim
         if (animal.isFavorito()) {
             holder.btnFavorito.setImageResource(R.drawable.corazon_lleno);
         } else {
-            holder.btnFavorito.setImageResource(R.drawable.favorito); // El vacío original
+            holder.btnFavorito.setImageResource(R.drawable.selector_favoritos); // El vacío original
         }
 
         // 2. EL EVENTO CLICK
@@ -88,7 +88,7 @@ public class AdaptadorAnimalAdoptante extends RecyclerView.Adapter<AdaptadorAnim
                     Toast.makeText(view.getContext(), "Añadido a favoritos ❤️", Toast.LENGTH_SHORT).show();
                 } else {
                     // Vuelve al corazón VACÍO
-                    holder.btnFavorito.setImageResource(R.drawable.favorito);
+                    holder.btnFavorito.setImageResource(R.drawable.selector_favoritos);
                     Toast.makeText(view.getContext(), "Eliminado de favoritos", Toast.LENGTH_SHORT).show();
                 }
             }

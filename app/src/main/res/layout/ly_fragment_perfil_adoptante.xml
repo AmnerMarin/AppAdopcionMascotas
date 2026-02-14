@@ -111,7 +111,7 @@
                                 android:id="@+id/icFavoritos"
                                 android:layout_width="28dp"
                                 android:layout_height="28dp"
-                                android:src="@drawable/favorito"
+                                android:src="@drawable/selector_favoritos"
                                 android:tint="@color/primary_color"/>
 
                             <TextView
@@ -405,7 +405,7 @@
                             android:id="@+id/iconFav"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:src="@drawable/favorito"
+                            android:src="@drawable/selector_favoritos"
                             android:tint="@color/primary_color"/>
 
                         <TextView

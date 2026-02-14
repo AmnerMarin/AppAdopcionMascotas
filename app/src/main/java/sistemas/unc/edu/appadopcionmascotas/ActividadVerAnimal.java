@@ -5,12 +5,8 @@ import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.View;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.button.MaterialButton;
 
@@ -46,7 +42,7 @@ public class ActividadVerAnimal extends AppCompatActivity {
                 } else {
                     btnGuardar.setText("Guardar");
 
-                    btnGuardar.setIconResource(R.drawable.favorito);
+                    btnGuardar.setIconResource(R.drawable.selector_favoritos);
 
                     btnGuardar.setIconTint(ColorStateList.valueOf(
                             ContextCompat.getColor(getApplicationContext(), R.color.text_dark)));

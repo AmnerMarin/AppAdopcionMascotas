@@ -6,11 +6,11 @@
         android:title="Inicio"/>
     <item
         android:id="@+id/itemfavoritosdoptante"
-        android:icon="@drawable/favorito"
+        android:icon="@drawable/selector_favoritos"
         android:title="Favoritos"/>
     <item
         android:id="@+id/itemrefugiosdoptante"
-        android:icon="@drawable/selector_dashboard"
+        android:icon="@drawable/selector_perfil"
         android:title="Refugios"/>
     <item
         android:id="@+id/itemMensajesadoptante"
@@ -18,6 +18,6 @@
         android:title="Mensajes" />
     <item
         android:id="@+id/itemPerfilAdoptante"
-        android:icon="@drawable/selector_perfil"
+        android:icon="@drawable/selector_perfil_adoptante"
         android:title="@string/perfil" />
 </menu>
