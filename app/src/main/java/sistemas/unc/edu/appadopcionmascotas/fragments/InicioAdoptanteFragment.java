@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +17,13 @@ import android.widget.ImageView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import sistemas.unc.edu.appadopcionmascotas.Model.Animal;
 import sistemas.unc.edu.appadopcionmascotas.R;
+import sistemas.unc.edu.appadopcionmascotas.UI.AdaptadorAnimal;
+import sistemas.unc.edu.appadopcionmascotas.UI.AdaptadorAnimalAdoptante;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -78,6 +86,21 @@ public class InicioAdoptanteFragment extends Fragment {
         ImageView btnFiltro = view.findViewById(R.id.btnFiltro);
 
         btnFiltro.setOnClickListener(v -> mostrarFiltros());
+
+        RecyclerView rcvanimalesadoptantes = view.findViewById(R.id.rcvanimalesadoptantes);
+        rcvanimalesadoptantes.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        List<Animal> listaAnimales = new ArrayList<>();
+
+        listaAnimales.add(new Animal("Luna", "Golden Retriever", "Perro", "3 años", "Hembra", null, true));
+        listaAnimales.add(new Animal("Max", "Bulldog Francés", "Perro", "1 año", "Macho", null, false));
+        listaAnimales.add(new Animal("Michi", "Siamés", "Gato", "2 años", "Hembra", null, false));
+        listaAnimales.add(new Animal("Rocky", "Pastor Alemán", "Perro", "4 años", "Macho", null, true));
+        listaAnimales.add(new Animal("Nala", "Mestizo", "Gato", "5 meses", "Hembra", null, true));
+        listaAnimales.add(new Animal("Toby", "Beagle", "Perro", "2 años", "Macho", null, false));
+
+        AdaptadorAnimalAdoptante adaptadorAnimalAdoptante = new AdaptadorAnimalAdoptante(getContext(), listaAnimales);
+        rcvanimalesadoptantes.setAdapter(adaptadorAnimalAdoptante);
     }
     private void mostrarFiltros() {
 

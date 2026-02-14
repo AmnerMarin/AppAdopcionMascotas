@@ -22,6 +22,7 @@
             android:layout_height="240dp">
 
             <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/img_animal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
