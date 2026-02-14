@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-import sistemas.unc.edu.appadopcionmascotas.AdaptadorMensaje;
+import sistemas.unc.edu.appadopcionmascotas.UI.AdaptadorMensaje;
 import sistemas.unc.edu.appadopcionmascotas.Model.Mensaje;
 import sistemas.unc.edu.appadopcionmascotas.R;
 

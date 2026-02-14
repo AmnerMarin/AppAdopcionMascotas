@@ -1,6 +1,8 @@
-package sistemas.unc.edu.appadopcionmascotas;
+package sistemas.unc.edu.appadopcionmascotas.UI;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +16,10 @@ import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.List;
 
+import sistemas.unc.edu.appadopcionmascotas.ActividadEditarAnimal;
+import sistemas.unc.edu.appadopcionmascotas.ActividadVerAnimal;
 import sistemas.unc.edu.appadopcionmascotas.Model.Animal;
+import sistemas.unc.edu.appadopcionmascotas.R;
 
 public class AdaptadorAnimal extends RecyclerView.Adapter<AdaptadorAnimal.ViewHolder> {
 
@@ -35,7 +40,18 @@ public class AdaptadorAnimal extends RecyclerView.Adapter<AdaptadorAnimal.ViewHo
         holder.tvNombre.setText(animal.getNombre());
         holder.tvRaza.setText(animal.getRaza());
         holder.tvEspecie.setText(animal.getEspecie());
-        holder.imgAnimal.setImageResource(animal.getImagenRes());
+        //holder.imgAnimal.setImageResource(animal.getImagenRes());
+
+        byte [] foto = animal.getFoto();
+
+        if(foto != null){
+
+            Bitmap oImagen = BitmapFactory.decodeByteArray(foto, 0, foto.length);
+            holder.imgAnimal.setImageBitmap(oImagen);
+        }
+        else {
+            holder.imgAnimal.setImageResource(R.drawable.perro_prueba);
+        }
         holder.btnVer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

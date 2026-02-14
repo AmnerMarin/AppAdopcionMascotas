@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-import sistemas.unc.edu.appadopcionmascotas.AdaptadorAnimal;
+import sistemas.unc.edu.appadopcionmascotas.UI.AdaptadorAnimal;
 import sistemas.unc.edu.appadopcionmascotas.Model.Animal;
 import sistemas.unc.edu.appadopcionmascotas.R;
 
@@ -82,12 +82,13 @@ public class DashboardFragment extends Fragment {
         rvAnimales.setLayoutManager(new LinearLayoutManager(getContext()));
 
         List<Animal> listaAnimales = new ArrayList<>();
-        listaAnimales.add(new Animal("Luna", "Golden Retriever", "Perro", R.drawable.perro_prueba));
-        listaAnimales.add(new Animal("Luna", "Golden Retriever", "Perro", R.drawable.perro_prueba));
-        listaAnimales.add(new Animal("Luna", "Golden Retriever", "Perro", R.drawable.perro_prueba));
-        listaAnimales.add(new Animal("Luna", "Golden Retriever", "Perro", R.drawable.perro_prueba));
-        listaAnimales.add(new Animal("Luna", "Golden Retriever", "Perro", R.drawable.perro_prueba));
-        listaAnimales.add(new Animal("Luna", "Golden Retriever", "Perro", R.drawable.perro_prueba));
+
+        listaAnimales.add(new Animal("Luna", "Golden Retriever", "Perro", "3 años", "Hembra", null, true));
+        listaAnimales.add(new Animal("Max", "Bulldog Francés", "Perro", "1 año", "Macho", null, false));
+        listaAnimales.add(new Animal("Michi", "Siamés", "Gato", "2 años", "Hembra", null, false));
+        listaAnimales.add(new Animal("Rocky", "Pastor Alemán", "Perro", "4 años", "Macho", null, true));
+        listaAnimales.add(new Animal("Nala", "Mestizo", "Gato", "5 meses", "Hembra", null, true));
+        listaAnimales.add(new Animal("Toby", "Beagle", "Perro", "2 años", "Macho", null, false));
 
         AdaptadorAnimal adaptadorAnimal = new AdaptadorAnimal(listaAnimales);
         rvAnimales.setAdapter(adaptadorAnimal);

@@ -1,4 +1,4 @@
-package sistemas.unc.edu.appadopcionmascotas;
+package sistemas.unc.edu.appadopcionmascotas.UI;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +14,7 @@ import com.google.android.material.imageview.ShapeableImageView;
 import java.util.List;
 
 import sistemas.unc.edu.appadopcionmascotas.Model.Mensaje;
+import sistemas.unc.edu.appadopcionmascotas.R;
 
 public class AdaptadorMensaje extends RecyclerView.Adapter<AdaptadorMensaje.ViewHolder> {
 
