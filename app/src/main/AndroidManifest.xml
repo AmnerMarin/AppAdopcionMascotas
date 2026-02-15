@@ -15,7 +15,7 @@
             android:name=".ActividadContactarRefugio"
             android:exported="false" />
         <activity
-            android:name=".ActividadLogin"
+            android:name=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".ActividadPublicarAnimal"
@@ -33,13 +33,13 @@
             android:name=".ActividadRegister"
             android:exported="false" />
         <activity
-            android:name=".ActividadRefugio"
+            android:name=".ActividadAdoptante"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".ActividadAdoptante"
+            android:name=".ActividadRefugio"
 
             android:exported="true">
             <intent-filter>

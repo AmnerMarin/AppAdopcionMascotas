@@ -1,44 +1,66 @@
 package sistemas.unc.edu.appadopcionmascotas.Model;
 
 public class Animal {
-    public String nombre;
-    public String raza;
-    public String especie;
-    public String edad;
-    public String sexo;
-    public byte[] foto;
-    public boolean favorito;
+    private String nombre;
+    private String especie;
+    private String raza;
+    private double peso;
+    private String edad;
+    private String sexo;
 
+    private String temperamento;
+    private String historia;
+    private String estado;
+    private byte[] foto;
 
-    public Animal(String nombre, String raza, String especie, String edad, String sexo, byte[] foto, boolean favorito) {
-        this.nombre = nombre;
+    public Animal(byte[] foto, String estado, String historia, String temperamento, String edad, double peso, String raza, String especie, String nombre) {
+        this.foto = foto;
+        this.estado = estado;
+        this.historia = historia;
+        this.temperamento = temperamento;
+        this.edad = edad;
+        this.peso = peso;
         this.raza = raza;
         this.especie = especie;
-        this.edad = edad;
-        this.sexo = sexo;
-        this.foto = null;
-        this.favorito = favorito;
+        this.nombre = nombre;
     }
-
-
-    public String getNombre() { return nombre; }
-    public String getRaza() { return raza; }
-    public String getEspecie() { return especie; }
 
     public byte[] getFoto() {
         return foto;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public String getHistoria() {
+        return historia;
+    }
+
+    public String getTemperamento() {
+        return temperamento;
     }
 
     public String getEdad() {
         return edad;
     }
 
+    public double getPeso() {
+        return peso;
+    }
+
+    public String getRaza() {
+        return raza;
+    }
+
+    public String getEspecie() {
+        return especie;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
     public String getSexo() {
         return sexo;
-    }
-    public boolean isFavorito() { return favorito; }
-
-    public void setFavorito(boolean favorito) {
-        this.favorito = favorito;
     }
 }
