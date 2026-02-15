@@ -35,7 +35,9 @@ public class DBConstruir extends SQLiteOpenHelper {
             "nombre_refugio VARCHAR(150)," +
             "direccion VARCHAR(200)," +
             "telefono VARCHAR(20)," +
-            "descripcion VARCHAR(4000)," +
+            "descripcion VARCHAR(4000),"+
+            "latitud REAL," +
+            "longitud REAL," +
             "FOREIGN KEY(id_usuario) REFERENCES Usuario(id_usuario)" +
             ")";
 
@@ -75,6 +77,14 @@ public class DBConstruir extends SQLiteOpenHelper {
             "FOREIGN KEY(id_mascota) REFERENCES Mascota(id_mascota)" +
             ")";
 
+    String tabla_mensaje = "CREATE TABLE Mensaje(" +
+            "id_mensaje INTEGER PRIMARY KEY AUTOINCREMENT," +
+            "id_refugio INTEGER NOT NULL," +
+            "id_adoptante INTEGER NOT NULL," +
+            "id_mascota INTEGER NOT NULL," +
+            "fecha DATETIME DEFAULT CURRENT_TIMESTAMP," +
+            "contenido_mensaje VARCHAR(4000))";
+
     public DBConstruir(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
@@ -87,11 +97,12 @@ public class DBConstruir extends SQLiteOpenHelper {
         db.execSQL(tabla_mascota);
         db.execSQL(tabla_adopcion);
         db.execSQL(tabla_favorito);
-
+        db.execSQL(tabla_mensaje);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS Mensaje");
         db.execSQL("DROP TABLE IF EXISTS Favorito_Mascota");
         db.execSQL("DROP TABLE IF EXISTS Adopcion");
         db.execSQL("DROP TABLE IF EXISTS Mascota");
@@ -105,5 +116,6 @@ public class DBConstruir extends SQLiteOpenHelper {
         db.execSQL(tabla_mascota);
         db.execSQL(tabla_adopcion);
         db.execSQL(tabla_favorito);
+        db.execSQL(tabla_mensaje);
     }
 }

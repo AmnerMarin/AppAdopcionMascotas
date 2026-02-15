@@ -1,6 +1,8 @@
 package sistemas.unc.edu.appadopcionmascotas.Model;
 
 public class Animal {
+
+    private int idRefugio;
     private String nombre;
     private String especie;
     private String raza;
@@ -13,16 +15,19 @@ public class Animal {
     private String estado;
     private byte[] foto;
 
-    public Animal(byte[] foto, String estado, String historia, String temperamento, String edad, double peso, String raza, String especie, String nombre) {
-        this.foto = foto;
-        this.estado = estado;
-        this.historia = historia;
-        this.temperamento = temperamento;
-        this.edad = edad;
-        this.peso = peso;
-        this.raza = raza;
-        this.especie = especie;
+
+    public Animal(int idRefugio, String nombre, String especie, String raza, double peso, String edad, String sexo, String temperamento, String historia, String estado, byte[] foto) {
+        this.idRefugio = idRefugio;
         this.nombre = nombre;
+        this.especie = especie;
+        this.raza = raza;
+        this.peso = peso;
+        this.edad = edad;
+        this.sexo = sexo;
+        this.temperamento = temperamento;
+        this.historia = historia;
+        this.estado = estado;
+        this.foto = foto;
     }
 
     public byte[] getFoto() {
@@ -62,5 +67,9 @@ public class Animal {
     }
     public String getSexo() {
         return sexo;
+    }
+
+    public int getIdRefugio() {
+        return idRefugio;
     }
 }

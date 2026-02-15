@@ -1,23 +1,38 @@
 package sistemas.unc.edu.appadopcionmascotas.Model;
 
 public class Mensaje {
-    private String nombreUsuario;
-    private String emailUsuario;
+    private int idRefugio;
+    private int idAdoptante;
+
+    private int idAnimal;
     private String fecha;
-    private String mascotaInteres;
     private String contenidoMensaje;
 
-    public Mensaje(String nombreUsuario, String emailUsuario, String fecha, String mascotaInteres, String contenidoMensaje) {
-        this.nombreUsuario = nombreUsuario;
-        this.emailUsuario = emailUsuario;
+    public Mensaje(int idRefugio, int idAdoptante, int idAnimal, String fecha, String contenidoMensaje) {
+        this.idRefugio = idRefugio;
+        this.idAdoptante = idAdoptante;
+        this.idAnimal = idAnimal;
         this.fecha = fecha;
-        this.mascotaInteres = mascotaInteres;
         this.contenidoMensaje = contenidoMensaje;
     }
 
-    public String getUsuario() { return nombreUsuario; }
-    public String getEmail() { return emailUsuario; }
-    public String getFecha() { return fecha; }
-    public String getMascotaInteres() { return mascotaInteres; }
-    public String getContenido() { return contenidoMensaje; }
+    public int getIdRefugio() {
+        return idRefugio;
+    }
+
+    public int getIdAdoptante() {
+        return idAdoptante;
+    }
+
+    public int getIdAnimal() {
+        return idAnimal;
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public String getContenidoMensaje() {
+        return contenidoMensaje;
+    }
 }

@@ -1,17 +1,22 @@
 package sistemas.unc.edu.appadopcionmascotas.Model;
 
 public class Refugio {
-
+    private int idUsuario;
     private String nombre_refugio;
     private String desripcion;
     private String direccion;
     private String telefono;
+    private double latitud;
+    private double longitud;
 
-    public Refugio(String nombre_refugio, String desripcion, String direccion, String telefono) {
+    public Refugio(int idUsuario, String nombre_refugio, String desripcion, String direccion, String telefono, double latitud, double longitud) {
+        this.idUsuario = idUsuario;
         this.nombre_refugio = nombre_refugio;
         this.desripcion = desripcion;
         this.direccion = direccion;
         this.telefono = telefono;
+        this.latitud = latitud;
+        this.longitud = longitud;
     }
 
     public String getNombre_refugio() {
@@ -29,4 +34,17 @@ public class Refugio {
     public String getTelefono() {
         return telefono;
     }
+
+    public double getLatitud() {
+        return latitud;
+    }
+
+    public double getLongitud() {
+        return longitud;
+    }
+
+    public int getIdUsuario() {
+        return idUsuario;
+    }
 }
+

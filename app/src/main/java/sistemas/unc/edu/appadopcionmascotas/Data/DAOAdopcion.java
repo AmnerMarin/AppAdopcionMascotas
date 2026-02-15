@@ -11,6 +11,8 @@ import java.util.List;
 import sistemas.unc.edu.appadopcionmascotas.Model.Adopcion;
 import sistemas.unc.edu.appadopcionmascotas.Model.Adoptante;
 import sistemas.unc.edu.appadopcionmascotas.Model.Animal;
+import sistemas.unc.edu.appadopcionmascotas.Model.Favorito;
+import sistemas.unc.edu.appadopcionmascotas.Model.Mensaje;
 import sistemas.unc.edu.appadopcionmascotas.Model.Refugio;
 import sistemas.unc.edu.appadopcionmascotas.Model.Usuario;
 
@@ -66,6 +68,7 @@ public class DAOAdopcion {
         if (db != null) {
 
             ContentValues cv = new ContentValues();
+            cv.put("id_usuario", a.getIdUsuario());
             cv.put("nombres", a.getNombres());
             cv.put("apellidos", a.getApellidos());
             cv.put("telefono", a.getTelefono());
@@ -94,6 +97,7 @@ public class DAOAdopcion {
         if (db != null) {
 
             ContentValues cv = new ContentValues();
+            cv.put("id_usuario", r.getIdUsuario());
             cv.put("nombre_refugio", r.getNombre_refugio());
             cv.put("direccion", r.getDireccion());
             cv.put("telefono", r.getTelefono());
@@ -122,6 +126,7 @@ public class DAOAdopcion {
         if (db != null) {
 
             ContentValues cv = new ContentValues();
+            cv.put("id_refugio", m.getIdRefugio());
             cv.put("nombre", m.getNombre());
             cv.put("especie", m.getEspecie());
             cv.put("raza", m.getRaza());
@@ -156,9 +161,36 @@ public class DAOAdopcion {
         if (db != null) {
 
             ContentValues cv = new ContentValues();
+            cv.put("id_adoptante", a.getIdAdoptante());
+            cv.put("id_mascota", a.getIdMascota());
             cv.put("detalles", a.getDetalles());
 
             long fila = db.insert("Adopcion", null, cv);
+            if (fila > 0) rpta = true;
+
+            db.close();
+        }
+
+        return rpta;
+    }
+
+    // =========================
+    // INSERTAR FAVORITO
+    // =========================
+    public boolean insertarFavorito(Favorito f) {
+
+        boolean rpta = false;
+        DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
+
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        if (db != null) {
+
+            ContentValues cv = new ContentValues();
+            cv.put("id_adoptante", f.getIdAdoptante());
+            cv.put("id_mascota", f.getIdAnimal());
+
+            long fila = db.insert("Favorito_Mascota", null, cv);
 
             if (fila > 0) rpta = true;
 
@@ -168,8 +200,36 @@ public class DAOAdopcion {
         return rpta;
     }
 
-    //MÉTODOS PARA LISTAR
+    // ==============================
+    // INSERTAR MENSAJE
+    // ==============================
+    public boolean insertar(Mensaje m) {
 
+        boolean rpta = false;
+
+        DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        if (db != null) {
+
+            ContentValues valores = new ContentValues();
+
+            valores.put("id_refugio", m.getIdRefugio());
+            valores.put("id_adoptante", m.getIdAdoptante());
+            valores.put("id_mascota", m.getIdAnimal());
+            valores.put("fecha", m.getFecha());
+            valores.put("contenido_mensaje", m.getContenidoMensaje());
+
+            long fila = db.insert("Mensaje", null, valores);
+
+            if (fila > 0) rpta = true;
+
+            db.close();
+        }
+        return rpta;
+    }
+
+    //MÉTODOS PARA LISTAR
 
 // =====================================
 
@@ -187,30 +247,31 @@ public class DAOAdopcion {
 
             if(reg.moveToFirst()){
                 do{
+                    int idUsuario = reg.getInt(1);
                     String nombre = reg.getString(2);
                     String direccion = reg.getString(3);
                     String telefono = reg.getString(4);
                     String descripcion = reg.getString(5);
+                    double latitud = reg.getDouble(6);
+                    double longitud = reg.getDouble(7);
 
-                    Refugio r = new Refugio(id,idUsuario,nombre,direccion,telefono,descripcion);
+                    Refugio r = new Refugio(idUsuario,nombre,direccion,telefono,descripcion,latitud,longitud);
                     lista.add(r);
 
                 }while(reg.moveToNext());
             }
-
             reg.close();
             db.close();
         }
-
         return lista;
     }
 
 // =====================================
 
-    public List<Mascota> listarMascota(){
+    public List<Animal> listarMascota(){
 
-        List<Mascota> lista = new ArrayList<>();
-        BDConstruir helper = new BDConstruir(contexto,nombreBD,null,version);
+        List<Animal> lista = new ArrayList<>();
+        DBConstruir helper = new DBConstruir(contexto,nombreDB,null,version);
 
         SQLiteDatabase db = helper.getReadableDatabase();
 
@@ -221,38 +282,34 @@ public class DAOAdopcion {
 
             if(reg.moveToFirst()){
                 do{
-
-                    int id = reg.getInt(0);
                     int idRefugio = reg.getInt(1);
                     String nombre = reg.getString(2);
                     String especie = reg.getString(3);
                     String raza = reg.getString(4);
                     double peso = reg.getDouble(5);
                     String edad = reg.getString(6);
-                    String temp = reg.getString(7);
-                    String historia = reg.getString(8);
-                    String estado = reg.getString(9);
-                    byte[] foto = reg.getBlob(10);
+                    String sexo = reg.getString(7);
+                    String temp = reg.getString(8);
+                    String historia = reg.getString(9);
+                    String estado = reg.getString(10);
+                    byte[] foto = reg.getBlob(11);
 
-                    Mascota m = new Mascota(id,idRefugio,nombre,especie,raza,peso,edad,temp,historia,estado,foto);
+                    Animal m = new Animal(idRefugio,nombre,especie,raza,peso,edad,sexo,temp,historia,estado,foto);
                     lista.add(m);
 
                 }while(reg.moveToNext());
             }
-
             reg.close();
             db.close();
         }
 
         return lista;
     }
-
 // =====================================
-
     public List<Adopcion> listarAdopcion(){
 
         List<Adopcion> lista = new ArrayList<>();
-        BDConstruir helper = new BDConstruir(contexto,nombreBD,null,version);
+        DBConstruir helper = new DBConstruir(contexto,nombreDB,null,version);
 
         SQLiteDatabase db = helper.getReadableDatabase();
 
@@ -264,31 +321,23 @@ public class DAOAdopcion {
             if(reg.moveToFirst()){
                 do{
 
-                    int id = reg.getInt(0);
-                    int idAdoptante = reg.getInt(1);
-                    int idMascota = reg.getInt(2);
-                    int idRefugio = reg.getInt(3);
+                    int idAdoptante = reg.getInt(2);
+                    int idMascota = reg.getInt(3);
                     String detalles = reg.getString(5);
-
-                    Adopcion a = new Adopcion(id,idAdoptante,idMascota,idRefugio,detalles);
+                    Adopcion a = new Adopcion(idAdoptante,idMascota,detalles);
                     lista.add(a);
-
                 }while(reg.moveToNext());
             }
-
             reg.close();
             db.close();
         }
-
         return lista;
     }
 
-// =====================================
+    public List<Favorito> listarFavorito(){
 
-    public List<FavoritoMascota> listarFavorito(){
-
-        List<FavoritoMascota> lista = new ArrayList<>();
-        BDConstruir helper = new BDConstruir(contexto,nombreBD,null,version);
+        List<Favorito> lista = new ArrayList<>();
+        DBConstruir helper = new DBConstruir(contexto,nombreDB,null,version);
 
         SQLiteDatabase db = helper.getReadableDatabase();
 
@@ -300,22 +349,62 @@ public class DAOAdopcion {
             if(reg.moveToFirst()){
                 do{
 
-                    int id = reg.getInt(0);
                     int idAdoptante = reg.getInt(1);
                     int idMascota = reg.getInt(2);
 
-                    FavoritoMascota f = new FavoritoMascota(id,idAdoptante,idMascota);
+                    Favorito f = new Favorito(idAdoptante,idMascota);
                     lista.add(f);
 
                 }while(reg.moveToNext());
             }
-
             reg.close();
+            db.close();
+        }
+        return lista;
+    }
+
+    public List<Mensaje> listarMensaje() {
+
+        List<Mensaje> lista = new ArrayList<>();
+
+        DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
+
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        if (db != null) {
+
+            String sql = "SELECT * FROM Mensaje";
+
+            Cursor registro = db.rawQuery(sql, null);
+
+            if (registro.moveToFirst()) {
+
+                do {
+
+                    int idRefugio = registro.getInt(1);
+                    int idAdoptante = registro.getInt(2);
+                    int idMascota = registro.getInt(3);
+                    String fecha = registro.getString(4);
+                    String contenido = registro.getString(5);
+
+                    Mensaje m = new Mensaje(
+                            idRefugio,
+                            idAdoptante,
+                            idMascota,
+                            fecha,
+                            contenido
+                    );
+
+                    lista.add(m);
+
+                } while (registro.moveToNext());
+            }
+
+            registro.close();
             db.close();
         }
 
         return lista;
     }
-
 }
 
