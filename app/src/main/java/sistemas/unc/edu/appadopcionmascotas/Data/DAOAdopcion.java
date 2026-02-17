@@ -31,9 +31,9 @@ public class DAOAdopcion {
     // =========================
     // INSERTAR USUARIO
     // =========================
-    public boolean insertarUsuario(Usuario u) {
+    public long insertarUsuario(Usuario u) {
 
-        boolean rpta = false;
+        long rpta = -1;
         DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
 
         SQLiteDatabase db = helper.getWritableDatabase();
@@ -45,14 +45,12 @@ public class DAOAdopcion {
             oColumna.put("contrasena", u.getContrasena());
             oColumna.put("rol", u.getRol());
 
-            long fila = db.insert("Usuario", null, oColumna);
-
-            if (fila > 0) rpta = true;
+            rpta = db.insert("Usuario", null, oColumna);
 
             db.close();
         }
 
-        return rpta;
+        return rpta ; //Es el id
     }
 
     // =========================
@@ -68,7 +66,7 @@ public class DAOAdopcion {
         if (db != null) {
 
             ContentValues cv = new ContentValues();
-            cv.put("id_usuario", a.getIdUsuario());
+            cv.put("id_usuario", a.getId_usuario());
             cv.put("nombres", a.getNombres());
             cv.put("apellidos", a.getApellidos());
             cv.put("telefono", a.getTelefono());
@@ -112,6 +110,7 @@ public class DAOAdopcion {
 
         return rpta;
     }
+
 
     // =========================
     // INSERTAR MASCOTA
@@ -227,6 +226,33 @@ public class DAOAdopcion {
             db.close();
         }
         return rpta;
+    }
+
+    //Para el login
+    public Usuario login(String correo, String contra) {
+        DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
+
+        SQLiteDatabase db = helper.getWritableDatabase();
+        db = helper.getReadableDatabase(); // Solo lectura para buscar
+        Usuario usuarioLogueado = null;
+
+        // Consulta: buscamos por correo y contraseña
+        Cursor cursor = db.rawQuery(
+                "SELECT * FROM Usuario WHERE correo = ? AND contrasena = ?",
+                new String[]{correo, contra}
+        );
+
+        if (cursor.moveToFirst()) {
+            int idusuario=cursor.getInt(0);
+            String correo1= cursor.getString(1);
+            String contraseña = cursor.getString(2);
+            String rol = cursor.getString(3);
+            usuarioLogueado = new Usuario(idusuario, correo1, contraseña, rol);
+        }
+
+        cursor.close();
+        db.close();
+        return usuarioLogueado;
     }
 
     //MÉTODOS PARA LISTAR

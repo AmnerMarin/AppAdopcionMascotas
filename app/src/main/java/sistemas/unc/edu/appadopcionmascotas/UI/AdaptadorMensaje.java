@@ -33,11 +33,11 @@ public class AdaptadorMensaje extends RecyclerView.Adapter<AdaptadorMensaje.View
     @Override
     public void onBindViewHolder(@NonNull AdaptadorMensaje.ViewHolder holder, int position) {
         Mensaje mensaje = listaMensajes.get(position);
-        holder.tvNombreUsuario.setText(mensaje.getUsuario());
-        holder.tvEmailUsuario.setText(mensaje.getEmail());
-        holder.tvFecha.setText(mensaje.getFecha());
-        holder.tvMascotaInteres.setText(mensaje.getMascotaInteres());
-        holder.tvContenidoMensaje.setText(mensaje.getContenido());
+//        holder.tvNombreUsuario.setText(mensaje.getUsuario());
+//        holder.tvEmailUsuario.setText(mensaje.getEmail());
+//        holder.tvFecha.setText(mensaje.getFecha());
+//        holder.tvMascotaInteres.setText(mensaje.getMascotaInteres());
+//        holder.tvContenidoMensaje.setText(mensaje.getContenido());
         holder.imgUserIcon.setImageResource(R.drawable.usuario);
         holder.btnResponder.setOnClickListener(new View.OnClickListener() {
             @Override

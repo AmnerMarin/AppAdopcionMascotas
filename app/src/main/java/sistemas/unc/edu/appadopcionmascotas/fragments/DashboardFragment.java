@@ -83,12 +83,12 @@ public class DashboardFragment extends Fragment {
 
         List<Animal> listaAnimales = new ArrayList<>();
 
-        listaAnimales.add(new Animal("Luna", "Golden Retriever", "Perro", "3 años", "Hembra", null, true));
-        listaAnimales.add(new Animal("Max", "Bulldog Francés", "Perro", "1 año", "Macho", null, false));
-        listaAnimales.add(new Animal("Michi", "Siamés", "Gato", "2 años", "Hembra", null, false));
-        listaAnimales.add(new Animal("Rocky", "Pastor Alemán", "Perro", "4 años", "Macho", null, true));
-        listaAnimales.add(new Animal("Nala", "Mestizo", "Gato", "5 meses", "Hembra", null, true));
-        listaAnimales.add(new Animal("Toby", "Beagle", "Perro", "2 años", "Macho", null, false));
+        listaAnimales.add(new Animal(1,"Luna", "Perro", "Golden Retriever",20, "3 años", "Hembra", null, null, null, null));
+        listaAnimales.add(new Animal(2,"Max", "Bulldog Francés", "Perro", 10,"1 año", "Macho", null, null,null,null));
+        listaAnimales.add(new Animal(3,"Michi", "Siamés", "Gato",15, "2 años", "Hembra", null, null, null,null));
+        listaAnimales.add(new Animal(4,"Rocky", "Pastor Alemán", "Perro",12, "4 años", "Macho", null, null, null,null));
+        listaAnimales.add(new Animal(5,"Nala", "Mestizo", "Gato", 14, "5 meses", "Hembra", null, null, null,null));
+        listaAnimales.add(new Animal(6,"Toby", "Beagle", "Perro", 18,"2 años", "Macho", null, null, null,null));
 
         AdaptadorAnimal adaptadorAnimal = new AdaptadorAnimal(listaAnimales);
         rvAnimales.setAdapter(adaptadorAnimal);

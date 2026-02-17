@@ -18,18 +18,26 @@
     <string name="perfil">Perfil</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="_4_nuevos">4 nuevos</string>
-    <string name="mensajes_recibidos">Mensajes Recibidos</string>
-    <string name="consulta_de_usuarios_interesados">Consulta de usuarios interesados</string>
+    <string name="gestiona_tus_publicaciones">Gestiona tus publicaciones</string>
+    <string name="panel_del_refugio">Panel del Refugio</string>
+    <string name="hola_estoy_interesada_en_adoptar_a_luna_podr_a_visitarla_este_fin_de_semana">Hola, estoy interesada en adoptar a Luna. ¿Podría visitarla este fin de semana?</string>
+    <string name="interesado_en">Interesado en:</string>
+    <string name="luna">Luna</string>
+    <string name="responder">Responder</string>
     <string name="mar_a_garc_a">María García</string>
     <string name="maria_email_com">maria@email.com</string>
     <string name="_31_1_2026">31/1/2026</string>
-    <string name="interesado_en">Interesado en:</string>
-    <string name="luna">Luna</string>
-    <string name="hola_estoy_interesada_en_adoptar_a_luna_podr_a_visitarla_este_fin_de_semana">Hola, estoy interesada en adoptar a Luna. ¿Podría visitarla este fin de semana?</string>
-    <string name="responder">Responder</string>
-    <string name="direcci_n_del_refugio">Dirección del refugio</string>
-    <string name="ej_av_las_flores_123">Ej: Av. Las Flores 123</string>
-    <string name="direccion">Dirección</string>
-    <string name="seleccionar_ubicaci_n">Seleccionar ubicación</string>
+    <string name="agregar_fab">Agregar</string>
+    <string name="perfiles">perfiles</string>
+    <string name="refugio_amigos_peludos">Refugio Amigos Peludos</string>
+    <string name="calle_pricnipal_123_ciudad_de_cajamarca">Calle Pricnipal 123, Ciudad de Cajamarca</string>
+    <string name="contacto_amigospeludos_com">contacto@amigospeludos.com</string>
+    <string name="direcci_n">Dirección</string>
+    <string name="nete_a_nuestra_comunidad">Únete a nuestra comunidad</string>
+    <string name="adoptante">Adoptante</string>
+    <string name="filtrar">Filtrar</string>
+    <string name="consulta_de_usuarios_interesados">Consulta de usuarios interesados</string>
+    <string name="mensajes_recibidos">Mensajes recibidos</string>
+    <string name="_4_nuevos">4 nuevos</string>
+
 </resources>
