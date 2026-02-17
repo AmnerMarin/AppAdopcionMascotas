@@ -13,10 +13,11 @@ public class Animal {
     private String temperamento;
     private String historia;
     private String estado;
+    private String tamano;
     private byte[] foto;
 
 
-    public Animal(int idRefugio, String nombre, String especie, String raza, double peso, String edad, String sexo, String temperamento, String historia, String estado, byte[] foto) {
+    public Animal(int idRefugio, String nombre, String especie, String raza, double peso, String edad, String sexo, String temperamento, String historia, String estado, String tamano, byte[] foto) {
         this.idRefugio = idRefugio;
         this.nombre = nombre;
         this.especie = especie;
@@ -27,6 +28,7 @@ public class Animal {
         this.temperamento = temperamento;
         this.historia = historia;
         this.estado = estado;
+        this.tamano = tamano;
         this.foto = foto;
     }
 
@@ -71,5 +73,9 @@ public class Animal {
 
     public int getIdRefugio() {
         return idRefugio;
+    }
+
+    public String getTamano() {
+        return tamano;
     }
 }

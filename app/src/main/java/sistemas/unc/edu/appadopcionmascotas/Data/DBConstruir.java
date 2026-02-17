@@ -53,6 +53,7 @@ public class DBConstruir extends SQLiteOpenHelper {
             "temperamento VARCHAR(150)," +
             "historia VARCHAR(2000)," +
             "estado NVARCHAR(15)," +
+            "tamano NVARCHARR(10),"+
             "foto BLOB," +
             "FOREIGN KEY(id_refugio) REFERENCES Refugio(id_refugio)" +
             ")";

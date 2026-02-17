@@ -81,19 +81,5 @@ public class DashboardFragment extends Fragment {
         RecyclerView rvAnimales = view.findViewById(R.id.rvAnimales);
         rvAnimales.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        List<Animal> listaAnimales = new ArrayList<>();
-
-        listaAnimales.add(new Animal(1,"Luna", "Perro", "Golden Retriever",20, "3 años", "Hembra", null, null, null, null));
-        listaAnimales.add(new Animal(2,"Max", "Bulldog Francés", "Perro", 10,"1 año", "Macho", null, null,null,null));
-        listaAnimales.add(new Animal(3,"Michi", "Siamés", "Gato",15, "2 años", "Hembra", null, null, null,null));
-        listaAnimales.add(new Animal(4,"Rocky", "Pastor Alemán", "Perro",12, "4 años", "Macho", null, null, null,null));
-        listaAnimales.add(new Animal(5,"Nala", "Mestizo", "Gato", 14, "5 meses", "Hembra", null, null, null,null));
-        listaAnimales.add(new Animal(6,"Toby", "Beagle", "Perro", 18,"2 años", "Macho", null, null, null,null));
-
-        AdaptadorAnimal adaptadorAnimal = new AdaptadorAnimal(listaAnimales);
-        rvAnimales.setAdapter(adaptadorAnimal);
-
-
-
     }
 }

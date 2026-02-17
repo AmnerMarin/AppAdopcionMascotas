@@ -88,14 +88,8 @@ public class InicioAdoptanteFragment extends Fragment {
         RecyclerView rcvanimalesadoptantes = view.findViewById(R.id.faadoptantesrv_animales_favoritos);
         rcvanimalesadoptantes.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        List<Animal> listaAnimales = new ArrayList<>();
 
-        listaAnimales.add(new Animal(1,"Luna", "Perro", "Golden Retriever",20, "3 años", "Hembra", null, null, null, null));
-        listaAnimales.add(new Animal(2,"Max", "Bulldog Francés", "Perro", 10,"1 año", "Macho", null, null,null,null));
-        listaAnimales.add(new Animal(3,"Michi", "Siamés", "Gato",15, "2 años", "Hembra", null, null, null,null));
-        listaAnimales.add(new Animal(4,"Rocky", "Pastor Alemán", "Perro",12, "4 años", "Macho", null, null, null,null));
-        listaAnimales.add(new Animal(5,"Nala", "Mestizo", "Gato", 14, "5 meses", "Hembra", null, null, null,null));
-        listaAnimales.add(new Animal(6,"Toby", "Beagle", "Perro", 18,"2 años", "Macho", null, null, null,null));
+
 
 //        AdaptadorAnimalAdoptante adaptadorAnimalAdoptante = new AdaptadorAnimalAdoptante(getContext(), listaAnimales);
 //        rcvanimalesadoptantes.setAdapter(adaptadorAnimalAdoptante);

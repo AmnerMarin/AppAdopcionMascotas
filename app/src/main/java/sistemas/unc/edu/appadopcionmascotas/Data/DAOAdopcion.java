@@ -135,6 +135,7 @@ public class DAOAdopcion {
             cv.put("temperamento", m.getTemperamento());
             cv.put("historia", m.getHistoria());
             cv.put("estado", m.getEstado());
+            cv.put("tamano",m.getTamano());
             cv.put("foto", m.getFoto());
 
             long fila = db.insert("Mascota", null, cv);
@@ -318,9 +319,10 @@ public class DAOAdopcion {
                     String temp = reg.getString(8);
                     String historia = reg.getString(9);
                     String estado = reg.getString(10);
-                    byte[] foto = reg.getBlob(11);
+                    String tamano = reg.getString(11);
+                    byte[] foto = reg.getBlob(12);
 
-                    Animal m = new Animal(idRefugio,nombre,especie,raza,peso,edad,sexo,temp,historia,estado,foto);
+                    Animal m = new Animal(idRefugio,nombre,especie,raza,peso,edad,sexo,temp,historia,estado,tamano,foto);
                     lista.add(m);
 
                 }while(reg.moveToNext());
@@ -429,8 +431,45 @@ public class DAOAdopcion {
             registro.close();
             db.close();
         }
-
         return lista;
+    }
+
+    //OBETNER IDs
+    public int obtenerIdRefugioPorUsuario(int idUsuario) {
+        int idRefugio = -1;
+        DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(
+                "SELECT id_refugio FROM Refugio WHERE id_usuario = ?",
+                new String[]{String.valueOf(idUsuario)}
+        );
+
+        if (cursor.moveToFirst()) {
+            idRefugio = cursor.getInt(0);
+        }
+
+        cursor.close();
+        return idRefugio;
+    }
+
+    //OBTENER ID DE ADOPTANTE POR USUARIO
+    public int obtenerIdAdoptantePorUsuario(int idUsuario) {
+        int idAdoptante = -1;
+        DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(
+                "SELECT id_adoptante FROM Adoptante WHERE id_usuario = ?",
+                new String[]{String.valueOf(idUsuario)}
+        );
+
+        if (cursor.moveToFirst()) {
+            idAdoptante = cursor.getInt(0);
+        }
+
+        cursor.close();
+        return idAdoptante;
     }
 }
 
