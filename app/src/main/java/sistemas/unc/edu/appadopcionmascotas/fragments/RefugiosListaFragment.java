@@ -85,31 +85,43 @@ public class RefugiosListaFragment extends Fragment {
         List<Refugio> listaRefugios = new ArrayList<>();
 
         listaRefugios.add(new Refugio(
+                1,
                 "Amigos Peludos",
                 "Rescatamos mascotas abandonadas",
                 "Av. Principal 123",
-                "999111222"
+                "999111222",
+                0,
+                0
         ));
 
         listaRefugios.add(new Refugio(
+                4,
                 "Patitas Felices",
                 "Cuidado y adopción responsable",
                 "Calle Luna 456",
-                "988333444"
+                "988333444",
+                0,
+                0
         ));
 
         listaRefugios.add(new Refugio(
+                2,
                 "Refugio Esperanza",
                 "Protección animal",
                 "Jr. Sol 789",
-                "977555666"
+                "977555666",
+                0,
+                0
         ));
 
         listaRefugios.add(new Refugio(
+                3,
                 "Huellitas",
                 "Amor y hogar temporal",
                 "Av. Verde 321",
-                "966777888"
+                "966777888",
+                0,
+                0
         ));
 
         // 👉 Adapter

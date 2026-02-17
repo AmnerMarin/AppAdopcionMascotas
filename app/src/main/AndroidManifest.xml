@@ -30,16 +30,19 @@
             android:name=".ActividadAgregarAnimal"
             android:exported="false" />
         <activity
-            android:name=".ActividadRegister"
+            android:name=".ActividadRefugio"
             android:exported="false" />
         <activity
             android:name=".ActividadAdoptante"
             android:exported="false" />
         <activity
+            android:name=".ActividadRegister"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".ActividadRefugio"
+            android:name=".ActividadLogin"
 
             android:exported="true">
             <intent-filter>

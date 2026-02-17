@@ -1,6 +1,7 @@
 package sistemas.unc.edu.appadopcionmascotas;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -9,7 +10,9 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,27 +20,79 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class ActividadLogin extends AppCompatActivity {
+import com.google.android.material.textfield.TextInputEditText;
 
+import sistemas.unc.edu.appadopcionmascotas.Data.DAOAdopcion;
+import sistemas.unc.edu.appadopcionmascotas.Model.Usuario;
+
+
+public class ActividadLogin extends AppCompatActivity {
+DAOAdopcion daoAdopcion=new DAOAdopcion(this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ly_actividad_login);
 
         TextView tvRegistro = findViewById(R.id.tvRegistrarse);
+        EditText etCorreo = findViewById(R.id.etCorreo);
+        TextInputEditText etContrasena = findViewById(R.id.etContrasena);
         Button btnLogin = findViewById(R.id.btnIniciarSesion);
 
-        btnLogin.setOnClickListener(new View.OnClickListener() { //solamente para prueba luego se programara par que se abra segun el tipo de cueta
-            @Override
-            public void onClick(View v) {
-                Intent oI = new Intent(ActividadLogin.this, ActividadRefugio.class);
-                startActivity(oI);
+        //3. INGRESAR DIRECTO SI YA ESTA LOGUEADO
+        SharedPreferences prefs = getSharedPreferences("sesion_usuario", MODE_PRIVATE);//Recuperar el ID guardado en el Login
+        int idUsuario = prefs.getInt("id_usuario", -1);
+        String rol = prefs.getString("rol_usuario", "");
+
+        if (idUsuario != -1) {
+            // Ya hay una sesión, saltamos directamente a la pantalla que corresponde
+            Intent intent;
+            if (rol.equals("Refugio")) {
+                intent = new Intent(this, ActividadRefugio.class);
+            } else {
+                intent = new Intent(this, ActividadAdoptante.class);
+            }
+            startActivity(intent);
+            finish(); // Cerramos el login
+        }
+
+
+        //2. LOGUEO
+        btnLogin.setOnClickListener(v -> {
+            String correo = etCorreo.getText().toString();
+            String contra = etContrasena.getText().toString();
+
+            if (correo.isEmpty() || contra.isEmpty()) {
+                Toast.makeText(this, "Correo y contraseña son obligatorios", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            // Intentamos el login
+            Usuario user = daoAdopcion.login(correo, contra);
+            if (user != null) {
+                Toast.makeText(this, "Bienvenido", Toast.LENGTH_SHORT).show();
+                //1. Guardamos el ID y el Rol para usarlos en el resto de la App (vamos a usar SharedPreferences)
+                guardarSesion(user.getIdusuario(), user.getRol(), user.getCorreo());
+
+                // 2. Redirección condicionada por ROL
+                Intent intent = null;
+                if (user.getRol().equals("Refugio")) {
+                    intent = new Intent(ActividadLogin.this, ActividadRefugio.class);
+                } else if (user.getRol().equals("Adoptante")) {
+                    intent = new Intent(ActividadLogin.this, ActividadAdoptante.class);
+                }
+                startActivity(intent);
+                finish(); // Cerramos el Login para que no puedan volver atrás con el botón físico
+
+                //
+            } else {
+                Toast.makeText(this, "Correo o contraseña incorrectos", Toast.LENGTH_SHORT).show();
             }
         });
 
-        String textoCompleto = "¿No tienes una cuenta? Regístrate"; // Buscamos la posición de la palabra "Regístrate"
+        //1. CAMBIAR EL COLOR DE REGISTER Y REDIRIGIR A REGISTER
+        String textoCompleto = "¿No tienes una cuenta? Regístrate";
         SpannableString ss = new SpannableString(textoCompleto);
 
+        // Buscamos la posición de la palabra "Regístrate"
         ClickableSpan clickableSpan = new ClickableSpan() {
             @Override
             public void onClick(View widget) {
@@ -48,16 +103,22 @@ public class ActividadLogin extends AppCompatActivity {
             @Override
             public void updateDrawState(TextPaint ds) {
                 super.updateDrawState(ds);
-                ds.setColor(getResources().getColor(R.color.primary_color)); // Color verde del logo
-                ds.setUnderlineText(false); // Quitamos subrayado
+                ds.setColor(getResources().getColor(R.color.primary_color)); // Color verde de tu logo
+                ds.setUnderlineText(false); // Quitar subrayado si prefieres
                 ds.setFakeBoldText(true); // Ponerlo en negrita
             }
         };
-
-        //Se aplica el click solo a la palabra "Regístrate" (índices 23 al final)
+        //Se aplica el click solo a la palabra "Regístrate" (índices 24 al final)
         ss.setSpan(clickableSpan, 23, textoCompleto.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         tvRegistro.setText(ss);
         tvRegistro.setMovementMethod(LinkMovementMethod.getInstance()); // para que el click funcione
-
+    }
+    private void guardarSesion(int id, String rol, String correo) {
+        SharedPreferences preferences = getSharedPreferences("sesion_usuario", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("id_usuario", id);
+        editor.putString("rol_usuario", rol);
+        editor.putString("correo_usuario", correo);
+        editor.apply();
     }
 }

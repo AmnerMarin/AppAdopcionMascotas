@@ -81,9 +81,9 @@ public class MensajesFragment extends Fragment {
         rvMensajes.setLayoutManager(new LinearLayoutManager(getContext()));
 
         List<Mensaje> mensaje = new ArrayList<>();
-        mensaje.add(new Mensaje("María García", "maria@email.com", "31/1/2026", "Luna", "Hola, estoy interesada en adoptar a Luna. ¿Podría visitarla este fin de semana?"));
-        mensaje.add(new Mensaje("Juan Pérez", "juan@email.com", "28/1/2026", "Max", "Hola, estoy interesado en adoptar a Max. ¿Podría visitarlo este fin de semana?"));
-        mensaje.add(new Mensaje("Ana López", "ana@email.com", "25/1/2026", "Bella", "Hola, estoy interesada en adoptar a Bella. ¿Podría visitarla este fin de semana?" ));
+        mensaje.add(new Mensaje(1, 4,7,null,null));
+        mensaje.add(new Mensaje(2,5,8,null, null));
+        mensaje.add(new Mensaje(3,6,9,null, null));
 
         AdaptadorMensaje adaptadorMensaje = new AdaptadorMensaje(mensaje);
         rvMensajes.setAdapter(adaptadorMensaje);
