@@ -71,9 +71,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+                android:padding="16dp">
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardFotoPublicar"
@@ -87,7 +85,9 @@
                     <FrameLayout
                         android:id="@+id/frame"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:focusable="true">
 
                         <LinearLayout
                             android:id="@+id/layoutPlaceholder"
@@ -168,6 +168,7 @@
                             style="@style/Widget.Material3.TextInputLayout.FilledBox"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            app:hintEnabled="false"
                             app:boxBackgroundColor="#F3F5F7"
                             app:boxCornerRadiusBottomEnd="14dp"
                             app:boxCornerRadiusBottomStart="14dp"
@@ -206,6 +207,7 @@
                             style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            app:hintEnabled="false"
                             app:boxBackgroundColor="#F3F5F7"
                             app:boxCornerRadiusBottomEnd="14dp"
                             app:boxCornerRadiusBottomStart="14dp"
@@ -245,6 +247,7 @@
                             style="@style/Widget.Material3.TextInputLayout.FilledBox"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            app:hintEnabled="false"
                             app:boxBackgroundColor="#F3F5F7"
                             app:boxCornerRadiusBottomEnd="14dp"
                             app:boxCornerRadiusBottomStart="14dp"
@@ -290,6 +293,7 @@
                                     style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    app:hintEnabled="false"
                                     app:boxBackgroundColor="#F3F5F7"
                                     app:boxCornerRadiusBottomEnd="14dp"
                                     app:boxCornerRadiusBottomStart="14dp"
@@ -327,6 +331,7 @@
                                     style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    app:hintEnabled="false"
                                     app:boxBackgroundColor="#F3F5F7"
                                     app:boxCornerRadiusBottomEnd="14dp"
                                     app:boxCornerRadiusBottomStart="14dp"
@@ -374,6 +379,7 @@
                                     style="@style/Widget.Material3.TextInputLayout.FilledBox"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    app:hintEnabled="false"
                                     app:boxBackgroundColor="#F3F5F7"
                                     app:boxCornerRadiusBottomEnd="14dp"
                                     app:boxCornerRadiusBottomStart="14dp"
@@ -411,6 +417,7 @@
                                     style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    app:hintEnabled="false"
                                     app:boxBackgroundColor="#F3F5F7"
                                     app:boxCornerRadiusBottomEnd="14dp"
                                     app:boxCornerRadiusBottomStart="14dp"
@@ -445,6 +452,7 @@
                         <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            app:hintEnabled="false"
                             app:boxBackgroundColor="#F3F5F7"
                             app:boxCornerRadiusBottomEnd="14dp"
                             app:boxCornerRadiusBottomStart="14dp"
@@ -476,6 +484,7 @@
                         <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            app:hintEnabled="false"
                             app:boxBackgroundColor="#F3F5F7"
                             app:boxCornerRadiusBottomEnd="14dp"
                             app:boxCornerRadiusBottomStart="14dp"

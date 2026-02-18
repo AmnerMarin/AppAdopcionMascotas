@@ -1,5 +1,7 @@
 package sistemas.unc.edu.appadopcionmascotas.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,6 +17,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import sistemas.unc.edu.appadopcionmascotas.Data.DAOAdopcion;
 import sistemas.unc.edu.appadopcionmascotas.UI.AdaptadorAnimal;
 import sistemas.unc.edu.appadopcionmascotas.Model.Animal;
 import sistemas.unc.edu.appadopcionmascotas.R;
@@ -78,8 +81,40 @@ public class DashboardFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        RecyclerView rvAnimales = view.findViewById(R.id.rvAnimales);
-        rvAnimales.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        RecyclerView rvAnimales = view.findViewById(R.id.rvAnimales);
+        rvAnimales.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+        List<Animal> listaAnimales = new ArrayList<>();
+
+        try {
+
+            DAOAdopcion dao = new DAOAdopcion(requireActivity());
+
+            SharedPreferences prefs = requireActivity()
+                    .getSharedPreferences("sesion_usuario", Context.MODE_PRIVATE);
+
+            int idUsuario = prefs.getInt("id_usuario", -1);
+
+            if (idUsuario != -1) {
+
+                int idRefugio = dao.obtenerIdRefugioPorUsuario(idUsuario);
+
+                if (idRefugio != -1) {
+
+                    listaAnimales = dao.listarAnimalesPorRefugio(idRefugio);
+
+                }
+
+            }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+        }
+
+        AdaptadorAnimal adaptador = new AdaptadorAnimal(listaAnimales);
+        rvAnimales.setAdapter(adaptador);
     }
-}
+    }

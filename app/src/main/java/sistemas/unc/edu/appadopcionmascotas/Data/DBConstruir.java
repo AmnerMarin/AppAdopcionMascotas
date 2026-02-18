@@ -49,11 +49,12 @@ public class DBConstruir extends SQLiteOpenHelper {
             "especie VARCHAR(50)," +
             "raza VARCHAR(100)," +
             "peso REAL," +
-            "edad VARCHAR(10)," +
+            "edad VARCHAR(50)," +
+            "sexo VARCHAR(10)," +
             "temperamento VARCHAR(150)," +
             "historia VARCHAR(2000)," +
-            "estado NVARCHAR(15)," +
-            "tamano NVARCHARR(10),"+
+            "estado VARCHAR(15)," +
+            "tamano VARCHAR(10)," +
             "foto BLOB," +
             "FOREIGN KEY(id_refugio) REFERENCES Refugio(id_refugio)" +
             ")";

@@ -24,7 +24,7 @@ public class DAOAdopcion {
 
     public DAOAdopcion(Activity contexto) {
         nombreDB = "DBAdoptaPet";
-        version = 1;
+        version = 3;
         this.contexto = contexto;
     }
 
@@ -295,41 +295,37 @@ public class DAOAdopcion {
 
 // =====================================
 
-    public List<Animal> listarMascota(){
+    public List<Animal> listarMascota() {
 
         List<Animal> lista = new ArrayList<>();
-        DBConstruir helper = new DBConstruir(contexto,nombreDB,null,version);
+        DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
 
         SQLiteDatabase db = helper.getReadableDatabase();
 
-        if(db!=null){
+        Cursor reg = db.rawQuery("SELECT * FROM Mascota", null);
 
-            String sql = "SELECT * FROM Mascota";
-            Cursor reg = db.rawQuery(sql,null);
+        while (reg.moveToNext()) {
 
-            if(reg.moveToFirst()){
-                do{
-                    int idRefugio = reg.getInt(1);
-                    String nombre = reg.getString(2);
-                    String especie = reg.getString(3);
-                    String raza = reg.getString(4);
-                    double peso = reg.getDouble(5);
-                    String edad = reg.getString(6);
-                    String sexo = reg.getString(7);
-                    String temp = reg.getString(8);
-                    String historia = reg.getString(9);
-                    String estado = reg.getString(10);
-                    String tamano = reg.getString(11);
-                    byte[] foto = reg.getBlob(12);
+            Animal m = new Animal(
+                    reg.getInt(1),
+                    reg.getString(2),
+                    reg.getString(3),
+                    reg.getString(4),
+                    reg.getDouble(5),
+                    reg.getString(6),
+                    reg.getString(7),
+                    reg.getString(8),
+                    reg.getString(9),
+                    reg.getString(10),
+                    reg.getString(11),
+                    reg.getBlob(12)
+            );
 
-                    Animal m = new Animal(idRefugio,nombre,especie,raza,peso,edad,sexo,temp,historia,estado,tamano,foto);
-                    lista.add(m);
-
-                }while(reg.moveToNext());
-            }
-            reg.close();
-            db.close();
+            lista.add(m);
         }
+
+        reg.close();
+        db.close();
 
         return lista;
     }
@@ -470,6 +466,43 @@ public class DAOAdopcion {
 
         cursor.close();
         return idAdoptante;
+    }
+    public List<Animal> listarAnimalesPorRefugio(int idRefugio) {
+
+        List<Animal> lista = new ArrayList<>();
+
+        DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        Cursor c = db.rawQuery(
+                "SELECT * FROM Mascota WHERE id_refugio=?",
+                new String[]{String.valueOf(idRefugio)}
+        );
+
+        while (c.moveToNext()) {
+
+            Animal a = new Animal(
+                    c.getInt(1),
+                    c.getString(2),
+                    c.getString(3),
+                    c.getString(4),
+                    c.getDouble(5),
+                    c.getString(6),
+                    c.getString(7),
+                    c.getString(8),
+                    c.getString(9),
+                    c.getString(10),
+                    c.getString(11),
+                    c.getBlob(12)
+            );
+
+            lista.add(a);
+        }
+
+        c.close();
+        db.close();
+
+        return lista;
     }
 }
 

@@ -32,6 +32,9 @@ public class Animal {
         this.foto = foto;
     }
 
+    public Animal(){
+    }
+
     public byte[] getFoto() {
         return foto;
     }

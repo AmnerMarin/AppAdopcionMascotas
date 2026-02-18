@@ -14,20 +14,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.textfield.TextInputEditText;
 
 import sistemas.unc.edu.appadopcionmascotas.Data.DAOAdopcion;
 import sistemas.unc.edu.appadopcionmascotas.Model.Usuario;
 
-
 public class ActividadLogin extends AppCompatActivity {
-DAOAdopcion daoAdopcion=new DAOAdopcion(this);
+
+    DAOAdopcion daoAdopcion = new DAOAdopcion(this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,8 +35,17 @@ DAOAdopcion daoAdopcion=new DAOAdopcion(this);
         TextInputEditText etContrasena = findViewById(R.id.etContrasena);
         Button btnLogin = findViewById(R.id.btnIniciarSesion);
 
-        //3. INGRESAR DIRECTO SI YA ESTA LOGUEADO
-        SharedPreferences prefs = getSharedPreferences("sesion_usuario", MODE_PRIVATE);//Recuperar el ID guardado en el Login
+        // BOTÓN OPCIONAL DE CERRAR SESIÓN (solo para pruebas)
+        Button btnCerrarSesion = findViewById(R.id.btnCerrarSesion); // <-- agrega este botón en tu layout si quieres
+        if (btnCerrarSesion != null) {
+            btnCerrarSesion.setOnClickListener(v -> {
+                cerrarSesion();
+                Toast.makeText(this, "Sesión cerrada", Toast.LENGTH_SHORT).show();
+            });
+        }
+
+        // 3. INGRESAR DIRECTO SI YA ESTA LOGUEADO
+        SharedPreferences prefs = getSharedPreferences("sesion_usuario", MODE_PRIVATE);
         int idUsuario = prefs.getInt("id_usuario", -1);
         String rol = prefs.getString("rol_usuario", "");
 
@@ -55,8 +61,7 @@ DAOAdopcion daoAdopcion=new DAOAdopcion(this);
             finish(); // Cerramos el login
         }
 
-
-        //2. LOGUEO
+        // 2. LOGUEO
         btnLogin.setOnClickListener(v -> {
             String correo = etCorreo.getText().toString();
             String contra = etContrasena.getText().toString();
@@ -65,14 +70,12 @@ DAOAdopcion daoAdopcion=new DAOAdopcion(this);
                 Toast.makeText(this, "Correo y contraseña son obligatorios", Toast.LENGTH_SHORT).show();
                 return;
             }
-            // Intentamos el login
+
             Usuario user = daoAdopcion.login(correo, contra);
             if (user != null) {
                 Toast.makeText(this, "Bienvenido", Toast.LENGTH_SHORT).show();
-                //1. Guardamos el ID y el Rol para usarlos en el resto de la App (vamos a usar SharedPreferences)
                 guardarSesion(user.getIdusuario(), user.getRol(), user.getCorreo());
 
-                // 2. Redirección condicionada por ROL
                 Intent intent = null;
                 if (user.getRol().equals("Refugio")) {
                     intent = new Intent(ActividadLogin.this, ActividadRefugio.class);
@@ -80,19 +83,16 @@ DAOAdopcion daoAdopcion=new DAOAdopcion(this);
                     intent = new Intent(ActividadLogin.this, ActividadAdoptante.class);
                 }
                 startActivity(intent);
-                finish(); // Cerramos el Login para que no puedan volver atrás con el botón físico
-
-                //
+                finish();
             } else {
                 Toast.makeText(this, "Correo o contraseña incorrectos", Toast.LENGTH_SHORT).show();
             }
         });
 
-        //1. CAMBIAR EL COLOR DE REGISTER Y REDIRIGIR A REGISTER
+        // 1. CAMBIAR EL COLOR DE REGISTER Y REDIRIGIR A REGISTER
         String textoCompleto = "¿No tienes una cuenta? Regístrate";
         SpannableString ss = new SpannableString(textoCompleto);
 
-        // Buscamos la posición de la palabra "Regístrate"
         ClickableSpan clickableSpan = new ClickableSpan() {
             @Override
             public void onClick(View widget) {
@@ -103,22 +103,30 @@ DAOAdopcion daoAdopcion=new DAOAdopcion(this);
             @Override
             public void updateDrawState(TextPaint ds) {
                 super.updateDrawState(ds);
-                ds.setColor(getResources().getColor(R.color.primary_color)); // Color verde de tu logo
-                ds.setUnderlineText(false); // Quitar subrayado si prefieres
-                ds.setFakeBoldText(true); // Ponerlo en negrita
+                ds.setColor(getResources().getColor(R.color.primary_color));
+                ds.setUnderlineText(false);
+                ds.setFakeBoldText(true);
             }
         };
-        //Se aplica el click solo a la palabra "Regístrate" (índices 24 al final)
         ss.setSpan(clickableSpan, 23, textoCompleto.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         tvRegistro.setText(ss);
-        tvRegistro.setMovementMethod(LinkMovementMethod.getInstance()); // para que el click funcione
+        tvRegistro.setMovementMethod(LinkMovementMethod.getInstance());
     }
+
     private void guardarSesion(int id, String rol, String correo) {
         SharedPreferences preferences = getSharedPreferences("sesion_usuario", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt("id_usuario", id);
         editor.putString("rol_usuario", rol);
         editor.putString("correo_usuario", correo);
+        editor.apply();
+    }
+
+    // NUEVO: Método para limpiar sesión
+    private void cerrarSesion() {
+        SharedPreferences preferences = getSharedPreferences("sesion_usuario", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear(); // borra todo
         editor.apply();
     }
 }
