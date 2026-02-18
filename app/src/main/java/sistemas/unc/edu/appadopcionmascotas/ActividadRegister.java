@@ -13,11 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
@@ -29,7 +25,8 @@ import sistemas.unc.edu.appadopcionmascotas.Model.Refugio;
 import sistemas.unc.edu.appadopcionmascotas.Model.Usuario;
 
 public class ActividadRegister extends AppCompatActivity {
-
+    double latitud = 0;
+    double longitud = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +41,14 @@ public class ActividadRegister extends AppCompatActivity {
 
 
         //Obtenermos los datos comunes
-        TextView txtLabelUbicacion = findViewById(R.id.txtLabelUbicacion);
+        TextView txtLabelUbicacion = findViewById(R.id.etDireccion);
+        Button abrirmapa =  findViewById(R.id.btnAbrirMapa);
+
+        abrirmapa.setOnClickListener(v ->{
+            Intent intent = new Intent(this, ActividadMapas.class);
+            startActivityForResult(intent, 1);
+        }) ;
+
         TextView txtLabelDescripcion = findViewById(R.id.txtLabelDescripcion);
         EditText etDescripcion = findViewById(R.id.etDescripcionRefugio);
         MaterialButton btnAbrirMapa = findViewById(R.id.btnAbrirMapa);
@@ -55,7 +59,6 @@ public class ActividadRegister extends AppCompatActivity {
         EditText etTelefono = findViewById(R.id.etRegistroDireccion);
 
 
-
         // Esto pasa cuando se hace click en un boton de toggle
         toggleGroupRol.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
             if (isChecked) {
@@ -64,8 +67,6 @@ public class ActividadRegister extends AppCompatActivity {
                     txtLabelNombre.setText("Nombre del refugio"); // Cambiamos para refugio
                     etNombre.setHint("Ej: Refugio Huellitas");
 
-                    txtLabelUbicacion.setVisibility(View.VISIBLE);//mostramos el label de ubicación
-                    btnAbrirMapa.setVisibility(View.VISIBLE); //mostramos el boton de abrir mapa
                     txtLabelDescripcion.setVisibility(View.VISIBLE); //mostramos el label de descripcion
                     etDescripcion.setVisibility(View.VISIBLE);
                     txtLabelApellidos.setVisibility(View.GONE); // Ocultamos el label de apellidos
@@ -76,8 +77,6 @@ public class ActividadRegister extends AppCompatActivity {
                     txtLabelNombre.setText("Nombre:"); // Cambios para adoptante
                     etNombre.setHint("Ej: Garcia");
 
-                    txtLabelUbicacion.setVisibility(View.GONE);   // Ocultamos el label de ubicación
-                    btnAbrirMapa.setVisibility(View.GONE); // ocultamos el boton de abrir mapa
                     txtLabelDescripcion.setVisibility(View.GONE); // Ocultamos el label de descripcion
                     etDescripcion.setVisibility(View.GONE); // Ocultamos el campo de descripcion
                     txtLabelApellidos.setVisibility(View.VISIBLE); // Mostramos el label de apellidos
@@ -146,7 +145,7 @@ public class ActividadRegister extends AppCompatActivity {
 
                     int IdUsuario = (int) idGenerado;
 
-                    Refugio ref = new Refugio(IdUsuario, nombreRefugio, descripcion, direccion, telefono, 0,0);
+                    Refugio ref = new Refugio(IdUsuario, nombreRefugio, descripcion, direccion, telefono, latitud,longitud);
 
                     resultado = dao.insertarRefugio(ref);
 
@@ -192,5 +191,20 @@ public class ActividadRegister extends AppCompatActivity {
             }
 
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
+
+            latitud = data.getDoubleExtra("lat", 0);
+            longitud = data.getDoubleExtra("lng", 0);
+            String direccion = data.getStringExtra("direccion");
+
+            EditText etDireccion = findViewById(R.id.etDireccion);
+            etDireccion.setText(direccion);
+        }
     }
 }

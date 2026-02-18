@@ -35,15 +35,6 @@ public class ActividadLogin extends AppCompatActivity {
         TextInputEditText etContrasena = findViewById(R.id.etContrasena);
         Button btnLogin = findViewById(R.id.btnIniciarSesion);
 
-        // BOTÓN OPCIONAL DE CERRAR SESIÓN (solo para pruebas)
-        Button btnCerrarSesion = findViewById(R.id.btnCerrarSesion); // <-- agrega este botón en tu layout si quieres
-        if (btnCerrarSesion != null) {
-            btnCerrarSesion.setOnClickListener(v -> {
-                cerrarSesion();
-                Toast.makeText(this, "Sesión cerrada", Toast.LENGTH_SHORT).show();
-            });
-        }
-
         // 3. INGRESAR DIRECTO SI YA ESTA LOGUEADO
         SharedPreferences prefs = getSharedPreferences("sesion_usuario", MODE_PRIVATE);
         int idUsuario = prefs.getInt("id_usuario", -1);
@@ -119,14 +110,6 @@ public class ActividadLogin extends AppCompatActivity {
         editor.putInt("id_usuario", id);
         editor.putString("rol_usuario", rol);
         editor.putString("correo_usuario", correo);
-        editor.apply();
-    }
-
-    // NUEVO: Método para limpiar sesión
-    private void cerrarSesion() {
-        SharedPreferences preferences = getSharedPreferences("sesion_usuario", MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.clear(); // borra todo
         editor.apply();
     }
 }

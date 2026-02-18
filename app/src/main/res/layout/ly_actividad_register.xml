@@ -160,12 +160,25 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="5dp"
-                    android:layout_marginBottom="10dp"
                     android:background="@drawable/fondo_escribir_texto"
                     android:hint="Ej: Av. Las Flores 123"
                     android:paddingStart="15dp"
                     android:textSize="14sp" />
 
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnAbrirMapa"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:backgroundTint="@color/tag_color"
+                    android:text="Seleccionar en el mapa"
+                    android:textColor="@color/white"
+                    android:visibility="visible"
+                    app:cornerRadius="10dp"
+                    app:icon="@drawable/ubicacion"
+                    app:iconGravity="textEnd"
+                    app:iconTint="@color/white" />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -248,7 +261,6 @@
                         android:textSize="14sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Campo de descripcion solo para refugios -->
                 <TextView
                     android:id="@+id/txtLabelDescripcion"
                     android:layout_width="match_parent"
@@ -271,34 +283,6 @@
                     android:textSize="14sp"
                     android:visibility="gone"
                     />
-
-
-                <!-- Campo de ubicacion solo para refugios -->
-                <TextView
-                    android:id="@+id/txtLabelUbicacion"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="Ubicación en el mapa"
-                    android:textColor="@color/text_dark"
-                    android:textSize="13sp"
-                    android:textStyle="bold"
-                    android:visibility="gone" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnAbrirMapa"
-                    android:layout_width="match_parent"
-                    android:layout_height="55dp"
-                    android:layout_marginTop="5dp"
-                    android:backgroundTint="@color/tag_color"
-                    android:text="Abrir mapa"
-                    android:textColor="@color/white"
-                    android:visibility="gone"
-                    app:cornerRadius="10dp"
-                    app:icon="@drawable/ubicacion"
-                    app:iconGravity="textEnd"
-                    app:iconTint="@color/white" />
-
 
                 <Button
                     android:id="@+id/btnCrearCuenta"

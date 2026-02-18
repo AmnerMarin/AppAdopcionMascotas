@@ -1,5 +1,6 @@
 package sistemas.unc.edu.appadopcionmascotas.UI;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.google.android.material.chip.Chip;
 import java.util.ArrayList;
 import java.util.List;
 
+import sistemas.unc.edu.appadopcionmascotas.Data.DAOAdopcion;
 import sistemas.unc.edu.appadopcionmascotas.Model.Refugio;
 import sistemas.unc.edu.appadopcionmascotas.R;
 
@@ -43,7 +45,11 @@ public class AdaptadorUbicacionRefugios extends RecyclerView.Adapter<AdaptadorUb
         holder.lb_localizacion_refugio_direccion.setText(refugio.getDireccion());
         holder.lb_localizacion_refugio_telefono.setText(refugio.getTelefono());
         holder.lb_localizacion_refugio_email.setText(refugio.getDesripcion());
-        holder.lb_localizacion_chip.setText("12 mascotas");
+
+        DAOAdopcion dao = new DAOAdopcion((Activity) contexto);
+        int cantidadAnimales = dao.obtenerCantidadAnimalesPorRefugio(refugio.getIdUsuario()); // O idRefugio si lo tienes en Refugio
+        holder.lb_localizacion_chip.setText(cantidadAnimales + " animales");
+
         //Falta programar el botó como llegar
         holder.itemView.setOnClickListener(v -> {
 

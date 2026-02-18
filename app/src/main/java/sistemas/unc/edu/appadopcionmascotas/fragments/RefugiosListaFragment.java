@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import sistemas.unc.edu.appadopcionmascotas.Data.DAOAdopcion;
 import sistemas.unc.edu.appadopcionmascotas.Model.Refugio;
 import sistemas.unc.edu.appadopcionmascotas.R;
 import sistemas.unc.edu.appadopcionmascotas.UI.AdaptadorUbicacionRefugios;
@@ -78,55 +79,10 @@ public class RefugiosListaFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         RecyclerView recycler = view.findViewById(R.id.rv_refugios);
-
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // 👉 Lista de prueba
-        List<Refugio> listaRefugios = new ArrayList<>();
-
-        listaRefugios.add(new Refugio(
-                1,
-                "Amigos Peludos",
-                "Rescatamos mascotas abandonadas",
-                "Av. Principal 123",
-                "999111222",
-                0,
-                0
-        ));
-
-        listaRefugios.add(new Refugio(
-                4,
-                "Patitas Felices",
-                "Cuidado y adopción responsable",
-                "Calle Luna 456",
-                "988333444",
-                0,
-                0
-        ));
-
-        listaRefugios.add(new Refugio(
-                2,
-                "Refugio Esperanza",
-                "Protección animal",
-                "Jr. Sol 789",
-                "977555666",
-                0,
-                0
-        ));
-
-        listaRefugios.add(new Refugio(
-                3,
-                "Huellitas",
-                "Amor y hogar temporal",
-                "Av. Verde 321",
-                "966777888",
-                0,
-                0
-        ));
-
-        // 👉 Adapter
-        AdaptadorUbicacionRefugios adapter = new AdaptadorUbicacionRefugios(getContext(),listaRefugios);
-
+        DAOAdopcion adopcion =  new DAOAdopcion(requireActivity());
+        AdaptadorUbicacionRefugios adapter = new AdaptadorUbicacionRefugios(getContext(),adopcion.listarRefugio());
         recycler.setAdapter(adapter);
     }
 }

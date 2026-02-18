@@ -100,6 +100,8 @@ public class DAOAdopcion {
             cv.put("direccion", r.getDireccion());
             cv.put("telefono", r.getTelefono());
             cv.put("descripcion", r.getDesripcion());
+            cv.put("latitud", r.getLatitud());
+            cv.put("longitud", r.getLongitud());
 
             long fila = db.insert("Refugio", null, cv);
 
@@ -504,5 +506,30 @@ public class DAOAdopcion {
 
         return lista;
     }
+    // =============================
+// OBTENER CANTIDAD DE ANIMALES POR REFUGIO
+// =============================
+    public int obtenerCantidadAnimalesPorRefugio(int idRefugio) {
+        int cantidad = 0;
+
+        DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(
+                "SELECT COUNT(*) FROM Mascota WHERE id_refugio = ?",
+                new String[]{String.valueOf(idRefugio)}
+        );
+
+        if (cursor.moveToFirst()) {
+            cantidad = cursor.getInt(0);
+        }
+
+        cursor.close();
+        db.close();
+
+        return cantidad;
+    }
+
+
 }
 
