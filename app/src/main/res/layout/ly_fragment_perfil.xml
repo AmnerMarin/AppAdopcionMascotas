@@ -1,647 +1,647 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragments.PerfilFragment">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/root"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="20dp">
+        android:layout_height="match_parent"
+        tools:context=".fragments.PerfilFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/header"
-            android:layout_width="0dp"
-            android:layout_height="196dp"
-            android:background="@drawable/bg_header_green"
-            android:paddingStart="18dp"
-            android:paddingTop="20dp"
-            android:paddingEnd="18dp"
-            android:paddingBottom="18dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:id="@+id/root"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="20dp">
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/imgLogo"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:background="@drawable/bg_circle_white"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/refugioprincipal"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/header"
+                android:layout_width="0dp"
+                android:layout_height="196dp"
+                android:background="@drawable/bg_header_green"
+                android:paddingStart="18dp"
+                android:paddingTop="20dp"
+                android:paddingEnd="18dp"
+                android:paddingBottom="18dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="ImageContrastCheck" />
+                app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/txtNombreRefugio"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:ellipsize="end"
-                android:fontFamily="@font/inter_regular"
-                android:maxLines="2"
-                android:text="Refugio Amigos Peludos"
-                android:textColor="@color/white"
-                android:textSize="26sp"
-                android:textStyle="bold"
-                android:backgroundTint="@color/primary_color"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/imgLogo"
-                app:layout_constraintTop_toTopOf="@id/imgLogo" />
-
-            <LinearLayout
-                android:id="@+id/rowDireccionHeader"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:backgroundTint="@color/primary_color"
-                app:layout_constraintStart_toStartOf="@id/txtNombreRefugio"
-                app:layout_constraintTop_toBottomOf="@id/txtNombreRefugio">
-
-                <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/imgLogo"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:background="@drawable/bg_circle_white"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/ubicacion"
-                    android:tint="@color/white"
-                    android:backgroundTint="@color/primary_color"
-                    tools:ignore="UseAppTint" />
+                    android:src="@drawable/refugioprincipal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ImageContrastCheck" />
 
                 <TextView
-                    android:id="@+id/txtDireccion"
+                    android:id="@+id/txtNombreRefugio"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    android:layout_weight="1"
+                    android:layout_marginStart="12dp"
                     android:ellipsize="end"
                     android:fontFamily="@font/inter_regular"
-                    android:maxLines="1"
-                    android:text="Calle Principal 123, Ciudad"
+                    android:maxLines="2"
+                    android:text="Refugio Amigos Peludos"
                     android:textColor="@color/white"
+                    android:textSize="26sp"
+                    android:textStyle="bold"
                     android:backgroundTint="@color/primary_color"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardStats"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="-34dp"
-            android:layout_marginEnd="16dp"
-            app:cardCornerRadius="18dp"
-            app:cardElevation="2dp"
-            app:cardUseCompatPadding="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/header"
-            app:strokeColor="#14000000"
-            app:strokeWidth="1dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="12dp">
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/imgLogo"
+                    app:layout_constraintTop_toTopOf="@id/imgLogo" />
 
                 <LinearLayout
+                    android:id="@+id/rowDireccionHeader"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/bg_stat_primary"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:paddingTop="14dp"
-                    android:paddingBottom="14dp">
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:backgroundTint="@color/primary_color"
+                    app:layout_constraintStart_toStartOf="@id/txtNombreRefugio"
+                    app:layout_constraintTop_toBottomOf="@id/txtNombreRefugio">
 
                     <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
                         android:contentDescription="@string/app_name"
-                        android:src="@drawable/huella"
-                        app:tint="@color/primary_color" />
+                        android:src="@drawable/ubicacion"
+                        android:tint="@color/white"
+                        android:backgroundTint="@color/primary_color"
+                        tools:ignore="UseAppTint" />
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:fontFamily="@font/inter_regular"
-                        android:text="12"
-                        android:textColor="@color/text_dark"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:fontFamily="@font/inter_regular"
-                        android:text="Publicados"
-                        android:textColor="@color/gray"
-                        android:textSize="12sp" />
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/bg_stat_secondary"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:paddingTop="14dp"
-                    android:paddingBottom="14dp">
-
-                    <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:contentDescription="@string/app_name"
-                        android:src="@drawable/mail"
-                        app:tint="@color/tag_color" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:fontFamily="@font/inter_regular"
-                        android:text="8"
-                        android:textColor="@color/text_dark"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:fontFamily="@font/inter_regular"
-                        android:text="Mensajes"
-                        android:textColor="@color/gray"
-                        android:textSize="12sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/bg_stat_orange"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:paddingTop="14dp"
-                    android:paddingBottom="14dp">
-
-                    <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:contentDescription="@string/app_name"
-                        android:src="@drawable/refugio"
-                        app:tint="@color/orange_adopted" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:fontFamily="@font/inter_regular"
-                        android:text="5"
-                        android:textColor="@color/text_dark"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:fontFamily="@font/inter_regular"
-                        android:text="Adoptados"
-                        android:textColor="@color/gray"
-                        android:textSize="12sp" />
-                </LinearLayout>
-
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardInfo"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:backgroundTint="#FFFFFF"
-            app:cardCornerRadius="18dp"
-            app:cardElevation="2dp"
-            app:cardUseCompatPadding="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cardStats"
-            app:strokeColor="#14000000"
-            app:strokeWidth="1dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="14dp">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/txtInfoTitulo"
-                        style="@style/EtiquetaTitulo"
+                        android:id="@+id/txtDireccion"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
                         android:fontFamily="@font/inter_regular"
-                        android:text="Información del refugio"
+                        android:maxLines="1"
+                        android:text="Calle Principal 123, Ciudad"
+                        android:textColor="@color/white"
+                        android:backgroundTint="@color/primary_color"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardStats"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="-34dp"
+                android:layout_marginEnd="16dp"
+                app:cardCornerRadius="18dp"
+                app:cardElevation="2dp"
+                app:cardUseCompatPadding="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/header"
+                app:strokeColor="#14000000"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="12dp">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_stat_primary"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:paddingTop="14dp"
+                        android:paddingBottom="14dp">
+
+                        <ImageView
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/huella"
+                            app:tint="@color/primary_color" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:fontFamily="@font/inter_regular"
+                            android:text="12"
+                            android:textColor="@color/text_dark"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:fontFamily="@font/inter_regular"
+                            android:text="Publicados"
+                            android:textColor="@color/gray"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_stat_secondary"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:paddingTop="14dp"
+                        android:paddingBottom="14dp">
+
+                        <ImageView
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/mail"
+                            app:tint="@color/tag_color" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:fontFamily="@font/inter_regular"
+                            android:text="8"
+                            android:textColor="@color/text_dark"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:fontFamily="@font/inter_regular"
+                            android:text="Mensajes"
+                            android:textColor="@color/gray"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_stat_orange"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:paddingTop="14dp"
+                        android:paddingBottom="14dp">
+
+                        <ImageView
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/refugio"
+                            app:tint="@color/orange_adopted" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:fontFamily="@font/inter_regular"
+                            android:text="5"
+                            android:textColor="@color/text_dark"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:fontFamily="@font/inter_regular"
+                            android:text="Adoptados"
+                            android:textColor="@color/gray"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardInfo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:backgroundTint="#FFFFFF"
+                app:cardCornerRadius="18dp"
+                app:cardElevation="2dp"
+                app:cardUseCompatPadding="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cardStats"
+                app:strokeColor="#14000000"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="14dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/txtInfoTitulo"
+                            style="@style/EtiquetaTitulo"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/inter_regular"
+                            android:text="Información del refugio"
+                            android:textColor="@color/text_dark"
+                            android:textSize="17sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/btnEditar"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnEditar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="48dp"
+                            android:fontFamily="@font/inter_regular"
+                            android:insetTop="0dp"
+                            android:insetBottom="0dp"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="16dp"
+                            android:text="Editar"
+                            android:textAllCaps="false"
+                            android:textColor="@color/text_dark"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            app:backgroundTint="@color/white1"
+                            app:cornerRadius="16dp"
+                            app:strokeColor="#22000000"
+                            app:strokeWidth="1dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="12dp"
+                        android:background="@android:color/transparent" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardBackgroundColor="@color/gray_ligth"
+                        app:cardCornerRadius="14dp"
+                        app:cardElevation="0dp"
+                        app:strokeWidth="0dp">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="12dp">
+
+                            <include layout="@layout/item_info_row_email" />
+                        </FrameLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="12dp"
+                        android:background="@android:color/transparent" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardBackgroundColor="@color/gray_ligth"
+                        app:cardCornerRadius="14dp"
+                        app:cardElevation="0dp"
+                        app:strokeWidth="0dp">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="12dp">
+
+                            <include layout="@layout/item_info_row_phone" />
+                        </FrameLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="12dp"
+                        android:background="@android:color/transparent" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardBackgroundColor="@color/gray_ligth"
+                        app:cardCornerRadius="14dp"
+                        app:cardElevation="0dp"
+                        app:strokeWidth="0dp">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="12dp">
+
+                            <include layout="@layout/item_info_row_address" />
+                        </FrameLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardAnimales"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="18dp"
+                app:cardElevation="2dp"
+                app:cardUseCompatPadding="true"
+                app:layout_constraintTop_toBottomOf="@id/cardInfo"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:strokeColor="#14000000"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="14dp">
+
+                    <TextView
+                        android:id="@+id/txtAnimalesTitulo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/inter_regular"
+                        android:text="Animales publicados"
                         android:textColor="@color/text_dark"
-                        android:textSize="17sp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/btnEditar"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="12dp"
+                        android:background="@android:color/transparent" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvAnimales"
+                        android:layout_width="match_parent"
+                        android:layout_height="84dp"
+                        android:overScrollMode="never"
+                        android:paddingStart="2dp"
+                        android:paddingEnd="2dp"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="12dp"
+                        android:background="@android:color/transparent" />
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnEditar"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/btnVerTodos"
+                        android:layout_width="match_parent"
                         android:layout_height="48dp"
+                        android:text="Ver todos (12)"
+                        android:textAllCaps="false"
                         android:fontFamily="@font/inter_regular"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
                         android:insetTop="0dp"
                         android:insetBottom="0dp"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp"
-                        android:text="Editar"
-                        android:textAllCaps="false"
-                        android:textColor="@color/text_dark"
-                        android:textSize="13sp"
-                        android:textStyle="bold"
-                        app:backgroundTint="@color/white1"
                         app:cornerRadius="16dp"
-                        app:strokeColor="#22000000"
+                        app:backgroundTint="@color/white1"
                         app:strokeWidth="1dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        app:strokeColor="#22000000"
+                        android:textColor="@color/text_dark" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="12dp"
-                    android:background="@android:color/transparent" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:cardBackgroundColor="@color/gray_ligth"
-                    app:cardCornerRadius="14dp"
-                    app:cardElevation="0dp"
-                    app:strokeWidth="0dp">
 
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="12dp">
-
-                        <include layout="@layout/item_info_row_email" />
-                    </FrameLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="12dp"
-                    android:background="@android:color/transparent" />
-
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:cardBackgroundColor="@color/gray_ligth"
-                    app:cardCornerRadius="14dp"
-                    app:cardElevation="0dp"
-                    app:strokeWidth="0dp">
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="12dp">
-
-                        <include layout="@layout/item_info_row_phone" />
-                    </FrameLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="12dp"
-                    android:background="@android:color/transparent" />
-
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:cardBackgroundColor="@color/gray_ligth"
-                    app:cardCornerRadius="14dp"
-                    app:cardElevation="0dp"
-                    app:strokeWidth="0dp">
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="12dp">
-
-                        <include layout="@layout/item_info_row_address" />
-                    </FrameLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardAnimales"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            app:cardBackgroundColor="#FFFFFF"
-            app:cardCornerRadius="18dp"
-            app:cardElevation="2dp"
-            app:cardUseCompatPadding="true"
-            app:layout_constraintTop_toBottomOf="@id/cardInfo"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:strokeColor="#14000000"
-            app:strokeWidth="1dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardAcciones"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="14dp">
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="16dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="18dp"
+                app:cardElevation="2dp"
+                app:cardUseCompatPadding="true"
+                app:layout_constraintTop_toBottomOf="@id/cardAnimales"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:strokeColor="#14000000"
+                app:strokeWidth="1dp">
 
-                <TextView
-                    android:id="@+id/txtAnimalesTitulo"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/inter_regular"
-                    android:text="Animales publicados"
-                    android:textColor="@color/text_dark"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:orientation="vertical">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="12dp"
-                    android:background="@android:color/transparent" />
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/rowGestionar"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:paddingStart="14dp"
+                        android:paddingEnd="14dp">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvAnimales"
-                    android:layout_width="match_parent"
-                    android:layout_height="84dp"
-                    android:overScrollMode="never"
-                    android:paddingStart="2dp"
-                    android:paddingEnd="2dp"/>
+                        <ImageView
+                            android:id="@+id/iconGestionar"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/huella"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="12dp"
-                    android:background="@android:color/transparent" />
+                        <TextView
+                            android:id="@+id/txtGestionar"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:fontFamily="@font/inter_regular"
+                            android:text="Gestionar publicaciones"
+                            android:textColor="@color/text_dark"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/chGestionar"
+                            app:layout_constraintStart_toEndOf="@id/iconGestionar"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnVerTodos"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:text="Ver todos (12)"
-                    android:textAllCaps="false"
-                    android:fontFamily="@font/inter_regular"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:insetTop="0dp"
-                    android:insetBottom="0dp"
-                    app:cornerRadius="16dp"
-                    app:backgroundTint="@color/white1"
-                    app:strokeWidth="1dp"
-                    app:strokeColor="#22000000"
-                    android:textColor="@color/text_dark" />
+                        <ImageView
+                            android:id="@+id/chGestionar"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/adelante"
+                            app:tint="@color/gray"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#11000000" />
 
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/rowMensajes"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:paddingStart="14dp"
+                        android:paddingEnd="14dp">
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardAcciones"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="16dp"
-            app:cardBackgroundColor="#FFFFFF"
-            app:cardCornerRadius="18dp"
-            app:cardElevation="2dp"
-            app:cardUseCompatPadding="true"
-            app:layout_constraintTop_toBottomOf="@id/cardAnimales"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:strokeColor="#14000000"
-            app:strokeWidth="1dp">
+                        <ImageView
+                            android:id="@+id/iconMensajes"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/mail"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/txtMensajes"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:fontFamily="@font/inter_regular"
+                            android:text="Mensajes recibidos"
+                            android:textColor="@color/text_dark"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/chMensajes"
+                            app:layout_constraintStart_toEndOf="@id/iconMensajes"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/rowGestionar"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:paddingStart="14dp"
-                    android:paddingEnd="14dp">
+                        <ImageView
+                            android:id="@+id/chMensajes"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/adelante"
+                            app:tint="@color/gray"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <ImageView
-                        android:id="@+id/iconGestionar"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/huella"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#11000000" />
 
-                    <TextView
-                        android:id="@+id/txtGestionar"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:fontFamily="@font/inter_regular"
-                        android:text="Gestionar publicaciones"
-                        android:textColor="@color/text_dark"
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/chGestionar"
-                        app:layout_constraintStart_toEndOf="@id/iconGestionar"
-                        app:layout_constraintTop_toTopOf="parent" />
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/rowConfig"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:paddingStart="14dp"
+                        android:paddingEnd="14dp">
 
-                    <ImageView
-                        android:id="@+id/chGestionar"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:src="@drawable/adelante"
-                        app:tint="@color/gray"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        <ImageView
+                            android:id="@+id/iconConfig"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/configuracion"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#11000000" />
+                        <TextView
+                            android:id="@+id/txtConfig"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:fontFamily="@font/inter_regular"
+                            android:text="Configuración"
+                            android:textColor="@color/text_dark"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/chConfig"
+                            app:layout_constraintStart_toEndOf="@id/iconConfig"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/rowMensajes"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:paddingStart="14dp"
-                    android:paddingEnd="14dp">
+                        <ImageView
+                            android:id="@+id/chConfig"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/adelante"
+                            app:tint="@color/gray"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <ImageView
-                        android:id="@+id/iconMensajes"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/mail"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-                    <TextView
-                        android:id="@+id/txtMensajes"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:fontFamily="@font/inter_regular"
-                        android:text="Mensajes recibidos"
-                        android:textColor="@color/text_dark"
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/chMensajes"
-                        app:layout_constraintStart_toEndOf="@id/iconMensajes"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <ImageView
-                        android:id="@+id/chMensajes"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:src="@drawable/adelante"
-                        app:tint="@color/gray"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#11000000" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/rowConfig"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:paddingStart="14dp"
-                    android:paddingEnd="14dp">
-
-                    <ImageView
-                        android:id="@+id/iconConfig"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/configuracion"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/txtConfig"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:fontFamily="@font/inter_regular"
-                        android:text="Configuración"
-                        android:textColor="@color/text_dark"
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/chConfig"
-                        app:layout_constraintStart_toEndOf="@id/iconConfig"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <ImageView
-                        android:id="@+id/chConfig"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:src="@drawable/adelante"
-                        app:tint="@color/gray"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnCerrarSesion"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:text="Cerrar sesión"
-            android:textAllCaps="false"
-            android:fontFamily="@font/inter_regular"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            android:insetTop="0dp"
-            android:insetBottom="0dp"
-            app:cornerRadius="16dp"
-            app:backgroundTint="@color/white1"
-            app:strokeWidth="1dp"
-            app:strokeColor="#22000000"
-            android:textColor="@color/danger_red"
-            app:icon="@drawable/salir"
-            app:iconTint="@color/danger_red"
-            app:iconPadding="10dp"
-            app:layout_constraintTop_toBottomOf="@id/cardAcciones"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCerrarSesion"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="Cerrar sesión"
+                android:textAllCaps="false"
+                android:fontFamily="@font/inter_regular"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                app:cornerRadius="16dp"
+                app:backgroundTint="@color/white1"
+                app:strokeWidth="1dp"
+                app:strokeColor="#22000000"
+                android:textColor="@color/danger_red"
+                app:icon="@drawable/salir"
+                app:iconTint="@color/danger_red"
+                app:iconPadding="10dp"
+                app:layout_constraintTop_toBottomOf="@id/cardAcciones"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
 
-        <View
-            android:id="@+id/spaceFinal"
-            android:layout_width="0dp"
-            android:layout_height="20dp"
-            app:layout_constraintTop_toBottomOf="@id/btnCerrarSesion"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            <View
+                android:id="@+id/spaceFinal"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                app:layout_constraintTop_toBottomOf="@id/btnCerrarSesion"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.core.widget.NestedScrollView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>

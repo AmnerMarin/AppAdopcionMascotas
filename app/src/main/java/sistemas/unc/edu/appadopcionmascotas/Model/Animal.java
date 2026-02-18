@@ -16,6 +16,8 @@ public class Animal {
     private String tamano;
     private byte[] foto;
 
+    private boolean Favorito;
+
 
     public Animal(int idRefugio, String nombre, String especie, String raza, double peso, String edad, String sexo, String temperamento, String historia, String estado, String tamano, byte[] foto) {
         this.idRefugio = idRefugio;
@@ -30,9 +32,11 @@ public class Animal {
         this.estado = estado;
         this.tamano = tamano;
         this.foto = foto;
+        this.Favorito = false;
     }
 
     public Animal(){
+        this.Favorito = false;
     }
 
     public byte[] getFoto() {
@@ -81,4 +85,8 @@ public class Animal {
     public String getTamano() {
         return tamano;
     }
+
+    // FAVORITO
+    public boolean isFavorito() { return Favorito; }
+    public void setFavorito(boolean favorito) { this.Favorito = favorito; }
 }

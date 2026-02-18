@@ -24,7 +24,7 @@ public class DAOAdopcion {
 
     public DAOAdopcion(Activity contexto) {
         nombreDB = "DBAdoptaPet";
-        version = 3;
+        version = 1;
         this.contexto = contexto;
     }
 

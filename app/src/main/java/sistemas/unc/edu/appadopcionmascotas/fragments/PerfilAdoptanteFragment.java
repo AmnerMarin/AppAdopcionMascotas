@@ -1,14 +1,26 @@
 package sistemas.unc.edu.appadopcionmascotas.fragments;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.google.android.material.button.MaterialButton;
+
+import sistemas.unc.edu.appadopcionmascotas.ActividadLogin;
+import sistemas.unc.edu.appadopcionmascotas.Data.DAOAdopcion;
 import sistemas.unc.edu.appadopcionmascotas.R;
+import sistemas.unc.edu.appadopcionmascotas.UI.AdaptadorAnimal;
+import sistemas.unc.edu.appadopcionmascotas.UI.AdaptadorAnimalAdoptante;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -62,5 +74,31 @@ public class PerfilAdoptanteFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.ly_fragment_perfil_adoptante, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        MaterialButton btnLogout = view.findViewById(R.id.btnLogout);
+        btnLogout.setOnClickListener(v->cerrarSesion());
+    }
+
+    private void cerrarSesion() {
+        // 1. Abrir las preferencias donde guardamos el ID y el Rol
+        SharedPreferences preferences = getActivity().getSharedPreferences("sesion_usuario", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        // 2. Limpiar todos los datos guardados
+        editor.clear();
+        editor.apply(); // O commit() para hacerlo instantáneo
+
+        // 3. Mostrar un mensaje al usuario
+        Toast.makeText(getActivity(), "Sesión cerrada correctamente", Toast.LENGTH_SHORT).show();
+
+        // 4. Redirigir al Login y limpiar el historial de pantallas
+        Intent intent = new Intent(getActivity(), ActividadLogin.class);
+        // Estas banderas sirven para que el usuario no pueda volver al perfil al dar "atrás"
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 }

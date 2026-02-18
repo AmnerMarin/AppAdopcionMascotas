@@ -139,10 +139,17 @@ public class ActividadRegister extends AppCompatActivity {
 
                 //Crear los obejetos
                 Usuario user = new Usuario(correo, contrasenia, "Refugio");
-                if(dao.insertarUsuario(user)!= -1){
-                    int IdUsuario= (int)dao.insertarUsuario(user);
+
+                long idGenerado = dao.insertarUsuario(user);
+
+                if(idGenerado != -1){
+
+                    int IdUsuario = (int) idGenerado;
+
                     Refugio ref = new Refugio(IdUsuario, nombreRefugio, descripcion, direccion, telefono, 0,0);
-                    resultado= dao.insertarRefugio(ref);
+
+                    resultado = dao.insertarRefugio(ref);
+
                 }
             }else{
                 //---   FLUJO DE ADOPTANTE ----
@@ -156,10 +163,17 @@ public class ActividadRegister extends AppCompatActivity {
 
                 //Crear los objetos
                 Usuario user = new Usuario(correo, contrasenia, "Adoptante");
-                if(dao.insertarUsuario(user)!= -1){
-                    int IdUsuario= (int)dao.insertarUsuario(user);
+
+                long idGenerado = dao.insertarUsuario(user);
+
+                if(idGenerado != -1){
+
+                    int IdUsuario = (int) idGenerado;
+
                     Adoptante adoptante = new Adoptante(IdUsuario, nombreAdoptante, apellidos, telefono, direccion);
+
                     resultado = dao.insertarAdoptante(adoptante);
+
                 }
             }
 

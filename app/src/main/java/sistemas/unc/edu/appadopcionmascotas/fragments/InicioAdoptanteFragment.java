@@ -19,8 +19,11 @@ import com.google.android.material.button.MaterialButton;
 import java.util.ArrayList;
 import java.util.List;
 
+import sistemas.unc.edu.appadopcionmascotas.Data.DAOAdopcion;
 import sistemas.unc.edu.appadopcionmascotas.Model.Animal;
 import sistemas.unc.edu.appadopcionmascotas.R;
+import sistemas.unc.edu.appadopcionmascotas.UI.AdaptadorAnimal;
+import sistemas.unc.edu.appadopcionmascotas.UI.AdaptadorAnimalAdoptante;
 //import sistemas.unc.edu.appadopcionmascotas.UI.AdaptadorAnimalAdoptante;
 
 /**
@@ -88,11 +91,11 @@ public class InicioAdoptanteFragment extends Fragment {
         RecyclerView rcvanimalesadoptantes = view.findViewById(R.id.faadoptantesrv_animales_favoritos);
         rcvanimalesadoptantes.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        DAOAdopcion dao = new DAOAdopcion(requireActivity());
+        AdaptadorAnimal adaptador = new AdaptadorAnimal(dao.listarMascota());
+        AdaptadorAnimalAdoptante adaptadorAdo = new AdaptadorAnimalAdoptante(getContext(), dao.listarMascota());
 
-
-
-//        AdaptadorAnimalAdoptante adaptadorAnimalAdoptante = new AdaptadorAnimalAdoptante(getContext(), listaAnimales);
-//        rcvanimalesadoptantes.setAdapter(adaptadorAnimalAdoptante);
+        rcvanimalesadoptantes.setAdapter(adaptadorAdo);
     }
     private void mostrarFiltros() {
 

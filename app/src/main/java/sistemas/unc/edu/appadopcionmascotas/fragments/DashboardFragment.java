@@ -1,6 +1,6 @@
 package sistemas.unc.edu.appadopcionmascotas.fragments;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -22,19 +22,11 @@ import sistemas.unc.edu.appadopcionmascotas.UI.AdaptadorAnimal;
 import sistemas.unc.edu.appadopcionmascotas.Model.Animal;
 import sistemas.unc.edu.appadopcionmascotas.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link DashboardFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class DashboardFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -42,15 +34,6 @@ public class DashboardFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment DashboardFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static DashboardFragment newInstance(String param1, String param2) {
         DashboardFragment fragment = new DashboardFragment();
         Bundle args = new Bundle();
@@ -72,49 +55,33 @@ public class DashboardFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.ly_fragment_dashboard, container, false);
     }
-
-    //lo creamos
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RecyclerView rvAnimales = view.findViewById(R.id.rvAnimales);
-        rvAnimales.setLayoutManager(new LinearLayoutManager(requireContext()));
+        // -----------------------------
+        // FIX: Usar Activity real para el DAO
+        // -----------------------------
+        Activity act = requireActivity();
+        DAOAdopcion dao = new DAOAdopcion(act);
 
-        List<Animal> listaAnimales = new ArrayList<>();
+        SharedPreferences prefs = act.getSharedPreferences("sesion_usuario", Activity.MODE_PRIVATE);
 
-        try {
+        int idUsuario = prefs.getInt("id_usuario", -1);
+        if (idUsuario == -1) return;
 
-            DAOAdopcion dao = new DAOAdopcion(requireActivity());
+        int idRefugio = dao.obtenerIdRefugioPorUsuario(idUsuario);
 
-            SharedPreferences prefs = requireActivity()
-                    .getSharedPreferences("sesion_usuario", Context.MODE_PRIVATE);
-
-            int idUsuario = prefs.getInt("id_usuario", -1);
-
-            if (idUsuario != -1) {
-
-                int idRefugio = dao.obtenerIdRefugioPorUsuario(idUsuario);
-
-                if (idRefugio != -1) {
-
-                    listaAnimales = dao.listarAnimalesPorRefugio(idRefugio);
-
-                }
-
-            }
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-
+        List<Animal> animales = new ArrayList<>();
+        if (idRefugio != -1) {
+            animales = dao.listarAnimalesPorRefugio(idRefugio);
         }
 
-        AdaptadorAnimal adaptador = new AdaptadorAnimal(listaAnimales);
-        rvAnimales.setAdapter(adaptador);
+        RecyclerView rvAnimales = view.findViewById(R.id.rvAnimales);
+        rvAnimales.setLayoutManager(new LinearLayoutManager(act));
+        rvAnimales.setAdapter(new AdaptadorAnimal(animales));
     }
-    }
+}
