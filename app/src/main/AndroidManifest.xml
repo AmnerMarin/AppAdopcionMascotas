@@ -16,7 +16,7 @@
             android:name=".ActividadContactarRefugio"
             android:exported="false" />
         <activity
-            android:name=".ActividadPublicarAnimal"
+            android:name=".ActividadRefugio"
             android:exported="false" />
         <activity
             android:name=".ActividadEditarAnimal"
@@ -28,17 +28,17 @@
             android:name=".ActividadAgregarAnimal"
             android:exported="false" />
         <activity
-            android:name=".ActividadRefugio"
+            android:name=".ActividadRegister"
             android:exported="false" />
         <activity
             android:name=".ActividadAdoptante"
             android:exported="false" />
         <activity
-            android:name=".ActividadRegister"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity"
             android:exported="false" />
+        <activity
+            android:name=".ActividadPublicarAnimal"
+            android:exported="false"/>
         <activity
             android:name=".ActividadLogin"
             android:exported="true">

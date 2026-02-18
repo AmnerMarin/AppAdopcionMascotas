@@ -85,7 +85,7 @@ public class ActividadPublicarAnimal extends AppCompatActivity {
         txtNombre = findViewById(R.id.edtNombrePublicar);
         actEspecie = findViewById(R.id.actEspeciePublicar);
         txtRaza = findViewById(R.id.edtRazaPublicar);
-        txtEdad = findViewById(R.id.edtEdadPublicar);
+        txtEdad = findViewById(R.id.edtEdad);
         actTamano = findViewById(R.id.actTamanoPublicar);
         txtTemperamento = findViewById(R.id.edtTemperamentoPublicar);
         txtHistoria = findViewById(R.id.edtHistoriaPublicar);

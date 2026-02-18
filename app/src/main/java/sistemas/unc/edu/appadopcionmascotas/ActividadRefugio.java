@@ -49,7 +49,7 @@ public class ActividadRefugio extends AppCompatActivity {
         });
 
         fabAdd.setOnClickListener(view -> {
-            Intent intent = new Intent(view.getContext(), ActividadAgregarAnimal.class);
+            Intent intent = new Intent(view.getContext(), ActividadPublicarAnimal.class);
             view.getContext().startActivity(intent);
 
         });

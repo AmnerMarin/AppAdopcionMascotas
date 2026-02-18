@@ -13,6 +13,6 @@ public class ActividadAgregarAnimal extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ly_actividad_agregar_animal);
+        setContentView(R.layout.ly_actividad_publicar_animal);
     }
 }
