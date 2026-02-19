@@ -24,7 +24,7 @@ public class DAOAdopcion {
 
     public DAOAdopcion(Activity contexto) {
         nombreDB = "DBAdoptaPet";
-        version = 1;
+        version = 2;
         this.contexto = contexto;
     }
 
@@ -298,40 +298,37 @@ public class DAOAdopcion {
 // =====================================
 
     public List<Animal> listarMascota() {
-
         List<Animal> lista = new ArrayList<>();
         DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
-
         SQLiteDatabase db = helper.getReadableDatabase();
 
         Cursor reg = db.rawQuery("SELECT * FROM Mascota", null);
 
         while (reg.moveToNext()) {
-
-            Animal m = new Animal(
-                    reg.getInt(1),
-                    reg.getString(2),
-                    reg.getString(3),
-                    reg.getString(4),
-                    reg.getDouble(5),
-                    reg.getString(6),
-                    reg.getString(7),
-                    reg.getString(8),
-                    reg.getString(9),
-                    reg.getString(10),
-                    reg.getString(11),
-                    reg.getBlob(12)
-            );
+            Animal m = new Animal();
+            m.setIdMascota(reg.getInt(0));   // id_mascota
+            m.setIdRefugio(reg.getInt(1));  // id_refugio
+            m.setNombre(reg.getString(2));   // nombre
+            m.setEspecie(reg.getString(3));  // especie
+            m.setRaza(reg.getString(4));     // raza
+            m.setPeso(reg.getDouble(5));     // peso
+            m.setEdad(reg.getString(6));     // edad
+            m.setSexo(reg.getString(7));     // sexo
+            m.setTemperamento(reg.getString(8)); // temperamento
+            m.setHistoria(reg.getString(9)); // historia
+            m.setEstado(reg.getString(10));  // estado
+            m.setTamano(reg.getString(11));  // tamano
+            m.setFoto(reg.getBlob(12));      // foto
 
             lista.add(m);
         }
 
         reg.close();
         db.close();
-
         return lista;
     }
-// =====================================
+
+    // =====================================
     public List<Adopcion> listarAdopcion(){
 
         List<Adopcion> lista = new ArrayList<>();
@@ -470,9 +467,7 @@ public class DAOAdopcion {
         return idAdoptante;
     }
     public List<Animal> listarAnimalesPorRefugio(int idRefugio) {
-
         List<Animal> lista = new ArrayList<>();
-
         DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
         SQLiteDatabase db = helper.getReadableDatabase();
 
@@ -482,30 +477,29 @@ public class DAOAdopcion {
         );
 
         while (c.moveToNext()) {
-
-            Animal a = new Animal(
-                    c.getInt(1),
-                    c.getString(2),
-                    c.getString(3),
-                    c.getString(4),
-                    c.getDouble(5),
-                    c.getString(6),
-                    c.getString(7),
-                    c.getString(8),
-                    c.getString(9),
-                    c.getString(10),
-                    c.getString(11),
-                    c.getBlob(12)
-            );
+            Animal a = new Animal();
+            a.setIdMascota(c.getInt(0));    // id_mascota
+            a.setIdRefugio(c.getInt(1));    // id_refugio
+            a.setNombre(c.getString(2));    // nombre
+            a.setEspecie(c.getString(3));   // especie
+            a.setRaza(c.getString(4));      // raza
+            a.setPeso(c.getDouble(5));      // peso
+            a.setEdad(c.getString(6));      // edad
+            a.setSexo(c.getString(7));      // sexo
+            a.setTemperamento(c.getString(8)); // temperamento
+            a.setHistoria(c.getString(9));  // historia
+            a.setEstado(c.getString(10));   // estado
+            a.setTamano(c.getString(11));   // tamano
+            a.setFoto(c.getBlob(12));       // foto
 
             lista.add(a);
         }
 
         c.close();
         db.close();
-
         return lista;
     }
+
     // =============================
 // OBTENER CANTIDAD DE ANIMALES POR REFUGIO
 // =============================
@@ -530,6 +524,121 @@ public class DAOAdopcion {
         return cantidad;
     }
 
+    //---PARA VER LOS DETALLES DE CADA ANIMAL , USUARIO ADOPTANTE ----
+    public Animal obtenerDetalleAnimalConRefugio(int idAnimal) {
+        Animal animal = null;
+        DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        String query = "SELECT " +
+                "M.id_mascota, M.id_refugio, M.nombre, M.especie, M.raza, M.peso, M.edad, M.sexo, M.temperamento, " +
+                "M.historia, M.estado, M.tamano, M.foto, " +
+                "R.nombre_refugio, R.direccion, R.telefono " +
+                "FROM Mascota M " +
+                "LEFT JOIN Refugio R ON M.id_refugio = R.id_refugio " +
+                "WHERE M.id_mascota = ?";
+
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(idAnimal)});
+
+        if (cursor.moveToFirst()) {
+            animal = new Animal();
+            animal.setIdMascota(cursor.getInt(0));
+            animal.setIdRefugio(cursor.getInt(1));
+            animal.setNombre(cursor.getString(2));
+            animal.setEspecie(cursor.getString(3));
+            animal.setRaza(cursor.getString(4));
+            animal.setPeso(cursor.getDouble(5));
+            animal.setEdad(cursor.getString(6));
+            animal.setSexo(cursor.getString(7));
+            animal.setTemperamento(cursor.getString(8)); // "Juguetón,Activo,Amigable"
+            animal.setHistoria(cursor.getString(9));
+            animal.setEstado(cursor.getString(10));
+            animal.setTamano(cursor.getString(11));
+            animal.setFoto(cursor.getBlob(12));
+            animal.setNombreRefugio(cursor.getString(13));
+            animal.setDireccionRefugio(cursor.getString(14));
+            animal.setTelefonoRefugio(cursor.getString(15));
+        }
+
+        cursor.close();
+        db.close();
+        return animal;
+    }
+
+    // FAVORTIOS GUARFDAR EN B ASE DE DAROS
+
+    public boolean esFavorito(int idAdoptante, int idMascota) {
+        DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT 1 FROM Favorito_Mascota WHERE id_adoptante = ? AND id_mascota = ?",
+                new String[]{String.valueOf(idAdoptante), String.valueOf(idMascota)});
+        boolean existe = cursor.getCount() > 0;
+        cursor.close();
+        return existe;
+    }
+
+    // Agrega a favoritos
+    public boolean agregarFavorito(int idAdoptante, int idMascota) {
+        DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
+        SQLiteDatabase db = helper.getReadableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("id_adoptante", idAdoptante);
+        values.put("id_mascota", idMascota);
+        long res = db.insert("Favorito_Mascota", null, values);
+        return res != -1;
+    }
+
+    // Elimina de favoritos
+    public boolean eliminarFavorito(int idAdoptante, int idMascota) {
+        DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        int res = db.delete("Favorito_Mascota", "id_adoptante = ? AND id_mascota = ?",
+                new String[]{String.valueOf(idAdoptante), String.valueOf(idMascota)});
+        return res > 0;
+    }
+
+    // ==============================
+// OBTENER MASCOTAS FAVORITAS DE UN ADOPTANTE
+// ==============================
+    public List<Animal> obtenerFavoritosPorAdoptante(int idAdoptante) {
+        List<Animal> lista = new ArrayList<>();
+        DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        // Seleccionamos todos los datos de la mascota que estén en la tabla de favoritos
+        String sql = "SELECT m.* FROM Mascota m " +
+                "INNER JOIN Favorito_Mascota f ON m.id_mascota = f.id_mascota " +
+                "WHERE f.id_adoptante = ?";
+
+        Cursor cursor = db.rawQuery(sql, new String[]{String.valueOf(idAdoptante)});
+
+        if (cursor.moveToFirst()) {
+            do {
+                Animal a = new Animal();
+                a.setIdMascota(cursor.getInt(0));
+                a.setIdRefugio(cursor.getInt(1));
+                a.setNombre(cursor.getString(2));
+                a.setEspecie(cursor.getString(3));
+                a.setRaza(cursor.getString(4));
+                a.setPeso(cursor.getDouble(5));
+                a.setEdad(cursor.getString(6));
+                a.setSexo(cursor.getString(7));
+                a.setTemperamento(cursor.getString(8));
+                a.setHistoria(cursor.getString(9));
+                a.setEstado(cursor.getString(10));
+                a.setTamano(cursor.getString(11));
+                a.setFoto(cursor.getBlob(12));
+
+                lista.add(a);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return lista;
+    }
 
 }
 

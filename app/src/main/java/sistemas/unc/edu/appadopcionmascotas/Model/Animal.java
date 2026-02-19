@@ -2,6 +2,7 @@
 
     public class Animal {
 
+        private int IdMascota;
         private int idRefugio;
         private String nombre;
         private String especie;
@@ -15,6 +16,10 @@
         private String estado;
         private String tamano;
         private byte[] foto;
+
+        private String DireccionRefugio;
+        private String NombreRefugio;
+        private String TelefonoRefugio;
 
         private boolean Favorito;
 
@@ -89,4 +94,84 @@
         // FAVORITO
         public boolean isFavorito() { return Favorito; }
         public void setFavorito(boolean favorito) { this.Favorito = favorito; }
+
+        public int getIdMascota() {
+            return IdMascota;
+        }
+
+        public void setIdMascota(int idMascota) {
+            IdMascota = idMascota;
+        }
+
+        public void setIdRefugio(int idRefugio) {
+            this.idRefugio = idRefugio;
+        }
+
+        public void setNombre(String nombre) {
+            this.nombre = nombre;
+        }
+
+        public void setEspecie(String especie) {
+            this.especie = especie;
+        }
+
+        public void setRaza(String raza) {
+            this.raza = raza;
+        }
+
+        public void setPeso(double peso) {
+            this.peso = peso;
+        }
+
+        public void setEdad(String edad) {
+            this.edad = edad;
+        }
+
+        public void setSexo(String sexo) {
+            this.sexo = sexo;
+        }
+
+        public void setTemperamento(String temperamento) {
+            this.temperamento = temperamento;
+        }
+
+        public void setHistoria(String historia) {
+            this.historia = historia;
+        }
+
+        public void setEstado(String estado) {
+            this.estado = estado;
+        }
+
+        public void setTamano(String tamano) {
+            this.tamano = tamano;
+        }
+
+        public void setFoto(byte[] foto) {
+            this.foto = foto;
+        }
+
+        public String getTelefonoRefugio() {
+            return TelefonoRefugio;
+        }
+
+        public void setTelefonoRefugio(String telefonoRefugio) {
+            TelefonoRefugio = telefonoRefugio;
+        }
+
+        public String getNombreRefugio() {
+            return NombreRefugio;
+        }
+
+        public void setNombreRefugio(String nombreRefugio) {
+            NombreRefugio = nombreRefugio;
+        }
+
+        public String getDireccionRefugio() {
+            return DireccionRefugio;
+        }
+
+        public void setDireccionRefugio(String direccionRefugio) {
+            DireccionRefugio = direccionRefugio;
+        }
     }

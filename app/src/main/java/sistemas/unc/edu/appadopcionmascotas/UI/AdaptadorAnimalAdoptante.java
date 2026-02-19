@@ -1,5 +1,6 @@
 package sistemas.unc.edu.appadopcionmascotas.UI;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -15,32 +16,39 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import sistemas.unc.edu.appadopcionmascotas.ActividadVerAnimal;
+import sistemas.unc.edu.appadopcionmascotas.Data.DAOAdopcion;
 import sistemas.unc.edu.appadopcionmascotas.Model.Animal;
 import sistemas.unc.edu.appadopcionmascotas.R;
 
-public class AdaptadorAnimalAdoptante extends RecyclerView.Adapter<AdaptadorAnimalAdoptante.AnimalVH>{
+public class AdaptadorAnimalAdoptante extends RecyclerView.Adapter<AdaptadorAnimalAdoptante.AnimalVH> {
 
     private Context contexto;
     private List<Animal> listaanimales;
-    private List<Animal> listaanimalesfiltrados = new ArrayList<>();
+    private DAOAdopcion adopcion;
+    private int idAdoptante; // <-- ID del adoptante
 
-    //Generar Constructor
+    // Listener para comunicar al fragment cuando se elimina un favorito
+    public interface OnFavoritoListener {
+        void onFavoritoEliminado(Animal animal);
+    }
+    private OnFavoritoListener favoritoListener;
 
-    //1. Crear el ViewHolder
-    public AdaptadorAnimalAdoptante(Context contexto, List<Animal> lista) {
+    // Constructor
+    public AdaptadorAnimalAdoptante(Context contexto, List<Animal> lista, int idAdoptante, OnFavoritoListener listener) {
         this.contexto = contexto;
         this.listaanimales = lista;
+        this.adopcion = new DAOAdopcion((Activity) contexto);
+        this.idAdoptante = idAdoptante;
+        this.favoritoListener = listener;
     }
 
     @NonNull
     @Override
-    public AdaptadorAnimalAdoptante.AnimalVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-        View v= LayoutInflater.from(contexto).inflate(R.layout.item_animal_adoptante,parent,false);
+    public AnimalVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(contexto).inflate(R.layout.item_animal_adoptante, parent, false);
         return new AnimalVH(v);
     }
 
@@ -48,60 +56,72 @@ public class AdaptadorAnimalAdoptante extends RecyclerView.Adapter<AdaptadorAnim
     public void onBindViewHolder(@NonNull AnimalVH holder, int position) {
 
         Animal animal = listaanimales.get(position);
-//
+
+        // --- Datos básicos ---
         holder.txtNombre.setText(animal.getNombre());
-        holder.txtTipo.setText(animal.getEspecie()); // Ej: "Perro"
-        holder.txtRaza.setText(animal.getRaza());    // Ej: "Golden Retriever"
-        holder.txtEdad.setText(animal.getEdad());    // Ej: "3 años"
-        holder.txtSexo.setText(animal.getSexo());    // Ej: "Hembra"
+        holder.txtTipo.setText(animal.getEspecie());
+        holder.txtRaza.setText(animal.getRaza());
+        holder.txtEdad.setText(animal.getEdad());
+        holder.txtSexo.setText(animal.getSexo());
 
-        byte [] foto = animal.getFoto();
-
-        if(foto != null){
-
+        // --- Foto ---
+        byte[] foto = animal.getFoto();
+        if (foto != null) {
             Bitmap oImagen = BitmapFactory.decodeByteArray(foto, 0, foto.length);
             holder.img_animal.setImageBitmap(oImagen);
-        }
-        else {
+        } else {
             holder.img_animal.setImageResource(R.drawable.perro_prueba);
         }
 
-        //Lógica del botón Favorito (Corazón)
-        if (animal.isFavorito()) {
+        // --- Estado del favorito desde BD ---
+        if (adopcion.esFavorito(idAdoptante, animal.getIdMascota())) {
+            animal.setFavorito(true);
             holder.btnFavorito.setImageResource(R.drawable.corazon_lleno);
         } else {
-            holder.btnFavorito.setImageResource(R.drawable.selector_favoritos); // El vacío original
+            animal.setFavorito(false);
+            holder.btnFavorito.setImageResource(R.drawable.selector_favoritos);
         }
 
-        // 2. EL EVENTO CLICK
-        holder.btnFavorito.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Cambiamos el estado en el objeto (importante para el scroll)
-                boolean nuevoEstado = !animal.isFavorito();
-                animal.setFavorito(nuevoEstado);
+        // --- Evento del botón favorito ---
+        holder.btnFavorito.setOnClickListener(view -> {
+            boolean nuevoEstado = !animal.isFavorito();
+            animal.setFavorito(nuevoEstado);
 
-                // Cambiamos el icono visualmente
-                if (nuevoEstado) {
-                    // Pone el corazón LLENO
+            boolean resultado;
+
+            if (nuevoEstado) {
+                // Agregar a BD
+                resultado = adopcion.agregarFavorito(idAdoptante, animal.getIdMascota());
+                if (resultado) {
                     holder.btnFavorito.setImageResource(R.drawable.corazon_lleno);
-                    Toast.makeText(view.getContext(), "Añadido a favoritos ❤️", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(contexto, "Añadido a favoritos", Toast.LENGTH_SHORT).show();
                 } else {
-                    // Vuelve al corazón VACÍO
+                    animal.setFavorito(false);
+                    Toast.makeText(contexto, "Error al agregar favorito", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                // Eliminar de BD
+                resultado = adopcion.eliminarFavorito(idAdoptante, animal.getIdMascota());
+                if (resultado) {
                     holder.btnFavorito.setImageResource(R.drawable.selector_favoritos);
-                    Toast.makeText(view.getContext(), "Eliminado de favoritos", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(contexto, "Eliminado de favoritos", Toast.LENGTH_SHORT).show();
+
+                    // Notificar al fragment que elimine de la lista
+                    if (favoritoListener != null) {
+                        favoritoListener.onFavoritoEliminado(animal);
+                    }
+                } else {
+                    animal.setFavorito(true);
+                    Toast.makeText(contexto, "Error al eliminar favorito", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
-        // 5. Clic en TODA la tarjeta para "Ver Detalles"
-        // Usamos 'holder.itemView' porque tu diseño no tiene un botón específico de "Ver"
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), ActividadVerAnimal.class);
-                view.getContext().startActivity(intent);
-            }
+        // --- Click en toda la tarjeta para ver detalles ---
+        holder.itemView.setOnClickListener(view -> {
+            Intent intent = new Intent(contexto, ActividadVerAnimal.class);
+            intent.putExtra("ID_ANIMAL", animal.getIdMascota());
+            contexto.startActivity(intent);
         });
     }
 
@@ -110,19 +130,15 @@ public class AdaptadorAnimalAdoptante extends RecyclerView.Adapter<AdaptadorAnim
         return listaanimales.size();
     }
 
-    public class AnimalVH extends RecyclerView.ViewHolder {
+    // --- ViewHolder ---
+    public static class AnimalVH extends RecyclerView.ViewHolder {
 
-        // Declaración de los componentes de la UI
         ImageView img_animal;
         ImageButton btnFavorito;
         TextView txtNombre, txtTipo, txtRaza, txtEdad, txtSexo;
 
         public AnimalVH(@NonNull View itemView) {
             super(itemView);
-
-            // Asociamos los elementos del XML (findViewById)
-
-            // ¡OJO! Asegúrate de agregar android:id="@+id/img_animal" a tu ShapeableImageView en el XML
             img_animal = itemView.findViewById(R.id.img_animal);
             btnFavorito = itemView.findViewById(R.id.btnFavorito);
             txtNombre = itemView.findViewById(R.id.txtNombre);
@@ -133,4 +149,3 @@ public class AdaptadorAnimalAdoptante extends RecyclerView.Adapter<AdaptadorAnim
         }
     }
 }
-
