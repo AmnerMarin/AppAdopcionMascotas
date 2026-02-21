@@ -14,9 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import sistemas.unc.edu.appadopcionmascotas.Data.DAOAdopcion;
 import sistemas.unc.edu.appadopcionmascotas.UI.AdaptadorAnimal;
@@ -67,23 +69,39 @@ public class DashboardFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Activity act = requireActivity();
-        dao = new DAOAdopcion(act);
+        dao = new DAOAdopcion(requireActivity());
 
-        SharedPreferences prefs = act.getSharedPreferences("sesion_usuario", Activity.MODE_PRIVATE);
-        int idUsuario = prefs.getInt("id_usuario", -1);
-        if (idUsuario == -1) return;
-
-        int idRefugio = dao.obtenerIdRefugioPorUsuario(idUsuario);
-        if (idRefugio != -1) {
-            animales.clear();
-            animales.addAll(dao.listarAnimalesPorRefugio(idRefugio));
-        }
-
+        // Inicializamos las vistas PRIMERO para que no sean null
+        TextView tvPublicados = view.findViewById(R.id.txtcountPublicados);
+        TextView tvMensajes = view.findViewById(R.id.txtcountMensajes);
+        TextView tvAdoptados = view.findViewById(R.id.txtcountAdoptados);
         RecyclerView rvAnimales = view.findViewById(R.id.rvAnimales);
-        rvAnimales.setLayoutManager(new LinearLayoutManager(act));
-        adaptador = new AdaptadorAnimal(animales, getContext());
-        rvAnimales.setAdapter(adaptador);
+
+        SharedPreferences prefs = requireActivity().getSharedPreferences("sesion_usuario", Context.MODE_PRIVATE);
+        int idUsuario = prefs.getInt("id_usuario", -1);
+
+        if (idUsuario != -1) {
+            int idRefugio = dao.obtenerIdRefugioPorUsuario(idUsuario);
+
+            if (idRefugio != -1) {
+                // 1. Cargar Lista
+                animales.clear();
+                animales.addAll(dao.listarAnimalesPorRefugio(idRefugio));
+
+                // 2. Cargar Stats
+                Map<String, Integer> stats = dao.obtenerEstadisticasDashboard(idRefugio);
+
+                // Usar getOrDefault para estar 100% seguros de que no sea null
+                tvPublicados.setText(String.valueOf(stats.getOrDefault("publicados", 0)));
+                tvAdoptados.setText(String.valueOf(stats.getOrDefault("adoptados", 0)));
+                tvMensajes.setText("0");
+
+                // 3. Configurar RecyclerView
+                rvAnimales.setLayoutManager(new LinearLayoutManager(getContext()));
+                adaptador = new AdaptadorAnimal(animales, getContext());
+                rvAnimales.setAdapter(adaptador);
+            }
+        }
     }
 
     @Override

@@ -738,8 +738,13 @@ public class DAOAdopcion {
 
 
         DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
-        SQLiteDatabase db = helper.getWritableDatabase();
+
         Map<String, Integer> stats = new HashMap<>();
+        // Inicializar por defecto para evitar NullPointerException
+        stats.put("publicados", 0);
+        stats.put("adoptados", 0);
+        stats.put("activos", 0);
+        SQLiteDatabase db = helper.getReadableDatabase();
 
         // 1. Total Publicados
         Cursor c1 = db.rawQuery("SELECT COUNT(*) FROM Mascota WHERE id_refugio = ?", new String[]{String.valueOf(idRefugio)});
