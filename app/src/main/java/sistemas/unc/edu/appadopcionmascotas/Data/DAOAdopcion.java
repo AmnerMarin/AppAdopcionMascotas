@@ -5,9 +5,12 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import sistemas.unc.edu.appadopcionmascotas.Model.Adopcion;
@@ -16,6 +19,7 @@ import sistemas.unc.edu.appadopcionmascotas.Model.Animal;
 import sistemas.unc.edu.appadopcionmascotas.Model.Favorito;
 import sistemas.unc.edu.appadopcionmascotas.Model.Mensaje;
 import sistemas.unc.edu.appadopcionmascotas.Model.Refugio;
+import sistemas.unc.edu.appadopcionmascotas.Model.Solicitud;
 import sistemas.unc.edu.appadopcionmascotas.Model.Usuario;
 
 public class DAOAdopcion {
@@ -152,57 +156,6 @@ public class DAOAdopcion {
         return rpta;
     }
 
-    // =========================
-    // INSERTAR ADOPCION
-    // =========================
-    public boolean insertarAdopcion(Adopcion a) {
-
-        boolean rpta = false;
-        DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
-
-        SQLiteDatabase db = helper.getWritableDatabase();
-
-        if (db != null) {
-
-            ContentValues cv = new ContentValues();
-            cv.put("id_adoptante", a.getIdAdoptante());
-            cv.put("id_mascota", a.getIdMascota());
-            cv.put("detalles", a.getDetalles());
-
-            long fila = db.insert("Adopcion", null, cv);
-            if (fila > 0) rpta = true;
-
-            db.close();
-        }
-
-        return rpta;
-    }
-
-    // =========================
-    // INSERTAR FAVORITO
-    // =========================
-    public boolean insertarFavorito(Favorito f) {
-
-        boolean rpta = false;
-        DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
-
-        SQLiteDatabase db = helper.getWritableDatabase();
-
-        if (db != null) {
-
-            ContentValues cv = new ContentValues();
-            cv.put("id_adoptante", f.getIdAdoptante());
-            cv.put("id_mascota", f.getIdAnimal());
-
-            long fila = db.insert("Favorito_Mascota", null, cv);
-
-            if (fila > 0) rpta = true;
-
-            db.close();
-        }
-
-        return rpta;
-    }
 
     // ==============================
     // INSERTAR MENSAJE
@@ -303,7 +256,7 @@ public class DAOAdopcion {
         DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
         SQLiteDatabase db = helper.getReadableDatabase();
 
-        Cursor reg = db.rawQuery("SELECT * FROM Mascota", null);
+        Cursor reg = db.rawQuery("SELECT * FROM Mascota WHERE estado = 'Disponible'", null);
 
         while (reg.moveToNext()) {
             Animal m = new Animal();
@@ -765,6 +718,154 @@ public class DAOAdopcion {
         c3.close();
 
         return stats;
+    }
+
+
+    //--SOLICITUDES ---
+    //VERIFICAR SI EXISTE UNA SOLICITUD
+    public boolean existeSolicitud(int idAdoptante, int idMascota) {
+
+        DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(
+                "SELECT id_adopcion FROM Adopcion WHERE id_adoptante = ? AND id_mascota = ?",
+                new String[]{String.valueOf(idAdoptante), String.valueOf(idMascota)}
+        );
+
+        boolean existe = cursor.moveToFirst();
+        cursor.close();
+        db.close();
+
+        return existe;
+    }
+
+    //METODO PARA INSERTAR SOLICITUD
+    public boolean insertarSolicitud(int idAdoptante, int idMascota) {
+
+        DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        // Obtener la fecha actual
+        String fechaHoraFormateada = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault()).format(new Date());
+
+        ContentValues values = new ContentValues();
+        values.put("id_adoptante", idAdoptante);
+        values.put("id_mascota", idMascota);
+        values.put("fecha_adopcion", fechaHoraFormateada);
+        values.put("estado", "Pendiente");
+
+        long resultado = db.insert("Adopcion", null, values);
+
+        db.close();
+
+        return resultado != -1;
+    }
+
+    //METODO PARA APROBAR SOLICITUDES DE ADOPCION
+    public void aprobarSolicitud(int idAdopcion, int idMascota) {
+        DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        // Iniciamos una transacción para asegurarnos de que se cumplan ambas o ninguna
+        db.beginTransaction();
+        try {
+            // 1. Cambiar estado de la solicitud de adopción a "Aprobada"
+            ContentValues valuesAdopcion = new ContentValues();
+            valuesAdopcion.put("estado", "Aprobada");
+            db.update("Adopcion", valuesAdopcion, "id_adopcion = ?", new String[]{String.valueOf(idAdopcion)});
+
+            // 2. Cambiar estado del animal a "Adoptado"
+            ContentValues valuesMascota = new ContentValues();
+            valuesMascota.put("estado", "Adoptado");
+            db.update("Mascota", valuesMascota, "id_mascota = ?", new String[]{String.valueOf(idMascota)});
+
+            db.setTransactionSuccessful(); // Marca la transacción como exitosa
+        } finally {
+            db.endTransaction();
+            db.close();
+        }
+    }
+
+    //METODO PARA RECHAZAR ADOPCION
+    public void rechazarSolicitud(int idAdopcion) {
+
+        DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("estado", "Rechazada");
+
+        db.update("Adopcion", values,
+                "id_adopcion = ?",
+                new String[]{String.valueOf(idAdopcion)});
+
+        db.close();
+    }
+
+    //METODO PARA LISTAR SOLICITUDES QUE LLE LLEGAN AL REFUGIO
+    public List<Solicitud> obtenerSolicitudesDelRefugio(int idRefugio) {
+        List<Solicitud> lista = new ArrayList<>();
+        DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        // Agregamos ad.nombres y ad.apellidos a la consulta
+        String sql = "SELECT a.id_adopcion, m.nombre, a.fecha_adopcion, (ad.nombres || ' ' || ad.apellidos) as nombre_completo, a.estado " +
+                "FROM Adopcion a " +
+                "INNER JOIN Mascota m ON a.id_mascota = m.id_mascota " +
+                "INNER JOIN Adoptante ad ON a.id_adoptante = ad.id_adoptante " +
+                "WHERE m.id_refugio = ?";
+
+        Cursor cursor = db.rawQuery(sql, new String[]{String.valueOf(idRefugio)});
+
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(0);
+                String mascota = cursor.getString(1);
+                String fecha = cursor.getString(2);
+                String adoptante = cursor.getString(3);
+                String estado = cursor.getString(4);
+
+                // ORDEN CORRECTO SEGÚN TU MODELO:
+                // idAdopcion, nombreMascota, nombreAdoptante, fecha, estado
+                lista.add(new Solicitud(id, mascota, adoptante, fecha, estado));
+
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return lista;
+    }
+
+    //METODO PARA OBTENER SOLICITUDES QUE ENVIA EL ADOPTANTE
+    public List<Solicitud> obtenerMisSolicitudes(int idAdoptante) {
+        List<Solicitud> lista = new ArrayList<>();
+        DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        // Consulta que une Adopcion con Mascota (para foto/nombre) y Refugio (para el nombre del refugio)
+        String sql = "SELECT a.id_adopcion, m.nombre AS nombre_mascota, r.nombre_refugio, " +
+                "a.fecha_adopcion, a.estado, m.foto " +
+                "FROM Adopcion a " +
+                "INNER JOIN Mascota m ON a.id_mascota = m.id_mascota " +
+                "INNER JOIN Refugio r ON m.id_refugio = r.id_refugio " +
+                "WHERE a.id_adoptante = ? " +
+                "ORDER BY a.id_adopcion DESC";
+
+        Cursor cursor = db.rawQuery(sql, new String[]{String.valueOf(idAdoptante)});
+
+        if (cursor.moveToFirst()) {
+            do {
+                Solicitud s = new Solicitud();
+                s.setIdAdopcion(cursor.getInt(0));
+                s.setNombreMascota(cursor.getString(1));
+                s.setNombreAdoptante(cursor.getString(2)); // Aquí usamos este campo para el nombre del Refugio
+                s.setFecha(cursor.getString(3));
+                s.setEstado(cursor.getString(4));
+                s.setFotoMascota(cursor.getBlob(5)); // Asegúrate de tener este campo en tu clase Solicitud
+                lista.add(s);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return lista;
     }
 }
 

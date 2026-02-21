@@ -25,24 +25,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageButton
-        android:id="@+id/btnFavorito"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="18dp"
-        android:layout_marginEnd="18dp"
-        android:background="@drawable/bg_circle_white"
-        android:clickable="true"
-        android:contentDescription="Favorito"
-        android:elevation="8dp"
-        android:focusable="true"
-        android:foreground="?attr/selectableItemBackgroundBorderless"
-        android:padding="12dp"
-        android:scaleType="centerInside"
-        android:src="@drawable/selector_favoritos"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="#E53935" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollDetalle"
@@ -564,52 +546,69 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="8dp"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
+                <!-- Fila superior -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnGuardar"
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/inter_regular"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:text="Guardar"
+                        android:textAllCaps="false"
+                        android:textColor="@color/text_dark"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        app:backgroundTint="@color/btn_guardar_selector"
+                        app:cornerRadius="18dp"
+                        app:icon="@drawable/selector_favoritos"
+                        app:iconPadding="10dp"
+                        app:iconTint="@color/text_dark"
+                        app:strokeColor="@color/gray"
+                        app:strokeWidth="1dp" />
+
+                    <View
+                        android:layout_width="12dp"
+                        android:layout_height="1dp"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnContactar"
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:text="Contactar"
+                        android:textAllCaps="false"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        app:cornerRadius="18dp"
+                        app:backgroundTint="@color/primary_color"
+                        app:icon="@drawable/sms50"
+                        app:iconTint="@color/white"/>
+                </LinearLayout>
+
+                <!-- Botón principal -->
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnGuardar"
-                    android:layout_width="0dp"
+                    android:id="@+id/btnSolicitarAdopcion"
+                    android:layout_width="match_parent"
                     android:layout_height="56dp"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/inter_regular"
-                    android:insetTop="0dp"
-                    android:insetBottom="0dp"
-                    android:text="Guardar"
+                    android:layout_marginTop="12dp"
+                    android:text="Solicitar adopción"
                     android:textAllCaps="false"
-                    android:textColor="@color/text_dark"
-                    android:textSize="14sp"
                     android:textStyle="bold"
-                    app:backgroundTint="@color/btn_guardar_selector"
-                    app:cornerRadius="18dp"
-                    app:icon="@drawable/selector_favoritos"
-                    app:iconPadding="10dp"
-                    app:iconTint="@color/text_dark"
-                    app:strokeColor="@color/gray"
-                    app:strokeWidth="1dp" />
-
-                <View
-                    android:layout_width="14dp"
-                    android:layout_height="1dp" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnContactar"
-                    android:layout_width="0dp"
-                    android:layout_height="56dp"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/inter_regular"
-                    android:insetTop="0dp"
-                    android:insetBottom="0dp"
-                    android:text="Contactar refugio"
-                    android:textAllCaps="false"
                     android:textColor="@color/white"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    app:backgroundTint="@color/primary_color"
-                    app:cornerRadius="18dp"
-                    app:icon="@drawable/sms50"
-                    app:iconPadding="10dp"
-                    app:iconTint="@color/white" />
+                    app:cornerRadius="20dp"
+                    app:backgroundTint="@color/tag_color"
+                    app:icon="@drawable/huella"
+                    app:iconGravity="textStart"
+                    app:iconTint="@color/white"/>
             </LinearLayout>
 
             <View

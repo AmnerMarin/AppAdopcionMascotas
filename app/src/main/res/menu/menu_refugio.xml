@@ -5,6 +5,10 @@
         android:icon="@drawable/selector_dashboard"
         android:title="@string/dashboard"/>
     <item
+        android:id="@+id/itemSolicitudes"
+        android:icon="@drawable/email"
+        android:title="Solicitudes" />
+    <item
         android:id="@+id/itemMensajes"
         android:icon="@drawable/selecto_mensajes"
         android:title="@string/mensajes" />

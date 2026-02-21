@@ -16,6 +16,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import sistemas.unc.edu.appadopcionmascotas.fragments.DashboardFragment;
 import sistemas.unc.edu.appadopcionmascotas.fragments.MensajesFragment;
 import sistemas.unc.edu.appadopcionmascotas.fragments.PerfilFragment;
+import sistemas.unc.edu.appadopcionmascotas.fragments.SolicitudesRefugioFragment;
 
 public class ActividadRefugio extends AppCompatActivity {
 
@@ -38,6 +39,9 @@ public class ActividadRefugio extends AppCompatActivity {
 
             if (id == R.id.itemDashboard) {
                 selectedFragment = new DashboardFragment();
+            }
+            if (id == R.id.itemSolicitudes) {
+                selectedFragment = new SolicitudesRefugioFragment();
             }
             else if(id == R.id.itemMensajes){
                 selectedFragment = new MensajesFragment();

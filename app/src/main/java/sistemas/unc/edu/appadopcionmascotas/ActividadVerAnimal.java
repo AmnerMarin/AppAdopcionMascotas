@@ -59,7 +59,7 @@ public class ActividadVerAnimal extends AppCompatActivity {
 
         btnBack = findViewById(R.id.btnBack);
         btnContactar = findViewById(R.id.btnContactar);
-       // btnSolicitarAdopcion = findViewById(R.id.btnSolicitarAdopcion);
+        btnSolicitarAdopcion = findViewById(R.id.btnSolicitarAdopcion);
 
         txtRefugioNombre = findViewById(R.id.txtRefugioNombre);
         txtRefugioDireccion = findViewById(R.id.txtRefugioDireccion);
@@ -152,6 +152,18 @@ public class ActividadVerAnimal extends AppCompatActivity {
                 imgFotoMascota.setImageBitmap(bmp);
             }
         }
+
+
+        // Configurar Botón Solicitar
+        btnSolicitarAdopcion.setOnClickListener(v -> {
+            if (daoMascotas.existeSolicitud(idAdoptante, animalActual.getIdMascota())) {
+                Toast.makeText(this, "Ya tienes una solicitud pendiente", Toast.LENGTH_SHORT).show();
+            } else {
+                if (daoMascotas.insertarSolicitud(idAdoptante, animalActual.getIdMascota())) {
+                    Toast.makeText(this, "Solicitud enviada", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         if(idAdoptante==-1) {
             btnContactar.setVisibility(View.GONE);

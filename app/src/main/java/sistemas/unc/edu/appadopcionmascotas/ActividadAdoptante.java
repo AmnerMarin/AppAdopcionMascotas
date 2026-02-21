@@ -26,6 +26,7 @@ import sistemas.unc.edu.appadopcionmascotas.fragments.MensajesFragment;
 import sistemas.unc.edu.appadopcionmascotas.fragments.PerfilAdoptanteFragment;
 import sistemas.unc.edu.appadopcionmascotas.fragments.PerfilFragment;
 import sistemas.unc.edu.appadopcionmascotas.fragments.RefugiosListaFragment;
+import sistemas.unc.edu.appadopcionmascotas.fragments.SolicitudesAdoptanteFragment;
 
 public class ActividadAdoptante extends AppCompatActivity {
 
@@ -46,6 +47,9 @@ public class ActividadAdoptante extends AppCompatActivity {
 
             if (id == R.id.iteminicioadoptante) {
                 selectedFragment = new InicioAdoptanteFragment();
+            }
+            else if(id == R.id.itemSolicitudes){
+                selectedFragment = new SolicitudesAdoptanteFragment();
             }
             else if(id == R.id.itemfavoritosdoptante){
                 selectedFragment = new FavoritosAdoptanteFragment();

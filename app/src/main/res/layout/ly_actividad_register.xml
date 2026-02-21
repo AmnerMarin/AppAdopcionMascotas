@@ -160,6 +160,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="5dp"
+                    android:enabled="false"
                     android:background="@drawable/fondo_escribir_texto"
                     android:hint="Ej: Av. Las Flores 123"
                     android:paddingStart="15dp"
