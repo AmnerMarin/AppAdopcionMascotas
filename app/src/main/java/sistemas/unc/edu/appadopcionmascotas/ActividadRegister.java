@@ -106,6 +106,8 @@ public class ActividadRegister extends AppCompatActivity {
         ss.setSpan(clickableSpan, 23, texto.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         tvLogin.setText(ss);
         tvLogin.setMovementMethod(LinkMovementMethod.getInstance());
+
+
         DAOAdopcion dao= new DAOAdopcion(this);
         btnRegistrarse.setOnClickListener(item->{
 
@@ -171,7 +173,7 @@ public class ActividadRegister extends AppCompatActivity {
 
                     Adoptante adoptante = new Adoptante(IdUsuario, nombreAdoptante, apellidos, telefono, direccion);
 
-                    resultado = dao.insertarAdoptante(adoptante);
+                    resultado = dao.insertarAdoptante( adoptante);
 
                 }
             }

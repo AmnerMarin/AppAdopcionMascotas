@@ -1,6 +1,7 @@
 package sistemas.unc.edu.appadopcionmascotas.fragments;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -34,6 +35,10 @@ public class DashboardFragment extends Fragment {
         // Required empty public constructor
     }
 
+    private List<Animal> animales = new ArrayList<>();
+    private AdaptadorAnimal adaptador;
+    private DAOAdopcion dao;
+
     public static DashboardFragment newInstance(String param1, String param2) {
         DashboardFragment fragment = new DashboardFragment();
         Bundle args = new Bundle();
@@ -62,26 +67,39 @@ public class DashboardFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // -----------------------------
-        // FIX: Usar Activity real para el DAO
-        // -----------------------------
         Activity act = requireActivity();
-        DAOAdopcion dao = new DAOAdopcion(act);
+        dao = new DAOAdopcion(act);
 
         SharedPreferences prefs = act.getSharedPreferences("sesion_usuario", Activity.MODE_PRIVATE);
-
         int idUsuario = prefs.getInt("id_usuario", -1);
         if (idUsuario == -1) return;
 
         int idRefugio = dao.obtenerIdRefugioPorUsuario(idUsuario);
-
-        List<Animal> animales = new ArrayList<>();
         if (idRefugio != -1) {
-            animales = dao.listarAnimalesPorRefugio(idRefugio);
+            animales.clear();
+            animales.addAll(dao.listarAnimalesPorRefugio(idRefugio));
         }
 
         RecyclerView rvAnimales = view.findViewById(R.id.rvAnimales);
         rvAnimales.setLayoutManager(new LinearLayoutManager(act));
-        rvAnimales.setAdapter(new AdaptadorAnimal(animales));
+        adaptador = new AdaptadorAnimal(animales, getContext());
+        rvAnimales.setAdapter(adaptador);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (dao != null && adaptador != null) {
+            SharedPreferences prefs = requireActivity().getSharedPreferences("sesion_usuario", Context.MODE_PRIVATE);
+            int idUsuario = prefs.getInt("id_usuario", -1);
+            int idRefugio = dao.obtenerIdRefugioPorUsuario(idUsuario);
+
+            if (idRefugio != -1) {
+                animales.clear();
+                animales.addAll(dao.listarAnimalesPorRefugio(idRefugio));
+                adaptador.notifyDataSetChanged();
+            }
+        }
     }
 }

@@ -6,7 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import sistemas.unc.edu.appadopcionmascotas.Model.Adopcion;
 import sistemas.unc.edu.appadopcionmascotas.Model.Adoptante;
@@ -24,7 +26,7 @@ public class DAOAdopcion {
 
     public DAOAdopcion(Activity contexto) {
         nombreDB = "DBAdoptaPet";
-        version = 2;
+        version = 3;
         this.contexto = contexto;
     }
 
@@ -50,7 +52,7 @@ public class DAOAdopcion {
             db.close();
         }
 
-        return rpta ; //Es el id
+        return rpta; //Es el id
     }
 
     // =========================
@@ -137,7 +139,7 @@ public class DAOAdopcion {
             cv.put("temperamento", m.getTemperamento());
             cv.put("historia", m.getHistoria());
             cv.put("estado", m.getEstado());
-            cv.put("tamano",m.getTamano());
+            cv.put("tamano", m.getTamano());
             cv.put("foto", m.getFoto());
 
             long fila = db.insert("Mascota", null, cv);
@@ -235,8 +237,7 @@ public class DAOAdopcion {
     public Usuario login(String correo, String contra) {
         DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
 
-        SQLiteDatabase db = helper.getWritableDatabase();
-        db = helper.getReadableDatabase(); // Solo lectura para buscar
+        SQLiteDatabase db = helper.getReadableDatabase(); // Solo lectura para buscar
         Usuario usuarioLogueado = null;
 
         // Consulta: buscamos por correo y contraseña
@@ -246,8 +247,8 @@ public class DAOAdopcion {
         );
 
         if (cursor.moveToFirst()) {
-            int idusuario=cursor.getInt(0);
-            String correo1= cursor.getString(1);
+            int idusuario = cursor.getInt(0);
+            String correo1 = cursor.getString(1);
             String contraseña = cursor.getString(2);
             String rol = cursor.getString(3);
             usuarioLogueado = new Usuario(idusuario, correo1, contraseña, rol);
@@ -262,20 +263,20 @@ public class DAOAdopcion {
 
 // =====================================
 
-    public List<Refugio> listarRefugio(){
+    public List<Refugio> listarRefugio() {
 
         List<Refugio> lista = new ArrayList<>();
-        DBConstruir helper = new DBConstruir(contexto,nombreDB,null,version);
+        DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
 
         SQLiteDatabase db = helper.getReadableDatabase();
 
-        if(db!=null){
+        if (db != null) {
 
             String sql = "SELECT * FROM Refugio";
-            Cursor reg = db.rawQuery(sql,null);
+            Cursor reg = db.rawQuery(sql, null);
 
-            if(reg.moveToFirst()){
-                do{
+            if (reg.moveToFirst()) {
+                do {
                     int idUsuario = reg.getInt(1);
                     String nombre = reg.getString(2);
                     String direccion = reg.getString(3);
@@ -284,10 +285,10 @@ public class DAOAdopcion {
                     double latitud = reg.getDouble(6);
                     double longitud = reg.getDouble(7);
 
-                    Refugio r = new Refugio(idUsuario,nombre,direccion,telefono,descripcion,latitud,longitud);
+                    Refugio r = new Refugio(idUsuario, nombre, direccion, telefono, descripcion, latitud, longitud);
                     lista.add(r);
 
-                }while(reg.moveToNext());
+                } while (reg.moveToNext());
             }
             reg.close();
             db.close();
@@ -329,27 +330,27 @@ public class DAOAdopcion {
     }
 
     // =====================================
-    public List<Adopcion> listarAdopcion(){
+    public List<Adopcion> listarAdopcion() {
 
         List<Adopcion> lista = new ArrayList<>();
-        DBConstruir helper = new DBConstruir(contexto,nombreDB,null,version);
+        DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
 
         SQLiteDatabase db = helper.getReadableDatabase();
 
-        if(db!=null){
+        if (db != null) {
 
             String sql = "SELECT * FROM Adopcion";
-            Cursor reg = db.rawQuery(sql,null);
+            Cursor reg = db.rawQuery(sql, null);
 
-            if(reg.moveToFirst()){
-                do{
+            if (reg.moveToFirst()) {
+                do {
 
                     int idAdoptante = reg.getInt(2);
                     int idMascota = reg.getInt(3);
                     String detalles = reg.getString(5);
-                    Adopcion a = new Adopcion(idAdoptante,idMascota,detalles);
+                    Adopcion a = new Adopcion(idAdoptante, idMascota, detalles);
                     lista.add(a);
-                }while(reg.moveToNext());
+                } while (reg.moveToNext());
             }
             reg.close();
             db.close();
@@ -357,28 +358,28 @@ public class DAOAdopcion {
         return lista;
     }
 
-    public List<Favorito> listarFavorito(){
+    public List<Favorito> listarFavorito() {
 
         List<Favorito> lista = new ArrayList<>();
-        DBConstruir helper = new DBConstruir(contexto,nombreDB,null,version);
+        DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
 
         SQLiteDatabase db = helper.getReadableDatabase();
 
-        if(db!=null){
+        if (db != null) {
 
             String sql = "SELECT * FROM Favorito_Mascota";
-            Cursor reg = db.rawQuery(sql,null);
+            Cursor reg = db.rawQuery(sql, null);
 
-            if(reg.moveToFirst()){
-                do{
+            if (reg.moveToFirst()) {
+                do {
 
                     int idAdoptante = reg.getInt(1);
                     int idMascota = reg.getInt(2);
 
-                    Favorito f = new Favorito(idAdoptante,idMascota);
+                    Favorito f = new Favorito(idAdoptante, idMascota);
                     lista.add(f);
 
-                }while(reg.moveToNext());
+                } while (reg.moveToNext());
             }
             reg.close();
             db.close();
@@ -466,6 +467,7 @@ public class DAOAdopcion {
         cursor.close();
         return idAdoptante;
     }
+
     public List<Animal> listarAnimalesPorRefugio(int idRefugio) {
         List<Animal> lista = new ArrayList<>();
         DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
@@ -575,27 +577,30 @@ public class DAOAdopcion {
                 new String[]{String.valueOf(idAdoptante), String.valueOf(idMascota)});
         boolean existe = cursor.getCount() > 0;
         cursor.close();
+        db.close();
         return existe;
     }
 
     // Agrega a favoritos
     public boolean agregarFavorito(int idAdoptante, int idMascota) {
         DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
-        SQLiteDatabase db = helper.getReadableDatabase();
+        SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("id_adoptante", idAdoptante);
         values.put("id_mascota", idMascota);
         long res = db.insert("Favorito_Mascota", null, values);
+        db.close();
         return res != -1;
     }
 
     // Elimina de favoritos
     public boolean eliminarFavorito(int idAdoptante, int idMascota) {
         DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
-        SQLiteDatabase db = helper.getReadableDatabase();
+        SQLiteDatabase db = helper.getWritableDatabase();
 
         int res = db.delete("Favorito_Mascota", "id_adoptante = ? AND id_mascota = ?",
                 new String[]{String.valueOf(idAdoptante), String.valueOf(idMascota)});
+        db.close();
         return res > 0;
     }
 
@@ -640,5 +645,121 @@ public class DAOAdopcion {
         return lista;
     }
 
+    //MÉTODOS PARA ELIMINAR
+    public boolean eliminarAnimal(int id) {
+        DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        int res = db.delete("Mascota", "id_mascota = ?", new String[]{String.valueOf(id)});
+        db.close();
+        return res > 0;
+    }
+
+    // ==============================
+    // ACTUALIZAR MASCOTA
+    // ==============================
+    public boolean actualizarMascota(int idMascota, Animal m) {
+        boolean rpta = false;
+        DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        if (db != null) {
+            ContentValues cv = new ContentValues();
+            cv.put("nombre", m.getNombre());
+            cv.put("especie", m.getEspecie());
+            cv.put("raza", m.getRaza());
+            cv.put("peso", m.getPeso());
+            cv.put("edad", m.getEdad());
+            cv.put("sexo", m.getSexo());
+            cv.put("temperamento", m.getTemperamento());
+            cv.put("historia", m.getHistoria());
+            cv.put("estado", m.getEstado() != null ? m.getEstado() : "Disponible");
+            cv.put("tamano", m.getTamano());
+            cv.put("foto", m.getFoto());
+
+            int filas = db.update("Mascota", cv, "id_mascota = ?", new String[]{String.valueOf(idMascota)});
+            rpta = filas > 0;
+            db.close();
+        }
+        return rpta;
+    }
+
+    //Metodo para obtener el perfil del refugio y mostrar sus datos
+    public Refugio obtenerPerfilRefugio(int idUsuario) {
+        Refugio refugio = null;
+        DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        // Consulta uniendo (JOIN) Usuario y Refugio si necesitas datos de ambos
+        Cursor cursor = db.rawQuery(
+                "SELECT * FROM Refugio WHERE id_usuario = ?",
+                new String[]{String.valueOf(idUsuario)}
+        );
+
+        if (cursor.moveToFirst()) {
+            refugio = new Refugio();
+            // Los índices dependen del orden en tu CREATE TABLE de DBHelper
+            refugio.setNombre_refugio(cursor.getString(2));
+            refugio.setDireccion(cursor.getString(3));
+            refugio.setTelefono(cursor.getString(4));
+            refugio.setDesripcion(cursor.getString(5));
+        }
+
+        cursor.close();
+        return refugio;
+    }
+
+    //Metodo para obtener el perfil del adoptante y mostrar sus datos
+    public Adoptante obtenerPerfilAdoptante(int idUsuario) {
+        DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        Adoptante adoptante = null;
+
+        // Consulta
+        Cursor cursor = db.rawQuery(
+                "SELECT * FROM Adoptante WHERE id_usuario = ?",
+                new String[]{String.valueOf(idUsuario)}
+        );
+
+        if (cursor.moveToFirst()) {
+            adoptante = new Adoptante();
+            // Los índices dependen del orden en tu CREATE TABLE de DBHelper
+            adoptante.setNombres(cursor.getString(2));
+            adoptante.setApellidos(cursor.getString(3));
+            adoptante.setTelefono(cursor.getString(4));
+            adoptante.setDireccion(cursor.getString(5));
+        }
+
+        cursor.close();
+        return adoptante;
+    }
+
+    //PARA MOSTRAR LAS ESTADISTICAS DEL DASHBOARD DEL REFUGIO
+    public Map<String, Integer> obtenerEstadisticasDashboard(int idRefugio) {
+
+
+        DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        Map<String, Integer> stats = new HashMap<>();
+
+        // 1. Total Publicados
+        Cursor c1 = db.rawQuery("SELECT COUNT(*) FROM Mascota WHERE id_refugio = ?", new String[]{String.valueOf(idRefugio)});
+        if (c1.moveToFirst()) stats.put("publicados", c1.getInt(0));
+        c1.close();
+
+        // 2. Total Adoptados (Solicitudes Aprobadas)
+        Cursor c2 = db.rawQuery("SELECT COUNT(*) FROM Adopcion a INNER JOIN Mascota m ON a.id_mascota = m.id_mascota " +
+                "WHERE m.id_refugio = ? AND a.estado = 'Aprobada'", new String[]{String.valueOf(idRefugio)});
+        if (c2.moveToFirst()) stats.put("adoptados", c2.getInt(0));
+        c2.close();
+
+        // 3. Activos (Mascotas que NO tienen ninguna solicitud de adopción aún)
+        // Usamos un NOT IN para ver cuáles no están en la tabla Adopcion
+        Cursor c3 = db.rawQuery("SELECT COUNT(*) FROM Mascota WHERE id_refugio = ? AND id_mascota NOT IN (SELECT id_mascota FROM Adopcion)",
+                new String[]{String.valueOf(idRefugio)});
+        if (c3.moveToFirst()) stats.put("activos", c3.getInt(0));
+        c3.close();
+
+        return stats;
+    }
 }
 

@@ -113,9 +113,9 @@ public class InicioAdoptanteFragment extends Fragment {
                 boolean esFav = dao.esFavorito(idAdoptante, animal.getIdMascota());
                 animal.setFavorito(esFav);
             }
-
-            adaptador.notifyDataSetChanged();
         }
+            adaptador.notifyDataSetChanged();
+
     }
 
 }

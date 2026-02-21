@@ -4,86 +4,84 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import sistemas.unc.edu.appadopcionmascotas.ActividadLogin;
 import sistemas.unc.edu.appadopcionmascotas.Data.DAOAdopcion;
+import sistemas.unc.edu.appadopcionmascotas.Model.Animal;
 import sistemas.unc.edu.appadopcionmascotas.Model.Refugio;
 import sistemas.unc.edu.appadopcionmascotas.R;
+import sistemas.unc.edu.appadopcionmascotas.UI.AdaptadorAnimal;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link PerfilFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class PerfilFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private TextView txtNombreRefugio, txtDireccion;
+    private TextView txtPublicados, txtMensajes, txtAdoptados;
+    private RecyclerView rvAnimales;
+    private MaterialButton btnVerTodos, btnCerrarSesion;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public PerfilFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment PerfilFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static PerfilFragment newInstance(String param1, String param2) {
-        PerfilFragment fragment = new PerfilFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.ly_fragment_perfil, container, false);
-    }
-
+    // includes
+    private TextView txtEmail, txtTelefono, txtDireccionInfo;
 
     private DAOAdopcion dao;
+    private AdaptadorAnimal adaptador;
     private int idRefugio;
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
 
-        MaterialButton btnCerrarSesion = view.findViewById(R.id.btnCerrarSesion);
+    public PerfilFragment() {}
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.ly_fragment_perfil, container, false);
+
+        dao = new DAOAdopcion(requireActivity());
+
+        inicializarVistas(view);
+        cargarDatosRefugio();
+        configurarRecycler();
+        configurarBotones(view);
+
+        return view;
+    }
+
+    private void inicializarVistas(View view) {
+
+        txtNombreRefugio = view.findViewById(R.id.txtNombreRefugio);
+        txtDireccion = view.findViewById(R.id.txtDireccion);
+
+        txtPublicados = view.findViewById(R.id.txt_cantidadpublicadosinfo);
+        txtMensajes = view.findViewById(R.id.txt_mensajesinfo);
+        txtAdoptados = view.findViewById(R.id.txt_adoptadosinfo);
+
+        rvAnimales = view.findViewById(R.id.rvAnimales);
+        btnVerTodos = view.findViewById(R.id.btnVerTodos);
+        btnCerrarSesion = view.findViewById(R.id.btnCerrarSesion);
+
+        // includes (IMPORTANTE: se llaman igual que los id dentro del layout incluido)
+        txtEmail = view.findViewById(R.id.txtValueEmail);
+        txtTelefono = view.findViewById(R.id.txtValuePhone);
+        txtDireccionInfo = view.findViewById(R.id.txtValueAddress);
+    }
+
+    private void cargarDatosRefugio() {
 
         // 2. UNA SOLA LECTURA DE SESIÓN
         SharedPreferences prefs = requireActivity().getSharedPreferences("sesion_usuario", Context.MODE_PRIVATE);
@@ -92,51 +90,87 @@ public class PerfilFragment extends Fragment {
 
         if (idUsuario != -1) {
             // 3. USAR LOS DAOS
-            DAOAdopcion daoAdopcion= new DAOAdopcion(requireActivity());
+            DAOAdopcion daoMascotas = new DAOAdopcion(requireActivity());
 
             // Obtener datos del Refugio y Estadísticas
-            idRefugio = daoAdopcion.obtenerIdRefugioPorUsuario(idUsuario);
-//            Refugio miRefugio = daoAdopcion.obtenerPerfilRefugio(idUsuario);
-//            // Llenar datos del Perfil
-//            if (miRefugio != null) {
-//                txtNombrePerfil.setText(miRefugio.getNombre_refugio());
-//                txtDireccionPerfil.setText(miRefugio.getDireccion());
-//                txtDireccionenInfo.setText(miRefugio.getDireccion());
-//                txtTelefonoPerfil.setText(miRefugio.getTelefono());
-//                txtEmailPerfil.setText(correo);
-//            }
+            idRefugio = daoMascotas.obtenerIdRefugioPorUsuario(idUsuario);
+            Refugio miRefugio = daoMascotas.obtenerPerfilRefugio(idUsuario);
 
-//            // Llenar Estadísticas
-//            if (idRefugio != -1) {
-//                Map<String, Integer> stats = daoMascotas.obtenerEstadisticasDashboard(idRefugio);
-//                tvPublicados.setText(String.valueOf(stats.getOrDefault("publicados", 0)));
-//                tvAdoptados.setText(String.valueOf(stats.getOrDefault("adoptados", 0)));
-//                tvMensajes.setText("0");
-//            }
+            if (miRefugio != null) {
+
+                txtNombreRefugio.setText(miRefugio.getNombre_refugio());
+                txtDireccion.setText(miRefugio.getDireccion());
+
+                txtDireccionInfo.setText(miRefugio.getDireccion());
+                txtTelefono.setText(miRefugio.getTelefono());
+                txtEmail.setText(correo);
+            }
+
+            // ===============================
+            // LLENAR ESTADÍSTICAS
+            // ===============================
+            if (idRefugio != -1) {
+
+                Map<String, Integer> stats =
+                        dao.obtenerEstadisticasDashboard(idRefugio);
+
+                txtPublicados.setText(
+                        String.valueOf(stats.getOrDefault("publicados", 0)));
+
+                txtAdoptados.setText(
+                        String.valueOf(stats.getOrDefault("adoptados", 0)));
+
+                txtMensajes.setText("0");
+            }
         }
-
-        // 4. LISTENERS (Usando Lambdas para ahorrar espacio)
-//        btnGestionarPublicac.setOnClickListener(v -> cambiarTab(R.id.itemDashboard));
-//        btnMensajesRecibidos.setOnClickListener(v -> cambiarTab(R.id.itemMensajes));
-        btnCerrarSesion.setOnClickListener(v -> cerrarSesion());
     }
 
-    private void cerrarSesion() {
-        // 1. Abrir las preferencias donde guardamos el ID y el Rol
-        SharedPreferences preferences = getActivity().getSharedPreferences("sesion_usuario", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
+    private void configurarRecycler () {
+        SharedPreferences prefs = requireActivity().getSharedPreferences("sesion_usuario", Context.MODE_PRIVATE);
+        int idUsuario = prefs.getInt("id_usuario", -1);
+        idRefugio = dao.obtenerIdRefugioPorUsuario(idUsuario);
 
-        // 2. Limpiar todos los datos guardados
-        editor.clear();
-        editor.apply(); // O commit() para hacerlo instantáneo
+        List<Animal> todos = dao.listarAnimalesPorRefugio(idRefugio);
+        List<Animal> primerosTres = new ArrayList<>();
 
-        // 3. Mostrar un mensaje al usuario
-        Toast.makeText(getActivity(), "Sesión cerrada correctamente", Toast.LENGTH_SHORT).show();
+        for (int i = 0; i < todos.size() && i < 3; i++) {
+            primerosTres.add(todos.get(i));
+        }
 
-        // 4. Redirigir al Login y limpiar el historial de pantallas
-        Intent intent = new Intent(getActivity(), ActividadLogin.class);
-        // Estas banderas sirven para que el usuario no pueda volver al perfil al dar "atrás"
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
+        adaptador = new AdaptadorAnimal(primerosTres, getContext());
+
+        LinearLayoutManager layoutManager =
+                new LinearLayoutManager(getContext(),
+                        LinearLayoutManager.HORIZONTAL,
+                        false);
+
+        rvAnimales.setLayoutManager(layoutManager);
+        rvAnimales.setAdapter(adaptador);
+
+        btnVerTodos.setText("Ver todos (" + todos.size() + ")");
+    }
+
+
+    private void configurarBotones (View view){
+
+        view.findViewById(R.id.rowGestionar).setOnClickListener(v -> {
+            startActivity(new Intent(getContext(), DashboardFragment.class));
+        });
+
+        view.findViewById(R.id.rowMensajes).setOnClickListener(v -> {
+            startActivity(new Intent(getContext(), MensajesFragment.class));
+        });
+
+        btnVerTodos.setOnClickListener(v -> {
+            startActivity(new Intent(getContext(), DashboardFragment.class));
+        });
+
+        btnCerrarSesion.setOnClickListener(v -> {
+            SharedPreferences prefs = requireActivity().getSharedPreferences("sesion_usuario", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.clear();
+            editor.apply();
+            startActivity(new Intent(getContext(), ActividadLogin.class));
+        });
     }
 }

@@ -1,5 +1,7 @@
 package sistemas.unc.edu.appadopcionmascotas.UI;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -7,26 +9,31 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.List;
 
 import sistemas.unc.edu.appadopcionmascotas.ActividadEditarAnimal;
 import sistemas.unc.edu.appadopcionmascotas.ActividadVerAnimal;
+import sistemas.unc.edu.appadopcionmascotas.Data.DAOAdopcion;
 import sistemas.unc.edu.appadopcionmascotas.Model.Animal;
 import sistemas.unc.edu.appadopcionmascotas.R;
 
 public class AdaptadorAnimal extends RecyclerView.Adapter<AdaptadorAnimal.ViewHolder> {
 
     private List<Animal> listaAnimales;
-    public AdaptadorAnimal(List<Animal> listaAnimales) {
+
+    public AdaptadorAnimal(List<Animal> listaAnimales, Context Context) {
         this.listaAnimales = listaAnimales;
     }
+
     @NonNull
     @Override
     public AdaptadorAnimal.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -42,35 +49,64 @@ public class AdaptadorAnimal extends RecyclerView.Adapter<AdaptadorAnimal.ViewHo
         holder.tvEspecie.setText(animal.getEspecie());
         //holder.imgAnimal.setImageResource(animal.getImagenRes());
 
-        byte [] foto = animal.getFoto();
+        byte[] foto = animal.getFoto();
 
-        if(foto != null){
+        if (foto != null) {
 
             Bitmap oImagen = BitmapFactory.decodeByteArray(foto, 0, foto.length);
             holder.imgAnimal.setImageBitmap(oImagen);
-        }
-        else {
+        } else {
             holder.imgAnimal.setImageResource(R.drawable.perro_prueba);
         }
-        holder.btnVer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //abrir la activity ver
-                Intent intent = new Intent(view.getContext(), ActividadVerAnimal.class);
-                view.getContext().startActivity(intent);
-
-
-            }
+        holder.btnVer.setOnClickListener(view -> {
+            Intent intent = new Intent(view.getContext(), ActividadVerAnimal.class);
+            intent.putExtra("ID_ANIMAL", animal.getIdMascota());
+            view.getContext().startActivity(intent);
         });
 
-        holder.btnEditar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //abrir la activity ver
-                Intent intent = new Intent(view.getContext(), ActividadEditarAnimal.class);
-                view.getContext().startActivity(intent);
+        holder.btnEditar.setOnClickListener(view -> {
+            Intent intent = new Intent(view.getContext(), ActividadEditarAnimal.class);
+            intent.putExtra("ID_ANIMAL", animal.getIdMascota());
+            view.getContext().startActivity(intent);
+        });
 
-            }
+        holder.itemView.setOnClickListener(view -> {
+            Intent intent = new Intent(view.getContext(), ActividadEditarAnimal.class);
+            intent.putExtra("ID_ANIMAL", animal.getIdMascota());
+            view.getContext().startActivity(intent);
+        });
+
+        holder.btnEliminar.setOnClickListener(v -> {
+            new MaterialAlertDialogBuilder(holder.itemView.getContext())
+                    .setTitle("¿Eliminar a " + animal.getNombre() + "?")
+                    .setMessage("Esta acción eliminará la publicación de este dispositivo.")
+                    .setPositiveButton("Eliminar", (dialog, which) -> {
+
+                        DAOAdopcion dao = new DAOAdopcion((Activity)holder.itemView.getContext());
+
+                        if (dao.eliminarAnimal(animal.getIdMascota())) {
+
+                            //Para actualizar las tarjetas
+                            int adapterPos = holder.getBindingAdapterPosition();
+                            if (adapterPos != RecyclerView.NO_POSITION) {
+                                listaAnimales.remove(adapterPos);
+                                notifyItemRemoved(adapterPos);
+                                notifyItemRangeChanged(adapterPos, listaAnimales.size());
+
+                                Toast.makeText(holder.itemView.getContext(),
+                                        "Animal eliminado correctamente",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+
+                        } else {
+                            Toast.makeText(holder.itemView.getContext(),
+                                    "Error al eliminar",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+
+                    })
+                    .setNegativeButton("Cancelar", null)
+                    .show();
         });
     }
 

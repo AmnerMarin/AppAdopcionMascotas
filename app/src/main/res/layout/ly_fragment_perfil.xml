@@ -133,6 +133,7 @@
                             app:tint="@color/primary_color" />
 
                         <TextView
+                            android:id="@+id/txt_cantidadpublicadosinfo"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
@@ -172,6 +173,7 @@
                             app:tint="@color/tag_color" />
 
                         <TextView
+                            android:id="@+id/txt_mensajesinfo"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
@@ -209,6 +211,7 @@
                             app:tint="@color/orange_adopted" />
 
                         <TextView
+                            android:id="@+id/txt_adoptadosinfo"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
@@ -269,30 +272,7 @@
                             android:textSize="17sp"
                             android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toStartOf="@id/btnEditar"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btnEditar"
-                            android:layout_width="wrap_content"
-                            android:layout_height="48dp"
-                            android:fontFamily="@font/inter_regular"
-                            android:insetTop="0dp"
-                            android:insetBottom="0dp"
-                            android:paddingStart="16dp"
-                            android:paddingEnd="16dp"
-                            android:text="Editar"
-                            android:textAllCaps="false"
-                            android:textColor="@color/text_dark"
-                            android:textSize="13sp"
-                            android:textStyle="bold"
-                            app:backgroundTint="@color/white1"
-                            app:cornerRadius="16dp"
-                            app:strokeColor="#22000000"
-                            app:strokeWidth="1dp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -501,7 +481,8 @@
                             app:tint="@color/gray"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"/>
+
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <View
@@ -558,51 +539,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="#11000000" />
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/rowConfig"
-                        android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:foreground="?attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:paddingStart="14dp"
-                        android:paddingEnd="14dp">
-
-                        <ImageView
-                            android:id="@+id/iconConfig"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/configuracion"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <TextView
-                            android:id="@+id/txtConfig"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="12dp"
-                            android:fontFamily="@font/inter_regular"
-                            android:text="Configuración"
-                            android:textColor="@color/text_dark"
-                            android:textSize="14sp"
-                            android:textStyle="bold"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toStartOf="@id/chConfig"
-                            app:layout_constraintStart_toEndOf="@id/iconConfig"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <ImageView
-                            android:id="@+id/chConfig"
-                            android:layout_width="18dp"
-                            android:layout_height="18dp"
-                            android:src="@drawable/adelante"
-                            app:tint="@color/gray"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>

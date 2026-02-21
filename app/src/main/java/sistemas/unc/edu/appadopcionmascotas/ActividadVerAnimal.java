@@ -153,6 +153,11 @@ public class ActividadVerAnimal extends AppCompatActivity {
             }
         }
 
+        if(idAdoptante==-1) {
+            btnContactar.setVisibility(View.GONE);
+            btnGuardar.setVisibility(View.GONE);
+        }
+
     }
     // Método helper para actualizar el botón según estado
     private void actualizarIconoFavorito(boolean esFavorito) {

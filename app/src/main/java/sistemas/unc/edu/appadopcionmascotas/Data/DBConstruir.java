@@ -64,6 +64,7 @@ public class DBConstruir extends SQLiteOpenHelper {
             "id_adopcion INTEGER PRIMARY KEY AUTOINCREMENT," +
             "id_adoptante INTEGER NOT NULL," +
             "id_mascota INTEGER NOT NULL," +
+            "estado VARCHAR(20)," +
             "fecha_adopcion DATETIME DEFAULT CURRENT_TIMESTAMP," +
             "detalles VARCHAR(1000),"+
             "FOREIGN KEY(id_adoptante) REFERENCES Adoptante(id_adoptante)," +

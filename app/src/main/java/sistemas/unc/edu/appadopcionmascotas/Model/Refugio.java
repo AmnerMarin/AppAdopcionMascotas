@@ -19,6 +19,10 @@ public class Refugio {
         this.longitud = longitud;
     }
 
+    public Refugio() {
+    }
+
+
     public String getNombre_refugio() {
         return nombre_refugio;
     }
@@ -45,6 +49,34 @@ public class Refugio {
 
     public int getIdUsuario() {
         return idUsuario;
+    }
+
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    public void setNombre_refugio(String nombre_refugio) {
+        this.nombre_refugio = nombre_refugio;
+    }
+
+    public void setDesripcion(String desripcion) {
+        this.desripcion = desripcion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public void setLatitud(double latitud) {
+        this.latitud = latitud;
+    }
+
+    public void setLongitud(double longitud) {
+        this.longitud = longitud;
     }
 }
 
