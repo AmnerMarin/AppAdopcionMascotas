@@ -12,15 +12,17 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 
+import java.util.Map;
+
 import sistemas.unc.edu.appadopcionmascotas.ActividadLogin;
 import sistemas.unc.edu.appadopcionmascotas.Data.DAOAdopcion;
+import sistemas.unc.edu.appadopcionmascotas.Model.Adoptante;
 import sistemas.unc.edu.appadopcionmascotas.R;
-import sistemas.unc.edu.appadopcionmascotas.UI.AdaptadorAnimal;
-import sistemas.unc.edu.appadopcionmascotas.UI.AdaptadorAnimalAdoptante;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -76,13 +78,88 @@ public class PerfilAdoptanteFragment extends Fragment {
         return inflater.inflate(R.layout.ly_fragment_perfil_adoptante, container, false);
     }
 
+    TextView tvemail, tvphone, tvdireccion, tvcantfav, tvcantadop, tvEmailHeader, tvnombre;
+    int idAdoptante;
+    private DAOAdopcion dao;
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         MaterialButton btnLogout = view.findViewById(R.id.btnLogout);
         btnLogout.setOnClickListener(v->cerrarSesion());
+
+        inicializarVistas(view);
+        configurarBotones(view);
+        cargarDatosAdoptante();
+    }
+    private void inicializarVistas(View view) {
+
+        tvemail = view.findViewById(R.id.tvEmail);
+        tvdireccion = view.findViewById(R.id.tvLocation);
+        tvphone =  view.findViewById(R.id.tvPhone);
+        tvcantfav = view.findViewById(R.id.tvFavoritosCount);
+        tvcantadop = view.findViewById(R.id.tvAdoptadosCount);
+        tvnombre =  view.findViewById(R.id.tvNombrePerfil);
+        tvEmailHeader =  view.findViewById(R.id.tvEmailHeader);
+    }
+    private void cargarDatosAdoptante() {
+
+        // 2. UNA SOLA LECTURA DE SESIÓN
+        SharedPreferences prefs = requireActivity().getSharedPreferences("sesion_usuario", Context.MODE_PRIVATE);
+        int idUsuario = prefs.getInt("id_usuario", -1);
+        String correo = prefs.getString("correo_usuario", "");
+
+        if (idUsuario != -1) {
+            // 3. USAR LOS DAOS
+            DAOAdopcion dao = new DAOAdopcion(requireActivity()); // Unifiqué el nombre a "dao" para que no te dé error más abajo
+
+            // Obtener datos del Refugio y Estadísticas
+            // Nota: Asegúrate de tener declarada la variable global idAdoptante en tu Fragment/Activity
+            idAdoptante = dao.obtenerIdAdoptantePorUsuario(idUsuario);
+            Adoptante adoptante = dao.obtenerPerfilAdoptante(idUsuario);
+
+            if (adoptante != null) {
+
+                tvemail.setText(correo);
+                tvphone.setText(adoptante.getTelefono());
+                tvdireccion.setText(adoptante.getDireccion());
+                tvEmailHeader.setText(correo);
+
+                // CONCATENACIÓN AQUÍ: Obtenemos el nombre, sumamos un espacio " ", y le sumamos el apellido
+                tvnombre.setText(adoptante.getNombres() + " " + adoptante.getApellidos());
+            }
+
+            // ===============================
+            // LLENAR ESTADÍSTICAS
+            // ===============================
+            if (idAdoptante != -1) {
+
+                Map<String, Integer> stats = dao.obtenerEstadisticasAdoptante(idAdoptante);
+
+                tvcantfav.setText(String.valueOf(stats.getOrDefault("favoritos", 0)));
+                tvcantadop.setText(String.valueOf(stats.getOrDefault("adoptados", 0)));
+            }
+        }
     }
 
+    private void configurarBotones(View view) {
+
+        view.findViewById(R.id.rowFavoritos).setOnClickListener(v -> {
+            // Navegación correcta hacia un Fragment
+            requireActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.contenedor_adoptante, new FavoritosAdoptanteFragment())
+                    .addToBackStack(null) // Permite volver atrás con el botón del celular
+                    .commit();
+        });
+
+        view.findViewById(R.id.rowSolicitudes).setOnClickListener(v -> {
+            // Navegación correcta hacia un Fragment
+            requireActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.contenedor_adoptante, new SolicitudesAdoptanteFragment())
+                    .addToBackStack(null) // Permite volver atrás con el botón del celular
+                    .commit();
+        });
+    }
     private void cerrarSesion() {
         // 1. Abrir las preferencias donde guardamos el ID y el Rol
         SharedPreferences preferences = getActivity().getSharedPreferences("sesion_usuario", Context.MODE_PRIVATE);
@@ -101,4 +178,5 @@ public class PerfilAdoptanteFragment extends Fragment {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
+
 }

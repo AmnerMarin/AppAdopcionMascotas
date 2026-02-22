@@ -109,89 +109,87 @@ public class ActividadRegister extends AppCompatActivity {
 
 
         DAOAdopcion dao= new DAOAdopcion(this);
-        btnRegistrarse.setOnClickListener(item->{
+        btnRegistrarse.setOnClickListener(item -> {
 
-            //Datos comunes
-            String direccion = etDireccion.getText().toString();
-            String correo = etCorreo.getText().toString();
-            String contrasenia = etContrasena.getText().toString();
-            String telefono = etTelefono.getText().toString();
+            String direccion = etDireccion.getText().toString().trim();
+            String correo = etCorreo.getText().toString().trim();
+            String contrasenia = etContrasena.getText().toString().trim();
+            String telefono = etTelefono.getText().toString().trim();
 
-            // Validar datos comunes
-            if (correo.isEmpty() || contrasenia.isEmpty()|| direccion.isEmpty() || telefono.isEmpty()) {
-                Toast.makeText(this, "Correo y contraseña son obligatorios", Toast.LENGTH_SHORT).show();
+            if (!validarDatosComunes(correo, contrasenia, direccion, telefono)) {
                 return;
             }
 
-            // 2. Preguntar: ¿Qué botón está seleccionado en el ToggleGroup?
             int idSeleccionado = toggleGroupRol.getCheckedButtonId();
             boolean resultado = false;
 
             if (idSeleccionado == R.id.btnRefugio) {
-                //---   FLUJO DE REFUGIO ----
-                String nombreRefugio = etNombre.getText().toString();
-                String descripcion = etDescripcion.getText().toString();
-                //ubicacion proximamente
 
-                if (nombreRefugio.isEmpty() || descripcion.isEmpty()) {
-                    Toast.makeText(this, "Nombre del refugio y descripcion son obligatorios", Toast.LENGTH_SHORT).show();
+                String nombreRefugio = etNombre.getText().toString().trim();
+                String descripcion = etDescripcion.getText().toString().trim();
+
+                if (!validarRefugio(nombreRefugio, descripcion)) {
                     return;
                 }
 
-                //Crear los obejetos
                 Usuario user = new Usuario(correo, contrasenia, "Refugio");
-
                 long idGenerado = dao.insertarUsuario(user);
 
-                if(idGenerado != -1){
+                if (idGenerado != -1) {
 
                     int IdUsuario = (int) idGenerado;
 
-                    Refugio ref = new Refugio(IdUsuario, nombreRefugio, descripcion, direccion, telefono, latitud,longitud);
+                    Refugio ref = new Refugio(
+                            IdUsuario,
+                            nombreRefugio,
+                            descripcion,
+                            direccion,
+                            telefono,
+                            latitud,
+                            longitud
+                    );
 
                     resultado = dao.insertarRefugio(ref);
-
                 }
-            }else{
-                //---   FLUJO DE ADOPTANTE ----
-                String nombreAdoptante = etNombre.getText().toString();
-                String apellidos = etApellidos.getText().toString();
 
-                if (nombreAdoptante.isEmpty() || apellidos.isEmpty()) {
-                    Toast.makeText(this, "Nombre y apellidos son obligatorios", Toast.LENGTH_SHORT).show();
+            } else {
+
+                String nombreAdoptante = etNombre.getText().toString().trim();
+                String apellidos = etApellidos.getText().toString().trim();
+
+                if (!validarAdoptante(nombreAdoptante, apellidos)) {
                     return;
                 }
 
-                //Crear los objetos
                 Usuario user = new Usuario(correo, contrasenia, "Adoptante");
-
                 long idGenerado = dao.insertarUsuario(user);
 
-                if(idGenerado != -1){
+                if (idGenerado != -1) {
 
                     int IdUsuario = (int) idGenerado;
 
-                    Adoptante adoptante = new Adoptante(IdUsuario, nombreAdoptante, apellidos, telefono, direccion);
+                    Adoptante adoptante = new Adoptante(
+                            IdUsuario,
+                            nombreAdoptante,
+                            apellidos,
+                            telefono,
+                            direccion
+                    );
 
-                    resultado = dao.insertarAdoptante( adoptante);
-
+                    resultado = dao.insertarAdoptante(adoptante);
                 }
             }
 
-            // 3. Respuesta final al usuario
             if (resultado) {
                 Toast.makeText(this, "¡Registro exitoso! Bienvenido", Toast.LENGTH_LONG).show();
 
-                // Ir al Login o al Dashboard directamente
                 Intent intent = new Intent(ActividadRegister.this, ActividadLogin.class);
                 startActivity(intent);
-
-                ActividadRegister.this.finish(); // Cerramos el registro para que no pueda volver atrás
+                finish();
 
             } else {
                 Toast.makeText(this, "Error: El correo ya existe o hubo un problema técnico", Toast.LENGTH_SHORT).show();
             }
-
         });
     }
 
@@ -208,5 +206,100 @@ public class ActividadRegister extends AppCompatActivity {
             EditText etDireccion = findViewById(R.id.etDireccion);
             etDireccion.setText(direccion);
         }
+    }
+
+    // ================= VALIDAR DATOS COMUNES =================
+    private boolean validarDatosComunes(String correo, String contrasenia, String direccion, String telefono) {
+
+        if (correo.isEmpty()) {
+            Toast.makeText(this, "El correo es obligatorio", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(correo).matches()) {
+            Toast.makeText(this, "Correo inválido", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (contrasenia.isEmpty()) {
+            Toast.makeText(this, "La contraseña es obligatoria", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (contrasenia.length() < 6) {
+            Toast.makeText(this, "La contraseña debe tener mínimo 6 caracteres", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (direccion.isEmpty()) {
+            Toast.makeText(this, "La dirección es obligatoria", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (telefono.isEmpty()) {
+            Toast.makeText(this, "El teléfono es obligatorio", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (!telefono.matches("[0-9+ ]+")) {
+            Toast.makeText(this, "Teléfono inválido", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
+    }
+
+
+    // ================= VALIDAR REFUGIO =================
+    private boolean validarRefugio(String nombreRefugio, String descripcion) {
+
+        if (nombreRefugio.isEmpty()) {
+            Toast.makeText(this, "El nombre del refugio es obligatorio", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (nombreRefugio.length() < 3) {
+            Toast.makeText(this, "Nombre del refugio muy corto", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (descripcion.isEmpty()) {
+            Toast.makeText(this, "La descripción es obligatoria", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (descripcion.length() < 10) {
+            Toast.makeText(this, "La descripción debe tener al menos 10 caracteres", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
+    }
+
+
+    // ================= VALIDAR ADOPTANTE =================
+    private boolean validarAdoptante(String nombre, String apellidos) {
+
+        if (nombre.isEmpty()) {
+            Toast.makeText(this, "El nombre es obligatorio", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (apellidos.isEmpty()) {
+            Toast.makeText(this, "Los apellidos son obligatorios", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (!nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+            Toast.makeText(this, "Nombre inválido (solo letras)", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (!apellidos.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+            Toast.makeText(this, "Apellidos inválidos (solo letras)", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 }

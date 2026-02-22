@@ -459,8 +459,9 @@
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:padding="12dp">
+                            android:padding="14dp">
 
+                            <!-- Icono circular -->
                             <com.google.android.material.card.MaterialCardView
                                 android:id="@+id/iconRefugioCircle"
                                 android:layout_width="52dp"
@@ -479,6 +480,7 @@
                                     app:tint="@color/primary_color" />
                             </com.google.android.material.card.MaterialCardView>
 
+                            <!-- Nombre -->
                             <TextView
                                 android:id="@+id/txtRefugioNombre"
                                 android:layout_width="0dp"
@@ -489,47 +491,45 @@
                                 android:textColor="@color/text_dark"
                                 android:textSize="18sp"
                                 android:textStyle="bold"
-                                app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toEndOf="@id/iconRefugioCircle"
-                                app:layout_constraintTop_toTopOf="@id/iconRefugioCircle" />
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
 
+                            <!-- Dirección (puede crecer sin romper diseño) -->
                             <TextView
                                 android:id="@+id/txtRefugioDireccion"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="12dp"
-                                android:layout_marginTop="4dp"
+                                android:layout_marginTop="6dp"
                                 android:fontFamily="@font/inter_regular"
-                                android:text="Calle Principal 123, Ciudad"
+                                android:text="Calle Principal 123, Ciudad con nombre extremadamente largo que ocupa varias líneas sin romper el diseño"
                                 android:textColor="@color/gray"
                                 android:textSize="14sp"
-                                app:layout_constraintEnd_toEndOf="parent"
+                                android:maxLines="3"
+                                android:ellipsize="end"
                                 app:layout_constraintStart_toEndOf="@id/iconRefugioCircle"
+                                app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toBottomOf="@id/txtRefugioNombre" />
 
-                            <View
-                                android:id="@+id/spaceDireccionTelefono"
-                                android:layout_width="0dp"
-                                android:layout_height="20dp"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="@id/txtRefugioDireccion"
-                                app:layout_constraintTop_toBottomOf="@id/txtRefugioDireccion" />
-
+                            <!-- Teléfono -->
                             <TextView
                                 android:id="@+id/txtRefugioTelefono"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="12dp"
+                                android:layout_marginTop="8dp"
                                 android:fontFamily="@font/inter_regular"
                                 android:text="+34 123 456 789"
                                 android:textColor="@color/gray"
                                 android:textSize="14sp"
-                                app:layout_constraintBottom_toBottomOf="@id/iconRefugioCircle"
-                                app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toEndOf="@id/iconRefugioCircle"
-                                app:layout_constraintTop_toBottomOf="@id/spaceDireccionTelefono" />
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/txtRefugioDireccion"
+                                app:layout_constraintBottom_toBottomOf="parent" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
+
                     </com.google.android.material.card.MaterialCardView>
 
                 </LinearLayout>

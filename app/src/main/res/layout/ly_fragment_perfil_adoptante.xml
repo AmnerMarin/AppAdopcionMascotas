@@ -40,7 +40,7 @@
                     app:shapeAppearanceOverlay="@style/RoundedCornersImage" />
 
                 <TextView
-                    android:id="@+id/tvNombre"
+                    android:id="@+id/tvNombrePerfil"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
@@ -68,8 +68,8 @@
                     android:textSize="12sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="@id/tvNombre"
-                    app:layout_constraintTop_toBottomOf="@id/tvNombre" />
+                    app:layout_constraintStart_toStartOf="@id/tvNombrePerfil"
+                    app:layout_constraintTop_toBottomOf="@id/tvNombrePerfil" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -434,7 +434,7 @@
 
                     <!-- Configuración -->
                     <LinearLayout
-                        android:id="@+id/rowConfig"
+                        android:id="@+id/rowSolicitudes"
                         android:layout_width="match_parent"
                         android:layout_height="64dp"
                         android:gravity="center_vertical"
@@ -445,8 +445,8 @@
                             android:id="@+id/iconConfig"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:src="@drawable/configuracion"
-                            android:tint="@color/gray"/>
+                            android:src="@drawable/huella"
+                            app:tint="@color/gray"/>
 
                         <TextView
                             android:id="@+id/tvConfigLabel"
@@ -454,7 +454,7 @@
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="12dp"
-                            android:text="Configuración"
+                            android:text="Solitudes"
                             android:textSize="14sp"
                             android:textColor="@color/gray_oscuro"/>
 
@@ -463,7 +463,7 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/adelante"
-                            android:tint="@color/gray_oscuro"/>
+                            app:tint="@color/gray_oscuro"/>
 
                     </LinearLayout>
 

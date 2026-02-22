@@ -17,7 +17,10 @@ import android.widget.ImageView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import sistemas.unc.edu.appadopcionmascotas.Data.DAOAdopcion;
@@ -65,17 +68,14 @@ public class InicioAdoptanteFragment extends Fragment {
 
         dao = new DAOAdopcion(requireActivity());
 
-        // ID del usuario logueado
         SharedPreferences prefs = requireActivity().getSharedPreferences("sesion_usuario", Context.MODE_PRIVATE);
         int idUsuario = prefs.getInt("id_usuario", -1);
         int idAdoptante = dao.obtenerIdAdoptantePorUsuario(idUsuario);
 
-        // Lista completa de animales
+        // Al iniciar, cargamos todos
         listaAnimales = dao.listarMascota();
 
-        // Adaptador con listener para actualizar la lista si se elimina un favorito
         adaptador = new AdaptadorAnimalAdoptante(getContext(), listaAnimales, idAdoptante, animal -> {
-            // Si se elimina de favoritos, se actualiza la lista
             listaAnimales.remove(animal);
             adaptador.notifyDataSetChanged();
         });
@@ -84,7 +84,7 @@ public class InicioAdoptanteFragment extends Fragment {
     }
 
     private void mostrarFiltros() {
-        BottomSheetDialog dialog = new BottomSheetDialog(getContext());
+        BottomSheetDialog dialog = new BottomSheetDialog(requireContext());
         View view = getLayoutInflater().inflate(R.layout.bottomsheet_filtro, null);
         dialog.setContentView(view);
 
@@ -92,19 +92,115 @@ public class InicioAdoptanteFragment extends Fragment {
         MaterialButton btnClear = view.findViewById(R.id.btnClear);
         MaterialButton btnApply = view.findViewById(R.id.btnApply);
 
+        ChipGroup groupType = view.findViewById(R.id.groupType);
+        ChipGroup groupAge = view.findViewById(R.id.groupAge);
+        ChipGroup groupSize = view.findViewById(R.id.groupSize);
+        ChipGroup groupSex = view.findViewById(R.id.groupSex);
+
+        // ====================================================
+        // AQUÍ APLICAMOS LA LÓGICA INTELIGENTE A LOS 4 GRUPOS
+        // ====================================================
+        configurarLogicaDeTodos(groupType);
+        configurarLogicaDeTodos(groupAge);
+        configurarLogicaDeTodos(groupSize);
+        configurarLogicaDeTodos(groupSex);
+
         btnClose.setOnClickListener(v -> dialog.dismiss());
-        btnClear.setOnClickListener(v -> {});
-        btnApply.setOnClickListener(v -> dialog.dismiss());
+
+        btnClear.setOnClickListener(v -> {
+            // Limpiamos y forzamos el click en "Todos" para reiniciar visualmente
+            groupType.clearCheck(); seleccionarPrimerChip(groupType);
+            groupAge.clearCheck(); seleccionarPrimerChip(groupAge);
+            groupSize.clearCheck(); seleccionarPrimerChip(groupSize);
+            groupSex.clearCheck(); seleccionarPrimerChip(groupSex);
+
+            // Si el usuario limpia, cargamos la lista original
+            listaAnimales = dao.listarMascota();
+            actualizarFavoritosYMostrar();
+        });
+
+        btnApply.setOnClickListener(v -> {
+            List<String> especies = getSelectedChipsTexts(groupType);
+            List<String> edades = getSelectedChipsTexts(groupAge);
+            List<String> tamanos = getSelectedChipsTexts(groupSize);
+            List<String> sexos = getSelectedChipsTexts(groupSex);
+
+            // Filtramos en la base de datos
+            listaAnimales = dao.filtrarMascotas(especies, edades, tamanos, sexos);
+            actualizarFavoritosYMostrar();
+
+            dialog.dismiss();
+        });
 
         dialog.show();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
+    // ====================================================
+    // NUEVO MÉTODO: Controla la lógica del botón "Todos"
+    // ====================================================
+    private void configurarLogicaDeTodos(ChipGroup chipGroup) {
+        if (chipGroup == null || chipGroup.getChildCount() == 0) return;
 
-        if (adaptador != null) {
-            // Recorremos la lista de animales y actualizamos el estado favorito desde la BD
+        // Asumimos que "Todos" siempre es el primer Chip en tu XML (índice 0)
+        Chip chipTodos = (Chip) chipGroup.getChildAt(0);
+
+        for (int i = 0; i < chipGroup.getChildCount(); i++) {
+            Chip chipActual = (Chip) chipGroup.getChildAt(i);
+
+            chipActual.setOnClickListener(v -> {
+                boolean estaMarcado = chipActual.isChecked();
+
+                if (chipActual == chipTodos) {
+                    // Si el usuario tocó "Todos"
+                    if (estaMarcado) {
+                        chipGroup.clearCheck(); // Desmarca todo lo demás
+                        chipTodos.setChecked(true); // Vuelve a marcar "Todos"
+                    } else {
+                        // No permitimos que "Todos" se desmarque a sí mismo si no hay nada más
+                        chipTodos.setChecked(true);
+                    }
+                } else {
+                    // Si el usuario tocó cualquier otro Chip (Perro, Gato, Pequeño, etc.)
+                    if (estaMarcado) {
+                        chipTodos.setChecked(false); // Apagamos el "Todos" automáticamente
+                    } else {
+                        // Si desmarcó este chip y no queda ninguno seleccionado, encendemos "Todos" por seguridad
+                        if (chipGroup.getCheckedChipIds().isEmpty()) {
+                            chipTodos.setChecked(true);
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    private List<String> getSelectedChipsTexts(ChipGroup chipGroup) {
+        List<String> selecciones = new ArrayList<>();
+        if (chipGroup == null) return selecciones;
+
+        List<Integer> checkedIds = chipGroup.getCheckedChipIds();
+        for (int id : checkedIds) {
+            Chip chip = chipGroup.findViewById(id);
+            if (chip != null) {
+                selecciones.add(chip.getText().toString());
+            }
+        }
+
+        if (selecciones.isEmpty()) {
+            selecciones.add("Todos");
+        }
+        return selecciones;
+    }
+
+    private void seleccionarPrimerChip(ChipGroup chipGroup) {
+        if (chipGroup != null && chipGroup.getChildCount() > 0) {
+            Chip primerChip = (Chip) chipGroup.getChildAt(0);
+            primerChip.setChecked(true);
+        }
+    }
+
+    private void actualizarFavoritosYMostrar() {
+        if (adaptador != null && listaAnimales != null) {
             SharedPreferences prefs = requireActivity().getSharedPreferences("sesion_usuario", Context.MODE_PRIVATE);
             int idUsuario = prefs.getInt("id_usuario", -1);
             int idAdoptante = dao.obtenerIdAdoptantePorUsuario(idUsuario);
@@ -113,9 +209,13 @@ public class InicioAdoptanteFragment extends Fragment {
                 boolean esFav = dao.esFavorito(idAdoptante, animal.getIdMascota());
                 animal.setFavorito(esFav);
             }
+            adaptador.actualizarLista(listaAnimales);
         }
-            adaptador.notifyDataSetChanged();
-
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        actualizarFavoritosYMostrar();
+    }
 }

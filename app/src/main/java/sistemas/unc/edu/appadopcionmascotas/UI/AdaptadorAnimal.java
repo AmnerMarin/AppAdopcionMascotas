@@ -122,7 +122,7 @@ public class AdaptadorAnimal extends RecyclerView.Adapter<AdaptadorAnimal.ViewHo
         MaterialButton btnVer, btnEditar, btnEliminar;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvNombre = itemView.findViewById(R.id.tvNombre);
+            tvNombre = itemView.findViewById(R.id.tvNombrePerfil);
             tvRaza = itemView.findViewById(R.id.tvRaza);
             tvEspecie = itemView.findViewById(R.id.tvEspecie);
             imgAnimal = itemView.findViewById(R.id.imgAnimal);

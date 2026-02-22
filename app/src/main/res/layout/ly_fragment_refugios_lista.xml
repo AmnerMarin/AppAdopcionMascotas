@@ -14,7 +14,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="15dp"
             >
             <com.google.android.material.appbar.MaterialToolbar
                 android:background="@drawable/bg_header_green"
@@ -30,11 +29,6 @@
                 android:paddingBottom="30dp"
                 android:paddingTop="15dp">
             </com.google.android.material.appbar.MaterialToolbar>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="200dp">
-            </View>
 
             <TextView
                 android:layout_width="match_parent"

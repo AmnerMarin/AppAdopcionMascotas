@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cv_refugio"
     android:layout_width="match_parent"
@@ -15,7 +16,6 @@
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="15dp">
 
-        <!-- PARTE SIEMPRE VISIBLE -->
         <TextView
             android:id="@+id/lb_localizacion_refugio_nombre"
             android:layout_width="wrap_content"
@@ -63,7 +63,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- PARTE EXPANDIBLE -->
         <LinearLayout
             android:id="@+id/layout_expandible"
             android:layout_width="0dp"
@@ -75,6 +74,7 @@
             app:layout_constraintEnd_toEndOf="parent">
 
         </LinearLayout>
+
         <View
             android:id="@+id/view_linea"
             android:layout_width="0dp"
@@ -128,6 +128,18 @@
             app:layout_constraintStart_toEndOf="@+id/shapeableImageView4"
             app:layout_constraintTop_toBottomOf="@+id/lb_localizacion_refugio_telefono" />
 
+        <TextView
+            android:id="@+id/lb_localizacion_refugio_descripcion"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Descripción del refugio o información adicional sobre la labor que realizan con los animales..."
+            android:textColor="@color/gray"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lb_localizacion_refugio_email" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnComoLlegar"
             android:layout_width="0dp"
@@ -150,21 +162,20 @@
             app:iconPadding="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lb_localizacion_refugio_email" />
-
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/group_expandible"
-            android:visibility="gone"
-            app:constraint_referenced_ids="
+            app:layout_constraintTop_toBottomOf="@id/lb_localizacion_refugio_descripcion" /> <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_expandible"
+        android:visibility="gone"
+        app:constraint_referenced_ids="
             view_linea,
             shapeableImageView3,
             shapeableImageView4,
             lb_localizacion_refugio_telefono,
             lb_localizacion_refugio_email,
+            lb_localizacion_refugio_descripcion,
             btnComoLlegar"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            />
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>

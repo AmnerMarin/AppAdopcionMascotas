@@ -168,7 +168,12 @@ public class ActividadVerAnimal extends AppCompatActivity {
         if(idAdoptante==-1) {
             btnContactar.setVisibility(View.GONE);
             btnGuardar.setVisibility(View.GONE);
+            btnSolicitarAdopcion.setVisibility(View.GONE);
         }
+        if(animalActual.getEstado().equals("Adoptado")) {
+            btnSolicitarAdopcion.setVisibility(View.GONE);
+        }
+
 
     }
     // Método helper para actualizar el botón según estado

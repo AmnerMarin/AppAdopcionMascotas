@@ -180,7 +180,7 @@
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/edtNombrePublicar"
                                 android:layout_width="match_parent"
-                                android:layout_height="48dp"
+                                android:layout_height="wrap_content"
                                 android:hint="Ej: Luna"
                                 android:textColor="@color/text_dark"
                                 android:textColorHint="@color/gray"
@@ -219,7 +219,7 @@
                             <com.google.android.material.textfield.MaterialAutoCompleteTextView
                                 android:id="@+id/actEspeciePublicar"
                                 android:layout_width="match_parent"
-                                android:layout_height="54dp"
+                                android:layout_height="wrap_content"
                                 android:hint="Selecciona una especie"
                                 android:inputType="none"
                                 android:textColor="@color/text_dark"
@@ -259,7 +259,7 @@
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/edtRazaPublicar"
                                 android:layout_width="match_parent"
-                                android:layout_height="48dp"
+                                android:layout_height="wrap_content"
                                 android:hint="Ej: Golden Retriever"
                                 android:textColor="@color/text_dark"
                                 android:textColorHint="@color/gray"
@@ -304,8 +304,8 @@
                                     <com.google.android.material.textfield.MaterialAutoCompleteTextView
                                         android:id="@+id/actEdadPublicar"
                                         android:layout_width="match_parent"
-                                        android:layout_height="48dp"
-                                        android:hint="Seleccionar"
+                                        android:layout_height="wrap_content"
+                                        android:hint="Selecciona"
                                         android:inputType="none"
                                         android:textColor="@color/text_dark"
                                         android:textColorHint="@color/gray"
@@ -324,6 +324,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Tamaño *"
+                                    android:textColor="@color/text_dark"
                                     android:textSize="12sp"
                                     android:textStyle="bold" />
 
@@ -342,7 +343,7 @@
                                     <com.google.android.material.textfield.MaterialAutoCompleteTextView
                                         android:id="@+id/actTamanoPublicar"
                                         android:layout_width="match_parent"
-                                        android:layout_height="48dp"
+                                        android:layout_height="wrap_content"
                                         android:hint="Tamaño"
                                         android:inputType="none"
                                         android:textColor="@color/text_dark"
@@ -371,7 +372,8 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Peso"
+                                    android:text="Peso (kg) *"
+                                    android:textColor="@color/text_dark"
                                     android:textSize="12sp"
                                     android:textStyle="bold" />
 
@@ -390,8 +392,8 @@
                                     <com.google.android.material.textfield.TextInputEditText
                                         android:id="@+id/edtPesoPublicar"
                                         android:layout_width="match_parent"
-                                        android:layout_height="48dp"
-                                        android:hint="Ej: 5 kg"
+                                        android:layout_height="wrap_content"
+                                        android:hint="Ej: 5"
                                         android:inputType="text"
                                         android:textColor="@color/text_dark"
                                         android:textColorHint="@color/gray"
@@ -410,6 +412,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Sexo *"
+                                    android:textColor="@color/text_dark"
                                     android:textSize="12sp"
                                     android:textStyle="bold" />
 
@@ -428,7 +431,7 @@
                                     <com.google.android.material.textfield.MaterialAutoCompleteTextView
                                         android:id="@+id/actSexoPublicar"
                                         android:layout_width="match_parent"
-                                        android:layout_height="48dp"
+                                        android:layout_height="wrap_content"
                                         android:hint="Selecciona"
                                         android:inputType="none"
                                         android:textColor="@color/text_dark"
@@ -445,8 +448,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Temperamento *"
+                            android:text="Temperamento (Solo 3 caracteristicas separadas con coma) *"
                             android:textSize="12sp"
+                            android:textColor="@color/text_dark"
                             android:textStyle="bold" />
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -463,7 +467,7 @@
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/edtTemperamentoPublicar"
                                 android:layout_width="match_parent"
-                                android:layout_height="48dp"
+                                android:layout_height="wrap_content"
                                 android:hint="Ej: Amigable, juguetón, energético"
                                 android:textColor="@color/text_dark"
                                 android:textColorHint="@color/gray"
@@ -478,6 +482,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Historia del animal *"
+                            android:textColor="@color/text_dark"
                             android:textSize="12sp"
                             android:textStyle="bold" />
 

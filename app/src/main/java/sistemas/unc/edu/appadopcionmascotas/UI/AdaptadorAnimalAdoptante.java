@@ -148,4 +148,9 @@ public class AdaptadorAnimalAdoptante extends RecyclerView.Adapter<AdaptadorAnim
             txtSexo = itemView.findViewById(R.id.txtSexo);
         }
     }
+    // Método para actualizar la lista cuando se aplican filtros
+    public void actualizarLista(List<Animal> nuevaLista) {
+        this.listaanimales = nuevaLista;
+        notifyDataSetChanged();
+    }
 }

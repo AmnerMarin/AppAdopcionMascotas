@@ -19,7 +19,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- ENCABEZADO EDITAR - Mejorado -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/header_editar"
                 android:layout_width="match_parent"
@@ -84,7 +83,6 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <!-- Card imagen - Mejorada: overlay para cambiar foto -->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardFotoEditar"
                     android:layout_width="match_parent"
@@ -112,7 +110,6 @@
                             android:background="#40000000"
                             android:visibility="gone"
                             android:id="@+id/overlayEditar"
-                            android:scaleType="centerCrop"
                             tools:src="@drawable/perro_prueba" />
 
                         <LinearLayout
@@ -152,7 +149,7 @@
                             android:id="@+id/btnCambiarFoto"
                             style="@style/Widget.Material3.Button.TonalButton"
                             android:layout_width="wrap_content"
-                            android:layout_height="40dp"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="bottom|center_horizontal"
                             android:layout_marginBottom="16dp"
                             android:minWidth="0dp"
@@ -217,7 +214,7 @@
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/edtNombre"
                                 android:layout_width="match_parent"
-                                android:layout_height="48dp"
+                                android:layout_height="wrap_content"
                                 android:hint="Ej: Luna"
                                 android:textColor="@color/text_dark"
                                 android:textColorHint="@color/gray"
@@ -256,7 +253,7 @@
                             <com.google.android.material.textfield.MaterialAutoCompleteTextView
                                 android:id="@+id/actEspecie"
                                 android:layout_width="match_parent"
-                                android:layout_height="54dp"
+                                android:layout_height="wrap_content"
                                 android:hint="Selecciona una especie"
                                 android:inputType="none"
                                 android:textColor="@color/text_dark"
@@ -296,7 +293,7 @@
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/edtRaza"
                                 android:layout_width="match_parent"
-                                android:layout_height="48dp"
+                                android:layout_height="wrap_content"
                                 android:hint="Ej: Golden Retriever"
                                 android:textColor="@color/text_dark"
                                 android:textColorHint="@color/gray"
@@ -346,7 +343,7 @@
                                     <com.google.android.material.textfield.MaterialAutoCompleteTextView
                                         android:id="@+id/actEdad"
                                         android:layout_width="match_parent"
-                                        android:layout_height="48dp"
+                                        android:layout_height="wrap_content"
                                         android:hint="Seleccionar"
                                         android:inputType="none"
                                         android:textColor="@color/text_dark"
@@ -389,7 +386,7 @@
                                     <com.google.android.material.textfield.MaterialAutoCompleteTextView
                                         android:id="@+id/actTamano"
                                         android:layout_width="match_parent"
-                                        android:layout_height="48dp"
+                                        android:layout_height="wrap_content"
                                         android:hint="Tamaño"
                                         android:inputType="none"
                                         android:textColor="@color/text_dark"
@@ -418,7 +415,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Peso"
+                                    android:text="Peso (Kg) *"
                                     android:textSize="12sp"
                                     android:textStyle="bold"
                                     android:textColor="@color/text_dark" />
@@ -442,7 +439,7 @@
                                     <com.google.android.material.textfield.TextInputEditText
                                         android:id="@+id/edtPeso"
                                         android:layout_width="match_parent"
-                                        android:layout_height="48dp"
+                                        android:layout_height="wrap_content"
                                         android:hint="Ej: 5 kg"
                                         android:inputType="text"
                                         android:textColor="@color/text_dark"
@@ -485,7 +482,7 @@
                                     <com.google.android.material.textfield.MaterialAutoCompleteTextView
                                         android:id="@+id/actSexo"
                                         android:layout_width="match_parent"
-                                        android:layout_height="48dp"
+                                        android:layout_height="wrap_content"
                                         android:hint="Selecciona"
                                         android:inputType="none"
                                         android:textColor="@color/text_dark"
@@ -525,7 +522,7 @@
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/edtTemperamento"
                                 android:layout_width="match_parent"
-                                android:layout_height="48dp"
+                                android:layout_height="wrap_content"
                                 android:hint="Ej: Amigable, juguetón, energético"
                                 android:textColor="@color/text_dark"
                                 android:textColorHint="@color/gray"
@@ -584,10 +581,10 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnCancelarEditar"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="52dp"
                         android:layout_marginEnd="4dp"
-                        android:layout_weight="1"
+                        android:layout_weight="1.2"
                         android:text="Cancelar"
                         android:textAllCaps="false"
                         android:textColor="@color/selector_cancelar_texto"
@@ -599,10 +596,10 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnGuardar"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="52dp"
                         android:layout_marginStart="4dp"
-                        android:layout_weight="1"
+                        android:layout_weight="1.8"
                         android:text="Guardar cambios"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
