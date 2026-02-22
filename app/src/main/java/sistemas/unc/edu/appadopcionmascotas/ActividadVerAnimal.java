@@ -153,6 +153,27 @@ public class ActividadVerAnimal extends AppCompatActivity {
             }
         }
 
+        btnContactar.setOnClickListener(v -> {
+            if (animalActual != null && idAdoptante != -1) {
+                // Obtenemos los 3 pilares de la conversación
+                int idRefugio = animalActual.getIdRefugio();
+                int idMascota = animalActual.getIdMascota();
+                String nombreRefugio = animalActual.getNombreRefugio();
+
+                // Buscamos o creamos el chat específico para ESTA mascota
+                int idChat = daoMascotas.obtenerOCrearChat(idAdoptante, idRefugio, idMascota);
+
+                if (idChat != -1) {
+                    Intent intent = new Intent(this, ActividadChat.class);
+                    intent.putExtra("ID_CHAT", idChat);
+                    intent.putExtra("NOMBRE_DESTINO", nombreRefugio);
+                    intent.putExtra("NOMBRE_MASCOTA", animalActual.getNombre());
+                    startActivity(intent);
+                }
+            }
+        });
+
+
 
         // Configurar Botón Solicitar
         btnSolicitarAdopcion.setOnClickListener(v -> {

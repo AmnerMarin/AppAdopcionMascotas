@@ -153,16 +153,29 @@ public class PerfilFragment extends Fragment {
 
     private void configurarBotones (View view){
 
+        // Buscamos el menú de la actividad una sola vez
+        com.google.android.material.bottomnavigation.BottomNavigationView bottomNav =
+                requireActivity().findViewById(R.id.bottom_nav_refugio); // <--- USA EL ID DE TU BOTTOMNAV
+
+        // GESTIONAR / DASHBOARD
         view.findViewById(R.id.rowGestionar).setOnClickListener(v -> {
-            startActivity(new Intent(getContext(), DashboardFragment.class));
+            if (bottomNav != null) {
+                bottomNav.setSelectedItemId(R.id.itemDashboard); // ID en tu menu.xml
+            }
         });
 
+        // MENSAJES
         view.findViewById(R.id.rowMensajes).setOnClickListener(v -> {
-            startActivity(new Intent(getContext(), MensajesFragment.class));
+            if (bottomNav != null) {
+                bottomNav.setSelectedItemId(R.id.itemMensajes); // ID en tu menu.xml
+            }
         });
 
+        // VER TODOS (Dashboard)
         btnVerTodos.setOnClickListener(v -> {
-            startActivity(new Intent(getContext(), DashboardFragment.class));
+            if (bottomNav != null) {
+                bottomNav.setSelectedItemId(R.id.itemDashboard);
+            }
         });
 
         btnCerrarSesion.setOnClickListener(v -> {

@@ -16,6 +16,7 @@ import java.util.Map;
 import sistemas.unc.edu.appadopcionmascotas.Model.Adopcion;
 import sistemas.unc.edu.appadopcionmascotas.Model.Adoptante;
 import sistemas.unc.edu.appadopcionmascotas.Model.Animal;
+import sistemas.unc.edu.appadopcionmascotas.Model.Conversacion;
 import sistemas.unc.edu.appadopcionmascotas.Model.Favorito;
 import sistemas.unc.edu.appadopcionmascotas.Model.Mensaje;
 import sistemas.unc.edu.appadopcionmascotas.Model.Refugio;
@@ -30,7 +31,7 @@ public class DAOAdopcion {
 
     public DAOAdopcion(Activity contexto) {
         nombreDB = "DBAdoptaPet";
-        version = 3;
+        version = 4;
         this.contexto = contexto;
     }
 
@@ -160,7 +161,7 @@ public class DAOAdopcion {
     // ==============================
     // INSERTAR MENSAJE
     // ==============================
-    public boolean insertar(Mensaje m) {
+    /* public boolean insertar(Mensaje m) {
 
         boolean rpta = false;
 
@@ -185,6 +186,8 @@ public class DAOAdopcion {
         }
         return rpta;
     }
+     */
+
 
     //Para el login
     public Usuario login(String correo, String contra) {
@@ -281,6 +284,7 @@ public class DAOAdopcion {
         return lista;
     }
 
+    /*
     public List<Mensaje> listarMensaje() {
 
         List<Mensaje> lista = new ArrayList<>();
@@ -323,6 +327,8 @@ public class DAOAdopcion {
         }
         return lista;
     }
+    */
+
 
     //OBETNER IDs
     public int obtenerIdRefugioPorUsuario(int idUsuario) {
@@ -949,5 +955,113 @@ public class DAOAdopcion {
         db.close();
         return correo;
     }
+
+    //SISTEMA DE MENSAJERIA
+    //1. OBTENER LISTA DE CONVERSACIONES
+
+    public int obtenerOCrearChat(int idAdoptante, int idRefugio, int idMascota) {
+        SQLiteDatabase db = new DBConstruir(contexto, nombreDB, null, version).getWritableDatabase();
+        int idChat = -1;
+
+        // 1. Buscamos si ya existe un chat para este trío específico
+        String sql = "SELECT id_chat FROM Chat WHERE id_adoptante = ? AND id_refugio = ? AND id_mascota = ?";
+        Cursor cursor = db.rawQuery(sql, new String[]{
+                String.valueOf(idAdoptante),
+                String.valueOf(idRefugio),
+                String.valueOf(idMascota)
+        });
+
+        if (cursor.moveToFirst()) {
+            idChat = cursor.getInt(0);
+        }
+        cursor.close();
+
+        // 2. Si no existe, lo insertamos para que ya tenga un ID
+        if (idChat == -1) {
+            ContentValues values = new ContentValues();
+            values.put("id_adoptante", idAdoptante);
+            values.put("id_refugio", idRefugio);
+            values.put("id_mascota", idMascota);
+            // La fecha_creacion se pone sola por el DEFAULT CURRENT_TIMESTAMP
+
+            long result = db.insert("Chat", null, values);
+            idChat = (int) result;
+        }
+
+        return idChat;
+    }
+
+    public List<Conversacion> obtenerListaConversaciones(int idUsuarioActual, String rol) {
+        List<Conversacion> lista = new ArrayList<>();
+        DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        String sql;
+        // Si soy Refugio, busco el nombre del Adoptante. Si soy Adoptante, busco el nombre del Refugio.
+        // Usamos equalsIgnoreCase para mayor seguridad
+        if (rol.equalsIgnoreCase("Refugio")) {
+            sql = "SELECT c.id_chat, ad.nombres || ' ' || ad.apellidos AS nombre_persona, m.nombre AS nombre_mascota, m.id_mascota, " +
+                    "(SELECT mensaje FROM Mensaje WHERE id_chat = c.id_chat ORDER BY id_mensaje DESC LIMIT 1) AS ultimo, " +
+                    "(SELECT fecha_envio FROM Mensaje WHERE id_chat = c.id_chat ORDER BY id_mensaje DESC LIMIT 1) AS hora " +
+                    "FROM Chat c " +
+                    "INNER JOIN Adoptante ad ON c.id_adoptante = ad.id_adoptante " +
+                    "INNER JOIN Mascota m ON c.id_mascota = m.id_mascota " +
+                    "WHERE c.id_refugio = (SELECT id_refugio FROM Refugio WHERE id_usuario = ?)";
+        } else {
+            sql = "SELECT c.id_chat, r.nombre_refugio AS nombre_persona, m.nombre AS nombre_mascota, m.id_mascota, " +
+                    "(SELECT mensaje FROM Mensaje WHERE id_chat = c.id_chat ORDER BY id_mensaje DESC LIMIT 1) AS ultimo, " +
+                    "(SELECT fecha_envio FROM Mensaje WHERE id_chat = c.id_chat ORDER BY id_mensaje DESC LIMIT 1) AS hora " +
+                    "FROM Chat c " +
+                    "INNER JOIN Refugio r ON c.id_refugio = r.id_refugio " +
+                    "INNER JOIN Mascota m ON c.id_mascota = m.id_mascota " +
+                    "WHERE c.id_adoptante = (SELECT id_adoptante FROM Adoptante WHERE id_usuario = ?)";
+        }
+
+        Cursor cursor = db.rawQuery(sql, new String[]{String.valueOf(idUsuarioActual)});
+
+        if (cursor.moveToFirst()) {
+            do {
+                int idChat = cursor.getInt(0);
+                String nombrePersona = cursor.getString(1);
+                String nombreMascota = cursor.getString(2);
+                int idMascota = cursor.getInt(3);
+                String ultimoMsg = cursor.getString(4) != null ? cursor.getString(4) : "Sin mensajes aún";
+                String horaMsg = cursor.getString(5) != null ? cursor.getString(5) : "";
+
+                lista.add(new Conversacion(idChat, nombrePersona, ultimoMsg, horaMsg, nombreMascota, idMascota));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return lista;
+    }
+
+
+    // Cargar todos los mensajes de un chat
+    public List<Mensaje> obtenerMensajesDeChat(int idChat) {
+        List<Mensaje> lista = new ArrayList<>();
+        DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT id_emisor, mensaje FROM Mensaje WHERE id_chat = ? ORDER BY id_mensaje ASC",
+                new String[]{String.valueOf(idChat)});
+        if (cursor.moveToFirst()) {
+            do {
+                lista.add(new Mensaje(cursor.getInt(0), cursor.getString(1)));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return lista;
+    }
+
+    // Guardar un mensaje nuevo
+    public boolean insertarMensaje(int idChat, int idEmisor, String texto) {
+        DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("id_chat", idChat);
+        values.put("id_emisor", idEmisor);
+        values.put("mensaje", texto);
+        return db.insert("Mensaje", null, values) > 0;
+    }
+
 }
 

@@ -15,9 +15,12 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-import sistemas.unc.edu.appadopcionmascotas.UI.AdaptadorMensaje;
+import sistemas.unc.edu.appadopcionmascotas.Data.DAOAdopcion;
+import sistemas.unc.edu.appadopcionmascotas.Model.Conversacion;
+import sistemas.unc.edu.appadopcionmascotas.UI.AdaptadorChat;
 import sistemas.unc.edu.appadopcionmascotas.Model.Mensaje;
 import sistemas.unc.edu.appadopcionmascotas.R;
+import sistemas.unc.edu.appadopcionmascotas.UI.AdaptadorConversaciones;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,6 +37,10 @@ public class MensajesFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private RecyclerView rv;
+    private AdaptadorConversaciones adaptador;
+    private DAOAdopcion dao;
 
     public MensajesFragment() {
         // Required empty public constructor
@@ -73,19 +80,40 @@ public class MensajesFragment extends Fragment {
         return inflater.inflate(R.layout.ly_fragment_mensajes, container, false);
     }
 
+    //lo creamos
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        rv = view.findViewById(R.id.rvMensajes);
+        rv.setLayoutManager(new LinearLayoutManager(getContext()));
+        dao = new DAOAdopcion(requireActivity());
+        cargarDatos();
+    }
 
-        RecyclerView rvMensajes = view.findViewById(R.id.rvMensaje);
-        rvMensajes.setLayoutManager(new LinearLayoutManager(getContext()));
+    private void cargarDatos() {
+        android.content.SharedPreferences prefs = requireActivity().getSharedPreferences("sesion_usuario", android.content.Context.MODE_PRIVATE);
+        int idUsuario = prefs.getInt("id_usuario", -1);
+        String rol = prefs.getString("rol_usuario", "");
 
-        List<Mensaje> mensaje = new ArrayList<>();
-        mensaje.add(new Mensaje(1, 4,7,null,null));
-        mensaje.add(new Mensaje(2,5,8,null, null));
-        mensaje.add(new Mensaje(3,6,9,null, null));
+        // LOG DE PRUEBA: Mira esto en el Logcat de Android Studio
+        android.util.Log.d("CHAT_DEBUG", "ID: " + idUsuario + " | Rol: " + rol);
 
-        AdaptadorMensaje adaptadorMensaje = new AdaptadorMensaje(mensaje);
-        rvMensajes.setAdapter(adaptadorMensaje);
+        if (idUsuario != -1) {
+            // Usamos equalsIgnoreCase para evitar errores de mayúsculas/minúsculas
+            List<Conversacion> lista = dao.obtenerListaConversaciones(idUsuario, rol);
+
+            adaptador = new AdaptadorConversaciones(getContext(), lista);
+            rv.setAdapter(adaptador);
+
+            if (lista.isEmpty()) {
+                android.util.Log.d("CHAT_DEBUG", "La lista volvió vacía del DAO");
+            }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        cargarDatos();
     }
 }

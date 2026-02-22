@@ -80,13 +80,26 @@ public class DBConstruir extends SQLiteOpenHelper {
             "FOREIGN KEY(id_mascota) REFERENCES Mascota(id_mascota)" +
             ")";
 
-    String tabla_mensaje = "CREATE TABLE Mensaje(" +
+    String tabla_chat = "CREATE TABLE Chat (" +
+            "id_chat INTEGER PRIMARY KEY AUTOINCREMENT," +
+            "id_mascota INTEGER," +
+            "id_adoptante INTEGER," +
+            "id_refugio INTEGER," +
+            "fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP," +
+            "FOREIGN KEY(id_mascota) REFERENCES Mascota(id_mascota)," +
+            "FOREIGN KEY(id_adoptante) REFERENCES Adoptante(id_adoptante)," +
+            "FOREIGN KEY(id_refugio) REFERENCES Refugio(id_refugio))";
+
+    String tabla_mensaje = "CREATE TABLE Mensaje (" +
             "id_mensaje INTEGER PRIMARY KEY AUTOINCREMENT," +
-            "id_refugio INTEGER NOT NULL," +
-            "id_adoptante INTEGER NOT NULL," +
-            "id_mascota INTEGER NOT NULL," +
-            "fecha DATETIME DEFAULT CURRENT_TIMESTAMP," +
-            "contenido_mensaje VARCHAR(4000))";
+            "id_chat INTEGER," +
+            "id_emisor INTEGER," +
+            "mensaje TEXT," +
+            "fecha_envio DATETIME DEFAULT CURRENT_TIMESTAMP," +
+            "FOREIGN KEY(id_chat) REFERENCES Chat(id_chat)," +
+            "FOREIGN KEY(id_emisor) REFERENCES Usuario(id_usuario))";
+
+
 
     public DBConstruir(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -100,12 +113,14 @@ public class DBConstruir extends SQLiteOpenHelper {
         db.execSQL(tabla_mascota);
         db.execSQL(tabla_adopcion);
         db.execSQL(tabla_favorito);
+        db.execSQL(tabla_chat);
         db.execSQL(tabla_mensaje);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS Mensaje");
+        db.execSQL("DROP TABLE IF EXISTS Chat");
         db.execSQL("DROP TABLE IF EXISTS Favorito_Mascota");
         db.execSQL("DROP TABLE IF EXISTS Adopcion");
         db.execSQL("DROP TABLE IF EXISTS Mascota");
@@ -120,5 +135,6 @@ public class DBConstruir extends SQLiteOpenHelper {
         db.execSQL(tabla_adopcion);
         db.execSQL(tabla_favorito);
         db.execSQL(tabla_mensaje);
+        db.execSQL(tabla_chat);
     }
 }

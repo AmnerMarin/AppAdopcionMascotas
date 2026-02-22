@@ -1,38 +1,28 @@
 package sistemas.unc.edu.appadopcionmascotas.Model;
 
 public class Mensaje {
-    private int idRefugio;
-    private int idAdoptante;
+    private int idMensaje;
+    private int idChat;
+    private int idEmisor; // Este es el id_usuario
+    private String texto;
+    private String fechaEnvio;
 
-    private int idAnimal;
-    private String fecha;
-    private String contenidoMensaje;
-
-    public Mensaje(int idRefugio, int idAdoptante, int idAnimal, String fecha, String contenidoMensaje) {
-        this.idRefugio = idRefugio;
-        this.idAdoptante = idAdoptante;
-        this.idAnimal = idAnimal;
-        this.fecha = fecha;
-        this.contenidoMensaje = contenidoMensaje;
+    public Mensaje() {
     }
 
-    public int getIdRefugio() {
-        return idRefugio;
+
+    public Mensaje(int idEmisor, String texto) {
+        this.idEmisor = idEmisor;
+        this.texto = texto;
     }
 
-    public int getIdAdoptante() {
-        return idAdoptante;
-    }
+    // Getters
+    public int getIdEmisor() { return idEmisor; }
+    public String getTexto() { return texto; }
+    public String getFechaEnvio() { return fechaEnvio; }
 
-    public int getIdAnimal() {
-        return idAnimal;
-    }
-
-    public String getFecha() {
-        return fecha;
-    }
-
-    public String getContenidoMensaje() {
-        return contenidoMensaje;
-    }
+    // Setters
+    public void setIdEmisor(int idEmisor) { this.idEmisor = idEmisor; }
+    public void setTexto(String texto) { this.texto = texto; }
+    public void setFechaEnvio(String fechaEnvio) { this.fechaEnvio = fechaEnvio; }
 }

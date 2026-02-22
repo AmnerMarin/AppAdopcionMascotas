@@ -57,7 +57,7 @@ public class ActividadAdoptante extends AppCompatActivity {
             else if(id == R.id.itemrefugiosdoptante){
                 selectedFragment = new RefugiosListaFragment();
             }
-            else if(id == R.id.itemMensajesadoptante){
+            else if(id == R.id.itemMensajesadoptante){ //este fragment va a ser comun para adoptante y refugios
                 // Asegúrate de haber creado esta clase Fragment o marcará error en rojo
                 selectedFragment = new MensajesFragment();
             }
