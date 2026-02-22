@@ -14,7 +14,8 @@ public class DBConstruir extends SQLiteOpenHelper {
             "correo VARCHAR(100)," +
             "contrasena VARCHAR(255)," +
             "rol VARCHAR(20)," +
-            "fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP" +
+            "fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP," +
+            "FirebaseUID TEXT"+
             ")";
 
     // TABLA ADOPTANTE
@@ -25,6 +26,7 @@ public class DBConstruir extends SQLiteOpenHelper {
             "apellidos VARCHAR(100)," +
             "telefono VARCHAR(9)," +
             "direccion VARCHAR(200)," +
+            "FirebaseUID TEXT,"+
             "FOREIGN KEY(id_usuario) REFERENCES Usuario(id_usuario)" +
             ")";
 
@@ -38,6 +40,7 @@ public class DBConstruir extends SQLiteOpenHelper {
             "descripcion VARCHAR(4000),"+
             "latitud REAL," +
             "longitud REAL," +
+            "FirebaseUID TEXT,"+
             "FOREIGN KEY(id_usuario) REFERENCES Usuario(id_usuario)" +
             ")";
 
@@ -56,6 +59,7 @@ public class DBConstruir extends SQLiteOpenHelper {
             "estado VARCHAR(15)," +
             "tamano VARCHAR(10)," +
             "foto BLOB," +
+            "FirebaseUID TEXT,"+
             "FOREIGN KEY(id_refugio) REFERENCES Refugio(id_refugio)" +
             ")";
 
@@ -66,7 +70,8 @@ public class DBConstruir extends SQLiteOpenHelper {
             "id_mascota INTEGER NOT NULL," +
             "estado VARCHAR(20)," +
             "fecha_adopcion DATETIME DEFAULT CURRENT_TIMESTAMP," +
-            "detalles VARCHAR(1000),"+
+            "detalles VARCHAR(1000)," +
+            "FirebaseUID TEXT,"+
             "FOREIGN KEY(id_adoptante) REFERENCES Adoptante(id_adoptante)," +
             "FOREIGN KEY(id_mascota) REFERENCES Mascota(id_mascota)" +
             ")";
@@ -76,6 +81,7 @@ public class DBConstruir extends SQLiteOpenHelper {
             "id_favorito INTEGER PRIMARY KEY AUTOINCREMENT," +
             "id_adoptante INTEGER NOT NULL," +
             "id_mascota INTEGER NOT NULL," +
+            "FirebaseUID TEXT,"+
             "FOREIGN KEY(id_adoptante) REFERENCES Adoptante(id_adoptante)," +
             "FOREIGN KEY(id_mascota) REFERENCES Mascota(id_mascota)" +
             ")";
@@ -86,6 +92,7 @@ public class DBConstruir extends SQLiteOpenHelper {
             "id_adoptante INTEGER," +
             "id_refugio INTEGER," +
             "fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP," +
+            "FirebaseUID TEXT,"+
             "FOREIGN KEY(id_mascota) REFERENCES Mascota(id_mascota)," +
             "FOREIGN KEY(id_adoptante) REFERENCES Adoptante(id_adoptante)," +
             "FOREIGN KEY(id_refugio) REFERENCES Refugio(id_refugio))";
@@ -96,6 +103,7 @@ public class DBConstruir extends SQLiteOpenHelper {
             "id_emisor INTEGER," +
             "mensaje TEXT," +
             "fecha_envio DATETIME DEFAULT CURRENT_TIMESTAMP," +
+            "FirebaseUID TEXT,"+
             "FOREIGN KEY(id_chat) REFERENCES Chat(id_chat)," +
             "FOREIGN KEY(id_emisor) REFERENCES Usuario(id_usuario))";
 

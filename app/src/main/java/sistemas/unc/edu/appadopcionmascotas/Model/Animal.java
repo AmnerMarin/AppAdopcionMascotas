@@ -23,6 +23,8 @@
 
         private boolean Favorito;
 
+        private String FirebaseUID;
+
 
         public Animal(int idRefugio, String nombre, String especie, String raza, double peso, String edad, String sexo, String temperamento, String historia, String estado, String tamano, byte[] foto) {
             this.idRefugio = idRefugio;
@@ -173,5 +175,13 @@
 
         public void setDireccionRefugio(String direccionRefugio) {
             DireccionRefugio = direccionRefugio;
+        }
+
+        public String getFirebaseUID() {
+            return FirebaseUID;
+        }
+
+        public void setFirebaseUID(String firebaseUID) {
+            FirebaseUID = firebaseUID;
         }
     }

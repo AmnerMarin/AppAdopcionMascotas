@@ -19,7 +19,9 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.textfield.TextInputEditText;
 
+import kotlin.uuid.Uuid;
 import sistemas.unc.edu.appadopcionmascotas.Data.DAOAdopcion;
+import sistemas.unc.edu.appadopcionmascotas.Firebase.DbUsuarioRepositorio;
 import sistemas.unc.edu.appadopcionmascotas.Model.Adoptante;
 import sistemas.unc.edu.appadopcionmascotas.Model.Refugio;
 import sistemas.unc.edu.appadopcionmascotas.Model.Usuario;
@@ -27,6 +29,9 @@ import sistemas.unc.edu.appadopcionmascotas.Model.Usuario;
 public class ActividadRegister extends AppCompatActivity {
     double latitud = 0;
     double longitud = 0;
+
+    DbUsuarioRepositorio dbUsuarioRepositorio;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,10 +44,11 @@ public class ActividadRegister extends AppCompatActivity {
         TextView txtLabelApellidos = findViewById(R.id.txtLabelApellidos);
         EditText etApellidos = findViewById(R.id.etApellidos);
 
-
         //Obtenermos los datos comunes
         TextView txtLabelUbicacion = findViewById(R.id.etDireccion);
         Button abrirmapa =  findViewById(R.id.btnAbrirMapa);
+
+        dbUsuarioRepositorio = new DbUsuarioRepositorio(this);
 
         abrirmapa.setOnClickListener(v ->{
             Intent intent = new Intent(this, ActividadMapas.class);
@@ -150,6 +156,23 @@ public class ActividadRegister extends AppCompatActivity {
                     );
 
                     resultado = dao.insertarRefugio(ref);
+                    dbUsuarioRepositorio.registrarRefugio(user, ref, new DbUsuarioRepositorio.RegistroCallback() {
+                        @Override
+                        public void onSuccess() {
+
+                            Toast.makeText(ActividadRegister.this, "¡Registro exitoso!", Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(ActividadRegister.this, ActividadLogin.class);
+                            startActivity(intent);
+                            finish();
+                        }
+
+                        @Override
+                        public void onError(String mensaje) {
+
+                            Toast.makeText(ActividadRegister.this, "Error: El correo ya existe o hubo un problema técnico", Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
                 }
 
             } else {
@@ -177,6 +200,23 @@ public class ActividadRegister extends AppCompatActivity {
                     );
 
                     resultado = dao.insertarAdoptante(adoptante);
+                    dbUsuarioRepositorio.registrarAdoptante(user, adoptante, new DbUsuarioRepositorio.RegistroCallback() {
+                        @Override
+                        public void onSuccess() {
+
+                            Toast.makeText(ActividadRegister.this, "¡Registro exitoso!", Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(ActividadRegister.this, ActividadLogin.class);
+                            startActivity(intent);
+                            finish();
+                        }
+
+                        @Override
+                        public void onError(String mensaje) {
+
+                            Toast.makeText(ActividadRegister.this, "Error: El correo ya existe o hubo un problema técnico", Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
                 }
             }
 

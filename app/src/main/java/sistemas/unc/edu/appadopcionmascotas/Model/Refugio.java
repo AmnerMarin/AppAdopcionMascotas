@@ -9,6 +9,8 @@ public class Refugio {
     private double latitud;
     private double longitud;
 
+    private String FirebaseUID;
+
     public Refugio(int idUsuario, String nombre_refugio, String desripcion, String direccion, String telefono, double latitud, double longitud) {
         this.idUsuario = idUsuario;
         this.nombre_refugio = nombre_refugio;
@@ -77,6 +79,14 @@ public class Refugio {
 
     public void setLongitud(double longitud) {
         this.longitud = longitud;
+    }
+
+    public String getFirebaseUID() {
+        return FirebaseUID;
+    }
+
+    public void setFirebaseUID(String firebaseUID) {
+        FirebaseUID = firebaseUID;
     }
 }
 

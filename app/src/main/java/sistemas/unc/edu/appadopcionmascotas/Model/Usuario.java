@@ -5,7 +5,11 @@ public class Usuario {
     private String correo;
     private String contrasena;
     private String rol;
+    private String FirebaseUID;
 
+    public Usuario(){
+
+    }
 
     public Usuario(int idusuario, String correo, String contrasena, String rol) {
         this.idusuario = idusuario;
@@ -36,5 +40,29 @@ public class Usuario {
 
     public int getIdusuario() {
         return idusuario;
+    }
+
+    public String getFirebaseUID() {
+        return FirebaseUID;
+    }
+
+    public void setFirebaseUID(String firebaseUID) {
+        FirebaseUID = firebaseUID;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
+    }
+
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+    public void setIdusuario(int idusuario) {
+        this.idusuario = idusuario;
     }
 }

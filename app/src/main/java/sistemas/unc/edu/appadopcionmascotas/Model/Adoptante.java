@@ -8,6 +8,8 @@ public class Adoptante {
     private String telefono;
     private String direccion;
 
+    private String FirebaseUID;
+
     // Constructor vacío
     public Adoptante() {
     }
@@ -42,4 +44,12 @@ public class Adoptante {
 
     public String getDireccion() { return direccion; }
     public void setDireccion(String direccion) { this.direccion = direccion; }
+
+    public String getFirebaseUID() {
+        return FirebaseUID;
+    }
+
+    public void setFirebaseUID(String firebaseUID) {
+        FirebaseUID = firebaseUID;
+    }
 }

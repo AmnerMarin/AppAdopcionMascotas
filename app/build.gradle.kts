@@ -1,6 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
-//    id("com.google.gms.google-services")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -42,8 +42,8 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.cardview)
     implementation(libs.recyclerview)
-//    implementation(libs.firebase.database)
-
+    implementation(libs.firebase.firestore)
+    implementation(libs.firebase.auth)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
@@ -55,4 +55,8 @@ dependencies {
     // Google Places
     implementation("com.google.android.libraries.places:places:3.5.0")
 
+    //FIREBASE
+
+    implementation(platform("com.google.firebase:firebase-bom:34.9.0"))
+    implementation("com.google.firebase:firebase-analytics")
 }
