@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "307121648076",
+    "project_id": "appadopcionm",
+    "storage_bucket": "appadopcionm.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:307121648076:android:e3a58d9947ba29655b6d69",
+        "android_client_info": {
+          "package_name": "sistemas.unc.edu.appadopcionmascotas"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGaD8A_sUnudZ2tn0DuZjmtPDOok5kR-E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
