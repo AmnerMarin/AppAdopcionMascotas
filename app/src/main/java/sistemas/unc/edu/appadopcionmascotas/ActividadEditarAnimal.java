@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -26,6 +25,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
 import sistemas.unc.edu.appadopcionmascotas.Data.DAOAdopcion;
+import sistemas.unc.edu.appadopcionmascotas.Firebase.DbAnimalRepositorio;
 import sistemas.unc.edu.appadopcionmascotas.Model.Animal;
 
 public class ActividadEditarAnimal extends AppCompatActivity {
@@ -47,11 +47,13 @@ public class ActividadEditarAnimal extends AppCompatActivity {
     private LinearLayout layoutPlaceholderEditar;
     private TextInputEditText edtNombre, edtRaza, edtPeso, edtTemperamento, edtHistoria;
     private MaterialAutoCompleteTextView actEspecie, actTamano, actSexo, actEdad;
-    private MaterialButton btnGuardar, btnEliminar, btnCambiarFoto, btnBack, btnCancelarEditar;
+    private MaterialButton btnGuardar, btnCambiarFoto, btnBack, btnCancelarEditar;
 
     private DAOAdopcion dao;
+    private DbAnimalRepositorio repoAnimales;
     private int idAnimal;
     private int idRefugio;
+    private String firebaseUID; // Importante para Firebase
     private byte[] fotoBytes;
     private boolean fotoCambiada = false;
 
@@ -92,6 +94,8 @@ public class ActividadEditarAnimal extends AppCompatActivity {
         }
 
         dao = new DAOAdopcion(this);
+        repoAnimales = new DbAnimalRepositorio(this);
+
         inicializarVistas();
         configurarDropdowns();
         cargarDatosAnimal();
@@ -111,7 +115,6 @@ public class ActividadEditarAnimal extends AppCompatActivity {
         actSexo = findViewById(R.id.actSexo);
         actEdad = findViewById(R.id.actEdad);
         btnGuardar = findViewById(R.id.btnGuardar);
-        btnEliminar = findViewById(R.id.btnEliminar);
         btnCambiarFoto = findViewById(R.id.btnCambiarFoto);
         btnBack = findViewById(R.id.btnBack);
         btnCancelarEditar = findViewById(R.id.btnCancelarEditar);
@@ -133,6 +136,8 @@ public class ActividadEditarAnimal extends AppCompatActivity {
         }
 
         idRefugio = animal.getIdRefugio();
+        firebaseUID = animal.getFirebaseUID(); // Guardamos el UID para actualizar
+
         edtNombre.setText(animal.getNombre());
         edtRaza.setText(animal.getRaza());
         actEspecie.setText(animal.getEspecie(), false);
@@ -182,16 +187,8 @@ public class ActividadEditarAnimal extends AppCompatActivity {
         String temperamento = edtTemperamento.getText().toString().trim();
         String historia = edtHistoria.getText().toString().trim();
 
-        if (nombre.isEmpty()) {
-            Toast.makeText(this, "El nombre es obligatorio", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (especie.isEmpty()) {
-            Toast.makeText(this, "Selecciona una especie", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (raza.isEmpty()) {
-            Toast.makeText(this, "La raza es obligatoria", Toast.LENGTH_SHORT).show();
+        if (nombre.isEmpty() || especie.isEmpty() || raza.isEmpty()) {
+            Toast.makeText(this, "Nombre, especie y raza son obligatorios", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -200,32 +197,39 @@ public class ActividadEditarAnimal extends AppCompatActivity {
 
         byte[] fotoActual = fotoCambiada ? fotoBytes : dao.obtenerDetalleAnimalConRefugio(idAnimal).getFoto();
 
-        Animal animal = new Animal(
-                idRefugio,
-                nombre,
-                especie,
-                raza,
-                peso,
-                edad,
-                sexo,
-                temperamento,
-                historia,
-                "Disponible",
-                tamano,
-                fotoActual
+        Animal animalActualizado = new Animal(
+                idRefugio, nombre, especie, raza, peso, edad, sexo,
+                temperamento, historia, "Disponible", tamano, fotoActual
         );
+        animalActualizado.setFirebaseUID(firebaseUID);
 
-        boolean ok = dao.actualizarMascota(idAnimal, animal);
-        if (ok) {
-            Toast.makeText(this, "Cambios guardados ✔", Toast.LENGTH_SHORT).show();
-            setResult(RESULT_OK);
-            finish();
-        } else {
-            Toast.makeText(this, "Error al guardar los cambios", Toast.LENGTH_SHORT).show();
-        }
+        btnGuardar.setEnabled(false);
+        Toast.makeText(this, "Actualizando, por favor espere...", Toast.LENGTH_SHORT).show();
+
+        repoAnimales.editarAnimal(idAnimal, animalActualizado, fotoCambiada, new DbAnimalRepositorio.AnimalCallback() {
+            @Override
+            public void onSuccess() {
+                runOnUiThread(() -> {
+                    // Verificamos que la actividad no se esté destruyendo antes de cerrarla
+                    if (!isFinishing() && !isDestroyed()) {
+                        Toast.makeText(ActividadEditarAnimal.this, "Cambios guardados ✔", Toast.LENGTH_SHORT).show();
+                        setResult(RESULT_OK);
+                        finish();
+                    }
+                });
+            }
+
+            @Override
+            public void onError(String mensaje) {
+                runOnUiThread(() -> {
+                    if (!isFinishing() && !isDestroyed()) {
+                        Toast.makeText(ActividadEditarAnimal.this, mensaje, Toast.LENGTH_LONG).show();
+                        btnGuardar.setEnabled(true);
+                    }
+                });
+            }
+        });
     }
-
-
     private byte[] bitmapToByteArray(Bitmap bitmap) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream);

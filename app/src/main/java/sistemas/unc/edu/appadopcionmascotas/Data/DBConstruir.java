@@ -60,6 +60,7 @@ public class DBConstruir extends SQLiteOpenHelper {
             "tamano VARCHAR(10)," +
             "foto BLOB," +
             "FirebaseUID TEXT,"+
+            "fotoUrl TEXT,"+
             "FOREIGN KEY(id_refugio) REFERENCES Refugio(id_refugio)" +
             ")";
 

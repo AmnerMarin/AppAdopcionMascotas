@@ -15,7 +15,9 @@
         private String historia;
         private String estado;
         private String tamano;
-        private byte[] foto;
+        private byte[] foto; //sqlite
+
+        private String fotoUrl; //Firebase
 
         private String DireccionRefugio;
         private String NombreRefugio;
@@ -184,4 +186,7 @@
         public void setFirebaseUID(String firebaseUID) {
             FirebaseUID = firebaseUID;
         }
+
+        public String getFotoUrl() { return fotoUrl; }
+        public void setFotoUrl(String fotoUrl) { this.fotoUrl = fotoUrl; }
     }

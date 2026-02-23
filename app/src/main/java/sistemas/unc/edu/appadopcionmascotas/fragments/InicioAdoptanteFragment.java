@@ -73,12 +73,11 @@ public class InicioAdoptanteFragment extends Fragment {
         int idAdoptante = dao.obtenerIdAdoptantePorUsuario(idUsuario);
 
         // Al iniciar, cargamos todos
+        // Al iniciar, cargamos todos
         listaAnimales = dao.listarMascota();
 
-        adaptador = new AdaptadorAnimalAdoptante(getContext(), listaAnimales, idAdoptante, animal -> {
-            listaAnimales.remove(animal);
-            adaptador.notifyDataSetChanged();
-        });
+        // Le pasamos "null" para que el corazón solo cambie de color, pero no borre la tarjeta de la pantalla
+        adaptador = new AdaptadorAnimalAdoptante(getContext(), listaAnimales, idAdoptante, null);
 
         rcvanimales.setAdapter(adaptador);
     }

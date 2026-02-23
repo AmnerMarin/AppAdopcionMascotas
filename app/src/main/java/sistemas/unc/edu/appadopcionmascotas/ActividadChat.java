@@ -1,120 +1,131 @@
 package sistemas.unc.edu.appadopcionmascotas;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.firestore.ListenerRegistration;
 
 import java.util.List;
 
 import sistemas.unc.edu.appadopcionmascotas.Data.DAOAdopcion;
+import sistemas.unc.edu.appadopcionmascotas.Firebase.DbRepositorioChat;
 import sistemas.unc.edu.appadopcionmascotas.Model.Mensaje;
 import sistemas.unc.edu.appadopcionmascotas.UI.AdaptadorChat;
 
 public class ActividadChat extends AppCompatActivity {
 
-    private RecyclerView rv;
-    private AdaptadorChat adaptador;
-    private List<Mensaje> listaMensajes;
-    private TextView tvNombreCabecera;
+    private RecyclerView rvChat;
+    private AdaptadorChat adaptadorChat;
     private EditText etMensaje;
     private ImageButton btnEnviar;
+    private TextView tvNombreDestino;
+
+    private int idChatLocal;
+    private int miIdUsuario;
+    private String chatUID; // Aquí guardaremos la llave única de la sala (Ej: "1_2_5")
+
     private DAOAdopcion dao;
-    private int idChat, idUsuarioActual;
+    // NOTA: Usé DbRepositorioChat (el nombre que creamos antes). Si el tuyo se llama
+    // DbRepositorioMensajeria, cámbiale el nombre aquí y en la inicialización.
+    private DbRepositorioChat repoMensajeria;
+
+    private ListenerRegistration listenerMensajes; // Para detener la escucha de mensajes al salir
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ly_actividad_chat);
 
-        dao = new DAOAdopcion(this);
+        tvNombreDestino = findViewById(R.id.tvNombreChat);
+        rvChat = findViewById(R.id.recyclerMensajes);
         etMensaje = findViewById(R.id.etMensaje);
         btnEnviar = findViewById(R.id.btnEnviar);
-        rv = findViewById(R.id.recyclerMensajes);
-        tvNombreCabecera = findViewById(R.id.tvNombreChat);
 
+        dao = new DAOAdopcion(this);
+        repoMensajeria = new DbRepositorioChat(this);
 
-        //===TOOLBAR====
-        Toolbar toolbar = findViewById(R.id.toolbarChat);
-        setSupportActionBar(toolbar);
+        // Obtener datos del Intent
+        idChatLocal = getIntent().getIntExtra("ID_CHAT", -1);
+        String nombreDestino = getIntent().getStringExtra("NOMBRE_DESTINO");
+        tvNombreDestino.setText(nombreDestino);
 
+        // Obtener mi ID de usuario logueado
+        SharedPreferences prefs = getSharedPreferences("sesion_usuario", Context.MODE_PRIVATE);
+        miIdUsuario = prefs.getInt("id_usuario", -1);
 
-        // Habilitar la flecha de retroceso
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-            // Quitar el título por defecto del Toolbar si solo quieres ver tu LinearLayout
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        // 1. Obtenemos el FirebaseUID de la base de datos local usando el método que creamos
+        chatUID = dao.obtenerFirebaseUIDChat(idChatLocal);
+
+        if (chatUID == null || chatUID.isEmpty()) {
+            Toast.makeText(this, "Error de sincronización con la sala de chat", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
         }
 
-        // --- CAMBIAR COLOR DE LA FLECHA EN JAVA ---
-        if (toolbar.getNavigationIcon() != null) {
-            // Esto cambia el color de la flecha a negro (puedes usar cualquier color de tus resources)
-            toolbar.getNavigationIcon().setTint(ContextCompat.getColor(this, R.color.black));
-        }
+        configurarRecyclerView();
 
-        // Configurar la acción de la flecha
-        toolbar.setNavigationOnClickListener(v -> {
-            onBackPressed();
+        // 2. Nos suscribimos a Firebase usando el "chatUID" en lugar de los 3 IDs sueltos
+        listenerMensajes = repoMensajeria.escucharMensajes(idChatLocal, chatUID, () -> {
+            // Esto se ejecuta mágicamente cada vez que alguien envía un mensaje a esta sala
+            cargarMensajes();
         });
 
-
-        String nombreChat = getIntent().getStringExtra("NOMBRE_DESTINO");
-        tvNombreCabecera.setText(nombreChat);
-
-        // 1. Obtener datos de la sesión y del Intent
-        SharedPreferences prefs = getSharedPreferences("sesion_usuario", MODE_PRIVATE);
-        idUsuarioActual = prefs.getInt("id_usuario", -1);
-        idChat = getIntent().getIntExtra("ID_CHAT", -1);
-
-        // 2. Configurar RecyclerView
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setStackFromEnd(true); // Empieza desde abajo
-        rv.setLayoutManager(layoutManager);
-
-        cargarChat();
-
-        // 3. Botón Enviar
+        // 3. Botón de Enviar
         btnEnviar.setOnClickListener(v -> {
             String texto = etMensaje.getText().toString().trim();
             if (!texto.isEmpty()) {
-                if (dao.insertarMensaje(idChat, idUsuarioActual, texto)) {
-                    etMensaje.setText("");
-                    cargarChat(); // Refresca la lista
-                }
-            }
-        });
+                etMensaje.setText(""); // Limpiar caja rápido para buena experiencia de usuario
 
-        // Hacer que el RecyclerView se desplace al último mensaje cuando se abra el teclado
-        rv.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
-            if (bottom < oldBottom) { // Si el fondo actual es menor al anterior, el teclado subió
-                if (adaptador.getItemCount() > 0) {
-                    rv.postDelayed(() -> {
-                        rv.smoothScrollToPosition(adaptador.getItemCount() - 1);
-                    }, 100);
-                }
+                // Enviar a la nube
+                repoMensajeria.enviarMensaje(idChatLocal, chatUID, miIdUsuario, texto, new DbRepositorioChat.MensajeCallback() {
+                    @Override
+                    public void onSuccess() {
+                        // Refrescamos nuestra pantalla inmediatamente al mandarlo
+                        cargarMensajes();
+                    }
+
+                    @Override
+                    public void onError(String mensaje) {
+                        Toast.makeText(ActividadChat.this, "Error al enviar: " + mensaje, Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }
 
-    private void cargarChat() {
-        listaMensajes = dao.obtenerMensajesDeChat(idChat);
-        adaptador = new AdaptadorChat(listaMensajes, idUsuarioActual);
-        rv.setAdapter(adaptador);
-        // Hacer scroll al último mensaje
-        if (listaMensajes.size() > 0) {
-            rv.smoothScrollToPosition(listaMensajes.size() - 1);
+    private void configurarRecyclerView() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setStackFromEnd(true); // Para que empiece desde el mensaje más reciente abajo
+        rvChat.setLayoutManager(layoutManager);
+        cargarMensajes();
+    }
+
+    private void cargarMensajes() {
+        List<Mensaje> listaMensajes = dao.obtenerMensajesDeChat(idChatLocal);
+        adaptadorChat = new AdaptadorChat(listaMensajes, miIdUsuario);
+        rvChat.setAdapter(adaptadorChat);
+
+        if (!listaMensajes.isEmpty()) {
+            rvChat.scrollToPosition(listaMensajes.size() - 1); // Hacer scroll hasta abajo
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // ¡SÚPER IMPORTANTE! Desconectarse de Firebase al salir del chat
+        // para que no siga descargando datos de fondo y no gaste batería.
+        if (listenerMensajes != null) {
+            listenerMensajes.remove();
+        }
+    }
 }

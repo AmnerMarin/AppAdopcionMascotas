@@ -1,37 +1,27 @@
 package sistemas.unc.edu.appadopcionmascotas;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageButton;
-import android.widget.ImageView;
+import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
 
-import sistemas.unc.edu.appadopcionmascotas.fragments.DashboardFragment;
+import sistemas.unc.edu.appadopcionmascotas.Data.DAOAdopcion;
+import sistemas.unc.edu.appadopcionmascotas.Firebase.DbAnimalRepositorio;
+import sistemas.unc.edu.appadopcionmascotas.Firebase.DbRepositorioFavoritos;
 import sistemas.unc.edu.appadopcionmascotas.fragments.FavoritosAdoptanteFragment;
 import sistemas.unc.edu.appadopcionmascotas.fragments.InicioAdoptanteFragment;
 import sistemas.unc.edu.appadopcionmascotas.fragments.MensajesFragment;
 import sistemas.unc.edu.appadopcionmascotas.fragments.PerfilAdoptanteFragment;
-import sistemas.unc.edu.appadopcionmascotas.fragments.PerfilFragment;
 import sistemas.unc.edu.appadopcionmascotas.fragments.RefugiosListaFragment;
 import sistemas.unc.edu.appadopcionmascotas.fragments.SolicitudesAdoptanteFragment;
 
 public class ActividadAdoptante extends AppCompatActivity {
 
-
     BottomNavigationView bottom_nav_adoptante;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +29,38 @@ public class ActividadAdoptante extends AppCompatActivity {
 
         bottom_nav_adoptante = findViewById(R.id.bottom_nav_adoptante);
 
+        // Cargar el fragment inicial
         cargarFragment(new InicioAdoptanteFragment());
+
+        // ==============================================================
+        // SINCRONIZACIÓN CON FIREBASE
+        // ==============================================================
+        DbAnimalRepositorio repo = new DbAnimalRepositorio(this);
+        DbRepositorioFavoritos repoFav = new DbRepositorioFavoritos(this); // Instanciamos repo de favs
+
+        // Obtenemos el idAdoptante local
+        DAOAdopcion dao = new DAOAdopcion(this);
+        int idUsuario = getSharedPreferences("sesion_usuario", MODE_PRIVATE).getInt("id_usuario", -1);
+        int idAdoptanteSync = dao.obtenerIdAdoptantePorUsuario(idUsuario);
+
+        Toast.makeText(this, "Sincronizando la nube...", Toast.LENGTH_SHORT).show();
+
+        repo.sincronizarNuevosDesdeFirebase(() -> {
+            // Cuando termine de sincronizar animales, que sincronice los favoritos
+            if (idAdoptanteSync != -1) {
+                repoFav.sincronizarFavoritos(idAdoptanteSync, () -> {
+                    Toast.makeText(this, "¡Sincronización completada!", Toast.LENGTH_SHORT).show();
+
+                    Fragment fragmentActual = getSupportFragmentManager().findFragmentById(R.id.contenedor_adoptante);
+                    if (fragmentActual instanceof InicioAdoptanteFragment || fragmentActual instanceof FavoritosAdoptanteFragment) {
+                        // Recargar el fragment actual para mostrar cambios
+                        cargarFragment(fragmentActual.getClass() == InicioAdoptanteFragment.class ?
+                                new InicioAdoptanteFragment() : new FavoritosAdoptanteFragment());
+                    }
+                });
+            }
+        });
+        // ==============================================================
 
         bottom_nav_adoptante.setOnItemSelectedListener(item -> {
             Fragment selectedFragment = null;
@@ -57,8 +78,7 @@ public class ActividadAdoptante extends AppCompatActivity {
             else if(id == R.id.itemrefugiosdoptante){
                 selectedFragment = new RefugiosListaFragment();
             }
-            else if(id == R.id.itemMensajesadoptante){ //este fragment va a ser comun para adoptante y refugios
-                // Asegúrate de haber creado esta clase Fragment o marcará error en rojo
+            else if(id == R.id.itemMensajesadoptante){
                 selectedFragment = new MensajesFragment();
             }
             else if(id == R.id.itemPerfilAdoptante){
@@ -68,12 +88,11 @@ public class ActividadAdoptante extends AppCompatActivity {
         });
     }
 
-
     private boolean cargarFragment(Fragment fragment) {
         if (fragment != null) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out) //una animacion
+                    .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
                     .replace(R.id.contenedor_adoptante, fragment)
                     .commit();
         }

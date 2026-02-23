@@ -13,11 +13,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import sistemas.unc.edu.appadopcionmascotas.Model.Adopcion;
 import sistemas.unc.edu.appadopcionmascotas.Model.Adoptante;
 import sistemas.unc.edu.appadopcionmascotas.Model.Animal;
 import sistemas.unc.edu.appadopcionmascotas.Model.Conversacion;
-import sistemas.unc.edu.appadopcionmascotas.Model.Favorito;
 import sistemas.unc.edu.appadopcionmascotas.Model.Mensaje;
 import sistemas.unc.edu.appadopcionmascotas.Model.Refugio;
 import sistemas.unc.edu.appadopcionmascotas.Model.Solicitud;
@@ -31,7 +29,7 @@ public class DAOAdopcion {
 
     public DAOAdopcion(Activity contexto) {
         nombreDB = "DBAdoptaPet";
-        version = 4;
+        version = 5;
         this.contexto = contexto;
     }
 
@@ -39,68 +37,55 @@ public class DAOAdopcion {
     // INSERTAR USUARIO
     // =========================
     public long insertarUsuario(Usuario u) {
-
         long rpta = -1;
         DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
-
         SQLiteDatabase db = helper.getWritableDatabase();
 
         if (db != null) {
-
             ContentValues oColumna = new ContentValues();
             oColumna.put("correo", u.getCorreo());
             oColumna.put("contrasena", u.getContrasena());
             oColumna.put("rol", u.getRol());
+            oColumna.put("FirebaseUID", u.getFirebaseUID());
 
             rpta = db.insert("Usuario", null, oColumna);
-
             db.close();
         }
-
-        return rpta; //Es el id
+        return rpta; //Es el id de usuario
     }
 
     // =========================
     // INSERTAR ADOPTANTE
     // =========================
-    public boolean insertarAdoptante(Adoptante a) {
-
-        boolean rpta = false;
+    public long insertarAdoptante(Adoptante a) {
+        long idGenerado = -1;
         DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
-
         SQLiteDatabase db = helper.getWritableDatabase();
 
         if (db != null) {
-
             ContentValues cv = new ContentValues();
             cv.put("id_usuario", a.getId_usuario());
             cv.put("nombres", a.getNombres());
             cv.put("apellidos", a.getApellidos());
             cv.put("telefono", a.getTelefono());
             cv.put("direccion", a.getDireccion());
+            cv.put("FirebaseUID", a.getFirebaseUID());
 
-            long fila = db.insert("Adoptante", null, cv);
-
-            if (fila > 0) rpta = true;
-
+            idGenerado = db.insert("Adoptante", null, cv);
             db.close();
         }
-
-        return rpta;
+        return idGenerado;
     }
 
     // =========================
     // INSERTAR REFUGIO
     // =========================
-    public boolean insertarRefugio(Refugio r) {
-
-        boolean rpta = false;
+    public long insertarRefugio(Refugio r) {
+        long idGenerado = -1;
         DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
-
         SQLiteDatabase db = helper.getWritableDatabase();
 
         if (db != null) {
-
             ContentValues cv = new ContentValues();
             cv.put("id_usuario", r.getIdUsuario());
             cv.put("nombre_refugio", r.getNombre_refugio());
@@ -109,30 +94,23 @@ public class DAOAdopcion {
             cv.put("descripcion", r.getDesripcion());
             cv.put("latitud", r.getLatitud());
             cv.put("longitud", r.getLongitud());
+            cv.put("FirebaseUID", r.getFirebaseUID());
 
-            long fila = db.insert("Refugio", null, cv);
-
-            if (fila > 0) rpta = true;
-
+            idGenerado = db.insert("Refugio", null, cv);
             db.close();
         }
-
-        return rpta;
+        return idGenerado;
     }
-
 
     // =========================
     // INSERTAR MASCOTA
     // =========================
-    public boolean insertarMascota(Animal m) {
-
-        boolean rpta = false;
+    public long insertarMascota(Animal m) {
+        long idGenerado = -1;
         DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
-
         SQLiteDatabase db = helper.getWritableDatabase();
 
         if (db != null) {
-
             ContentValues cv = new ContentValues();
             cv.put("id_refugio", m.getIdRefugio());
             cv.put("nombre", m.getNombre());
@@ -146,48 +124,13 @@ public class DAOAdopcion {
             cv.put("estado", m.getEstado());
             cv.put("tamano", m.getTamano());
             cv.put("foto", m.getFoto());
+            cv.put("FirebaseUID", m.getFirebaseUID());
 
-            long fila = db.insert("Mascota", null, cv);
-
-            if (fila > 0) rpta = true;
-
+            idGenerado = db.insert("Mascota", null, cv);
             db.close();
         }
-
-        return rpta;
+        return idGenerado;
     }
-
-
-    // ==============================
-    // INSERTAR MENSAJE
-    // ==============================
-    /* public boolean insertar(Mensaje m) {
-
-        boolean rpta = false;
-
-        DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
-        SQLiteDatabase db = helper.getWritableDatabase();
-
-        if (db != null) {
-
-            ContentValues valores = new ContentValues();
-
-            valores.put("id_refugio", m.getIdRefugio());
-            valores.put("id_adoptante", m.getIdAdoptante());
-            valores.put("id_mascota", m.getIdAnimal());
-            valores.put("fecha", m.getFecha());
-            valores.put("contenido_mensaje", m.getContenidoMensaje());
-
-            long fila = db.insert("Mensaje", null, valores);
-
-            if (fila > 0) rpta = true;
-
-            db.close();
-        }
-        return rpta;
-    }
-     */
-
 
     //Para el login
     public Usuario login(String correo, String contra) {
@@ -216,8 +159,7 @@ public class DAOAdopcion {
     }
 
     //MÉTODOS PARA LISTAR
-
-// =====================================
+    // =====================================
 
     public List<Refugio> listarRefugio() {
 
@@ -241,7 +183,8 @@ public class DAOAdopcion {
                     double latitud = reg.getDouble(6);
                     double longitud = reg.getDouble(7);
 
-                    Refugio r = new Refugio(idUsuario, nombre, descripcion, direccion, telefono, latitud, longitud);                    lista.add(r);
+                    Refugio r = new Refugio(idUsuario, nombre, descripcion, direccion, telefono, latitud, longitud);
+                    lista.add(r);
 
                 } while (reg.moveToNext());
             }
@@ -251,7 +194,7 @@ public class DAOAdopcion {
         return lista;
     }
 
-// =====================================
+    // =====================================
 
     public List<Animal> listarMascota() {
         List<Animal> lista = new ArrayList<>();
@@ -283,52 +226,6 @@ public class DAOAdopcion {
         db.close();
         return lista;
     }
-
-    /*
-    public List<Mensaje> listarMensaje() {
-
-        List<Mensaje> lista = new ArrayList<>();
-
-        DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
-
-        SQLiteDatabase db = helper.getReadableDatabase();
-
-        if (db != null) {
-
-            String sql = "SELECT * FROM Mensaje";
-
-            Cursor registro = db.rawQuery(sql, null);
-
-            if (registro.moveToFirst()) {
-
-                do {
-
-                    int idRefugio = registro.getInt(1);
-                    int idAdoptante = registro.getInt(2);
-                    int idMascota = registro.getInt(3);
-                    String fecha = registro.getString(4);
-                    String contenido = registro.getString(5);
-
-                    Mensaje m = new Mensaje(
-                            idRefugio,
-                            idAdoptante,
-                            idMascota,
-                            fecha,
-                            contenido
-                    );
-
-                    lista.add(m);
-
-                } while (registro.moveToNext());
-            }
-
-            registro.close();
-            db.close();
-        }
-        return lista;
-    }
-    */
-
 
     //OBETNER IDs
     public int obtenerIdRefugioPorUsuario(int idUsuario) {
@@ -403,8 +300,8 @@ public class DAOAdopcion {
     }
 
     // =============================
-// OBTENER CANTIDAD DE ANIMALES POR REFUGIO
-// =============================
+    // OBTENER CANTIDAD DE ANIMALES POR REFUGIO
+    // =============================
     public int obtenerCantidadAnimalesPorRefugio(int idRefugio) {
         int cantidad = 0;
 
@@ -434,7 +331,7 @@ public class DAOAdopcion {
 
         String query = "SELECT " +
                 "M.id_mascota, M.id_refugio, M.nombre, M.especie, M.raza, M.peso, M.edad, M.sexo, M.temperamento, " +
-                "M.historia, M.estado, M.tamano, M.foto, " +
+                "M.historia, M.estado, M.tamano, M.foto, M.FirebaseUID, " +
                 "R.nombre_refugio, R.direccion, R.telefono " +
                 "FROM Mascota M " +
                 "LEFT JOIN Refugio R ON M.id_refugio = R.id_refugio " +
@@ -452,14 +349,16 @@ public class DAOAdopcion {
             animal.setPeso(cursor.getDouble(5));
             animal.setEdad(cursor.getString(6));
             animal.setSexo(cursor.getString(7));
-            animal.setTemperamento(cursor.getString(8)); // "Juguetón,Activo,Amigable"
+            animal.setTemperamento(cursor.getString(8));
             animal.setHistoria(cursor.getString(9));
             animal.setEstado(cursor.getString(10));
             animal.setTamano(cursor.getString(11));
             animal.setFoto(cursor.getBlob(12));
-            animal.setNombreRefugio(cursor.getString(13));
-            animal.setDireccionRefugio(cursor.getString(14));
-            animal.setTelefonoRefugio(cursor.getString(15));
+
+            animal.setFirebaseUID(cursor.getString(13));
+            animal.setNombreRefugio(cursor.getString(14));
+            animal.setDireccionRefugio(cursor.getString(15));
+            animal.setTelefonoRefugio(cursor.getString(16));
         }
 
         cursor.close();
@@ -505,8 +404,8 @@ public class DAOAdopcion {
     }
 
     // ==============================
-// OBTENER MASCOTAS FAVORITAS DE UN ADOPTANTE
-// ==============================
+    // OBTENER MASCOTAS FAVORITAS DE UN ADOPTANTE
+    // ==============================
     public List<Animal> obtenerFavoritosPorAdoptante(int idAdoptante) {
         List<Animal> lista = new ArrayList<>();
         DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
@@ -575,6 +474,7 @@ public class DAOAdopcion {
             cv.put("estado", m.getEstado() != null ? m.getEstado() : "Disponible");
             cv.put("tamano", m.getTamano());
             cv.put("foto", m.getFoto());
+            cv.put("FirebaseUID", m.getFirebaseUID());
 
             int filas = db.update("Mascota", cv, "id_mascota = ?", new String[]{String.valueOf(idMascota)});
             rpta = filas > 0;
@@ -723,25 +623,49 @@ public class DAOAdopcion {
         return existe;
     }
 
-    //METODO PARA INSERTAR SOLICITUD
-    public boolean insertarSolicitud(int idAdoptante, int idMascota) {
+    // ==========================================
+    // MÉTODOS PARA ADOPCIÓN (ACTUALIZADOS PARA FIREBASE)
+    // ==========================================
 
+    // Método actualizado para recibir el FirebaseUID y la Fecha
+    public boolean insertarSolicitudConUID(int idAdoptante, int idMascota, String fecha, String uid) {
         DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
         SQLiteDatabase db = helper.getWritableDatabase();
-        // Obtener la fecha actual
-        String fechaHoraFormateada = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault()).format(new Date());
 
         ContentValues values = new ContentValues();
         values.put("id_adoptante", idAdoptante);
         values.put("id_mascota", idMascota);
-        values.put("fecha_adopcion", fechaHoraFormateada);
+        values.put("fecha_adopcion", fecha);
         values.put("estado", "Pendiente");
+        values.put("FirebaseUID", uid);
 
         long resultado = db.insert("Adopcion", null, values);
-
         db.close();
-
         return resultado != -1;
+    }
+
+    // Mantengo este por si se usa en otra parte
+    public boolean insertarSolicitud(int idAdoptante, int idMascota) {
+        String fechaHora = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault()).format(new Date());
+        return insertarSolicitudConUID(idAdoptante, idMascota, fechaHora, idAdoptante + "_" + idMascota);
+    }
+
+    public void actualizarEstadoSolicitudPorUID(String uid, String estado) {
+        DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("estado", estado);
+        db.update("Adopcion", values, "FirebaseUID = ?", new String[]{uid});
+        db.close();
+    }
+
+    public void actualizarEstadoMascota(int idMascota, String estado) {
+        DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("estado", estado);
+        db.update("Mascota", values, "id_mascota = ?", new String[]{String.valueOf(idMascota)});
+        db.close();
     }
 
     //METODO PARA APROBAR SOLICITUDES DE ADOPCION
@@ -786,13 +710,14 @@ public class DAOAdopcion {
     }
 
     //METODO PARA LISTAR SOLICITUDES QUE LLE LLEGAN AL REFUGIO
+
     public List<Solicitud> obtenerSolicitudesDelRefugio(int idRefugio) {
         List<Solicitud> lista = new ArrayList<>();
         DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
         SQLiteDatabase db = helper.getReadableDatabase();
 
-        // Agregamos a.id_mascota al SELECT
-        String sql = "SELECT a.id_adopcion, m.nombre, a.fecha_adopcion, (ad.nombres || ' ' || ad.apellidos) as nombre_completo, a.estado, a.id_mascota " +
+        // CAMBIO: Agregamos a.FirebaseUID al final del SELECT
+        String sql = "SELECT a.id_adopcion, m.nombre, a.fecha_adopcion, (ad.nombres || ' ' || ad.apellidos) as nombre_completo, a.estado, a.id_mascota, a.FirebaseUID " +
                 "FROM Adopcion a " +
                 "INNER JOIN Mascota m ON a.id_mascota = m.id_mascota " +
                 "INNER JOIN Adoptante ad ON a.id_adoptante = ad.id_adoptante " +
@@ -807,20 +732,21 @@ public class DAOAdopcion {
                 String fecha = cursor.getString(2);
                 String adoptante = cursor.getString(3);
                 String estado = cursor.getString(4);
-                int idMascota = cursor.getInt(5); // Obtenemos el ID de la mascota
+                int idMascota = cursor.getInt(5);
+                String firebaseUID = cursor.getString(6); // <-- Capturamos el UID
 
-                // ORDEN CORRECTO SEGÚN TU MODELO:
                 Solicitud solicitud = new Solicitud(id, mascota, adoptante, fecha, estado);
-                solicitud.setIdMascota(idMascota); // Asignamos el ID al objeto para que el Adaptador lo pueda usar
+                solicitud.setIdMascota(idMascota);
+                solicitud.setFirebaseUID(firebaseUID); // <-- Se lo pasamos al modelo
 
                 lista.add(solicitud);
 
             } while (cursor.moveToNext());
         }
         cursor.close();
+        db.close();
         return lista;
     }
-
     //METODO PARA OBTENER SOLICITUDES QUE ENVIA EL ADOPTANTE
     public List<Solicitud> obtenerMisSolicitudes(int idAdoptante) {
         List<Solicitud> lista = new ArrayList<>();
@@ -956,14 +882,16 @@ public class DAOAdopcion {
         return correo;
     }
 
-    //SISTEMA DE MENSAJERIA
-    //1. OBTENER LISTA DE CONVERSACIONES
+    // ========================================================
+    // SISTEMA DE MENSAJERÍA (ACTUALIZADO PARA FIREBASE)
+    // ========================================================
 
+    // 1. OBTENER O CREAR CHAT (Ahora le agrega un FirebaseUID único)
     public int obtenerOCrearChat(int idAdoptante, int idRefugio, int idMascota) {
         SQLiteDatabase db = new DBConstruir(contexto, nombreDB, null, version).getWritableDatabase();
         int idChat = -1;
 
-        // 1. Buscamos si ya existe un chat para este trío específico
+        // Buscamos si ya existe
         String sql = "SELECT id_chat FROM Chat WHERE id_adoptante = ? AND id_refugio = ? AND id_mascota = ?";
         Cursor cursor = db.rawQuery(sql, new String[]{
                 String.valueOf(idAdoptante),
@@ -976,19 +904,33 @@ public class DAOAdopcion {
         }
         cursor.close();
 
-        // 2. Si no existe, lo insertamos para que ya tenga un ID
+        // Si no existe, lo creamos con su FirebaseUID (Ej: "1_2_5")
         if (idChat == -1) {
+            String chatUID = idAdoptante + "_" + idRefugio + "_" + idMascota;
+
             ContentValues values = new ContentValues();
             values.put("id_adoptante", idAdoptante);
             values.put("id_refugio", idRefugio);
             values.put("id_mascota", idMascota);
-            // La fecha_creacion se pone sola por el DEFAULT CURRENT_TIMESTAMP
+            values.put("FirebaseUID", chatUID);
 
             long result = db.insert("Chat", null, values);
             idChat = (int) result;
         }
-
         return idChat;
+    }
+
+    // 2. OBTENER EL UID DEL CHAT (Para saber qué sala escuchar en Firebase)
+    public String obtenerFirebaseUIDChat(int idChatLocal) {
+        String uid = "";
+        SQLiteDatabase db = new DBConstruir(contexto, nombreDB, null, version).getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT FirebaseUID FROM Chat WHERE id_chat = ?", new String[]{String.valueOf(idChatLocal)});
+        if (cursor.moveToFirst()) {
+            uid = cursor.getString(0);
+        }
+        cursor.close();
+        db.close();
+        return uid;
     }
 
     public List<Conversacion> obtenerListaConversaciones(int idUsuarioActual, String rol) {
@@ -1052,16 +994,42 @@ public class DAOAdopcion {
         return lista;
     }
 
-    // Guardar un mensaje nuevo
-    public boolean insertarMensaje(int idChat, int idEmisor, String texto) {
+    // 3. GUARDAR MENSAJE CON SU UID DE FIREBASE
+    public boolean insertarMensajeConUID(int idChat, int idEmisor, String texto, String firebaseUID) {
         DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("id_chat", idChat);
         values.put("id_emisor", idEmisor);
         values.put("mensaje", texto);
+        values.put("FirebaseUID", firebaseUID);
         return db.insert("Mensaje", null, values) > 0;
     }
 
-}
+    // 4. VERIFICAR SI EL MENSAJE YA EXISTE PARA NO DUPLICAR
+    public boolean existeMensajeFirebase(String firebaseUID) {
+        DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT id_mensaje FROM Mensaje WHERE FirebaseUID=?", new String[]{firebaseUID});
+        boolean existe = c.moveToFirst();
+        c.close();
+        db.close();
+        return existe;
+    }
 
+    // ==========================================
+    // VERIFICAR SI EL ANIMAL YA EXISTE DE FIREBASE
+    // ==========================================
+    public boolean existeAnimalFirebaseUID(String firebaseUID) {
+        DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor c = db.rawQuery(
+                "SELECT id_mascota FROM Mascota WHERE FirebaseUID=?",
+                new String[]{firebaseUID});
+
+        boolean existe = c.moveToFirst();
+        c.close();
+        db.close();
+        return existe;
+    }
+}

@@ -19,8 +19,6 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.textfield.TextInputEditText;
 
-import kotlin.uuid.Uuid;
-import sistemas.unc.edu.appadopcionmascotas.Data.DAOAdopcion;
 import sistemas.unc.edu.appadopcionmascotas.Firebase.DbUsuarioRepositorio;
 import sistemas.unc.edu.appadopcionmascotas.Model.Adoptante;
 import sistemas.unc.edu.appadopcionmascotas.Model.Refugio;
@@ -45,7 +43,6 @@ public class ActividadRegister extends AppCompatActivity {
         EditText etApellidos = findViewById(R.id.etApellidos);
 
         //Obtenermos los datos comunes
-        TextView txtLabelUbicacion = findViewById(R.id.etDireccion);
         Button abrirmapa =  findViewById(R.id.btnAbrirMapa);
 
         dbUsuarioRepositorio = new DbUsuarioRepositorio(this);
@@ -57,7 +54,6 @@ public class ActividadRegister extends AppCompatActivity {
 
         TextView txtLabelDescripcion = findViewById(R.id.txtLabelDescripcion);
         EditText etDescripcion = findViewById(R.id.etDescripcionRefugio);
-        MaterialButton btnAbrirMapa = findViewById(R.id.btnAbrirMapa);
         Button btnRegistrarse = findViewById(R.id.btnCrearCuenta);
         EditText etDireccion = findViewById(R.id.etDireccion);
         EditText etCorreo = findViewById(R.id.etRegistroCorreo);
@@ -69,24 +65,20 @@ public class ActividadRegister extends AppCompatActivity {
         toggleGroupRol.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
             if (isChecked) {
                 if (checkedId == R.id.btnRefugio) {
-
-                    txtLabelNombre.setText("Nombre del refugio"); // Cambiamos para refugio
+                    txtLabelNombre.setText("Nombre del refugio");
                     etNombre.setHint("Ej: Refugio Huellitas");
-
-                    txtLabelDescripcion.setVisibility(View.VISIBLE); //mostramos el label de descripcion
+                    txtLabelDescripcion.setVisibility(View.VISIBLE);
                     etDescripcion.setVisibility(View.VISIBLE);
-                    txtLabelApellidos.setVisibility(View.GONE); // Ocultamos el label de apellidos
-                    etApellidos.setVisibility(View.GONE); // Ocultamos el campo de apellidos
+                    txtLabelApellidos.setVisibility(View.GONE);
+                    etApellidos.setVisibility(View.GONE);
 
                 } else if (checkedId == R.id.btnAdoptante) {
-
-                    txtLabelNombre.setText("Nombre:"); // Cambios para adoptante
+                    txtLabelNombre.setText("Nombre:");
                     etNombre.setHint("Ej: Garcia");
-
-                    txtLabelDescripcion.setVisibility(View.GONE); // Ocultamos el label de descripcion
-                    etDescripcion.setVisibility(View.GONE); // Ocultamos el campo de descripcion
-                    txtLabelApellidos.setVisibility(View.VISIBLE); // Mostramos el label de apellidos
-                    etApellidos.setVisibility(View.VISIBLE); // Mostramos el campo de apellidos
+                    txtLabelDescripcion.setVisibility(View.GONE);
+                    etDescripcion.setVisibility(View.GONE);
+                    txtLabelApellidos.setVisibility(View.VISIBLE);
+                    etApellidos.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -114,7 +106,6 @@ public class ActividadRegister extends AppCompatActivity {
         tvLogin.setMovementMethod(LinkMovementMethod.getInstance());
 
 
-        DAOAdopcion dao= new DAOAdopcion(this);
         btnRegistrarse.setOnClickListener(item -> {
 
             String direccion = etDireccion.getText().toString().trim();
@@ -127,7 +118,10 @@ public class ActividadRegister extends AppCompatActivity {
             }
 
             int idSeleccionado = toggleGroupRol.getCheckedButtonId();
-            boolean resultado = false;
+
+            // Bloqueamos el botón para evitar que le den doble clic mientras carga
+            btnRegistrarse.setEnabled(false);
+            Toast.makeText(this, "Registrando usuario, por favor espera...", Toast.LENGTH_SHORT).show();
 
             if (idSeleccionado == R.id.btnRefugio) {
 
@@ -135,45 +129,44 @@ public class ActividadRegister extends AppCompatActivity {
                 String descripcion = etDescripcion.getText().toString().trim();
 
                 if (!validarRefugio(nombreRefugio, descripcion)) {
+                    btnRegistrarse.setEnabled(true);
                     return;
                 }
 
                 Usuario user = new Usuario(correo, contrasenia, "Refugio");
-                long idGenerado = dao.insertarUsuario(user);
 
-                if (idGenerado != -1) {
+                Refugio ref = new Refugio();
+                ref.setNombre_refugio(nombreRefugio);
+                ref.setDesripcion(descripcion);
+                ref.setDireccion(direccion);
+                ref.setTelefono(telefono);
+                ref.setLatitud(latitud);
+                ref.setLongitud(longitud);
 
-                    int IdUsuario = (int) idGenerado;
+                // Mandamos todo al Repositorio (él se encarga de guardar en SQLite y en Firebase)
+                dbUsuarioRepositorio.registrarRefugio(user, ref, new DbUsuarioRepositorio.RegistroCallback() {
+                    @Override
+                    public void onSuccess() {
+                        runOnUiThread(() -> {
+                            if (!isFinishing() && !isDestroyed()) {
+                                Toast.makeText(ActividadRegister.this, "¡Registro exitoso! Bienvenido", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(ActividadRegister.this, ActividadLogin.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        });
+                    }
 
-                    Refugio ref = new Refugio(
-                            IdUsuario,
-                            nombreRefugio,
-                            descripcion,
-                            direccion,
-                            telefono,
-                            latitud,
-                            longitud
-                    );
-
-                    resultado = dao.insertarRefugio(ref);
-                    dbUsuarioRepositorio.registrarRefugio(user, ref, new DbUsuarioRepositorio.RegistroCallback() {
-                        @Override
-                        public void onSuccess() {
-
-                            Toast.makeText(ActividadRegister.this, "¡Registro exitoso!", Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(ActividadRegister.this, ActividadLogin.class);
-                            startActivity(intent);
-                            finish();
-                        }
-
-                        @Override
-                        public void onError(String mensaje) {
-
-                            Toast.makeText(ActividadRegister.this, "Error: El correo ya existe o hubo un problema técnico", Toast.LENGTH_SHORT).show();
-
-                        }
-                    });
-                }
+                    @Override
+                    public void onError(String mensaje) {
+                        runOnUiThread(() -> {
+                            if (!isFinishing() && !isDestroyed()) {
+                                btnRegistrarse.setEnabled(true);
+                                Toast.makeText(ActividadRegister.this, "Error: " + mensaje, Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                });
 
             } else {
 
@@ -181,54 +174,42 @@ public class ActividadRegister extends AppCompatActivity {
                 String apellidos = etApellidos.getText().toString().trim();
 
                 if (!validarAdoptante(nombreAdoptante, apellidos)) {
+                    btnRegistrarse.setEnabled(true);
                     return;
                 }
 
                 Usuario user = new Usuario(correo, contrasenia, "Adoptante");
-                long idGenerado = dao.insertarUsuario(user);
 
-                if (idGenerado != -1) {
+                Adoptante adoptante = new Adoptante();
+                adoptante.setNombres(nombreAdoptante);
+                adoptante.setApellidos(apellidos);
+                adoptante.setTelefono(telefono);
+                adoptante.setDireccion(direccion);
 
-                    int IdUsuario = (int) idGenerado;
+                // Mandamos todo al Repositorio
+                dbUsuarioRepositorio.registrarAdoptante(user, adoptante, new DbUsuarioRepositorio.RegistroCallback() {
+                    @Override
+                    public void onSuccess() {
+                        runOnUiThread(() -> {
+                            if (!isFinishing() && !isDestroyed()) {
+                                Toast.makeText(ActividadRegister.this, "¡Registro exitoso! Bienvenido", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(ActividadRegister.this, ActividadLogin.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        });
+                    }
 
-                    Adoptante adoptante = new Adoptante(
-                            IdUsuario,
-                            nombreAdoptante,
-                            apellidos,
-                            telefono,
-                            direccion
-                    );
-
-                    resultado = dao.insertarAdoptante(adoptante);
-                    dbUsuarioRepositorio.registrarAdoptante(user, adoptante, new DbUsuarioRepositorio.RegistroCallback() {
-                        @Override
-                        public void onSuccess() {
-
-                            Toast.makeText(ActividadRegister.this, "¡Registro exitoso!", Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(ActividadRegister.this, ActividadLogin.class);
-                            startActivity(intent);
-                            finish();
-                        }
-
-                        @Override
-                        public void onError(String mensaje) {
-
-                            Toast.makeText(ActividadRegister.this, "Error: El correo ya existe o hubo un problema técnico", Toast.LENGTH_SHORT).show();
-
-                        }
-                    });
-                }
-            }
-
-            if (resultado) {
-                Toast.makeText(this, "¡Registro exitoso! Bienvenido", Toast.LENGTH_LONG).show();
-
-                Intent intent = new Intent(ActividadRegister.this, ActividadLogin.class);
-                startActivity(intent);
-                finish();
-
-            } else {
-                Toast.makeText(this, "Error: El correo ya existe o hubo un problema técnico", Toast.LENGTH_SHORT).show();
+                    @Override
+                    public void onError(String mensaje) {
+                        runOnUiThread(() -> {
+                            if (!isFinishing() && !isDestroyed()) {
+                                btnRegistrarse.setEnabled(true);
+                                Toast.makeText(ActividadRegister.this, "Error: " + mensaje, Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                });
             }
         });
     }
@@ -289,7 +270,6 @@ public class ActividadRegister extends AppCompatActivity {
         return true;
     }
 
-
     // ================= VALIDAR REFUGIO =================
     private boolean validarRefugio(String nombreRefugio, String descripcion) {
 
@@ -315,7 +295,6 @@ public class ActividadRegister extends AppCompatActivity {
 
         return true;
     }
-
 
     // ================= VALIDAR ADOPTANTE =================
     private boolean validarAdoptante(String nombre, String apellidos) {

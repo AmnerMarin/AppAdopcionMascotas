@@ -1,6 +1,5 @@
 package sistemas.unc.edu.appadopcionmascotas.UI;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -22,16 +21,18 @@ import java.util.List;
 
 import sistemas.unc.edu.appadopcionmascotas.ActividadEditarAnimal;
 import sistemas.unc.edu.appadopcionmascotas.ActividadVerAnimal;
-import sistemas.unc.edu.appadopcionmascotas.Data.DAOAdopcion;
+import sistemas.unc.edu.appadopcionmascotas.Firebase.DbAnimalRepositorio;
 import sistemas.unc.edu.appadopcionmascotas.Model.Animal;
 import sistemas.unc.edu.appadopcionmascotas.R;
 
 public class AdaptadorAnimal extends RecyclerView.Adapter<AdaptadorAnimal.ViewHolder> {
 
     private List<Animal> listaAnimales;
+    private Context context;
 
-    public AdaptadorAnimal(List<Animal> listaAnimales, Context Context) {
+    public AdaptadorAnimal(List<Animal> listaAnimales, Context context) {
         this.listaAnimales = listaAnimales;
+        this.context = context;
     }
 
     @NonNull
@@ -47,63 +48,69 @@ public class AdaptadorAnimal extends RecyclerView.Adapter<AdaptadorAnimal.ViewHo
         holder.tvNombre.setText(animal.getNombre());
         holder.tvRaza.setText(animal.getRaza());
         holder.tvEspecie.setText(animal.getEspecie());
-        //holder.imgAnimal.setImageResource(animal.getImagenRes());
 
         byte[] foto = animal.getFoto();
 
-        if (foto != null) {
-
+        if (foto != null && foto.length > 0) {
             Bitmap oImagen = BitmapFactory.decodeByteArray(foto, 0, foto.length);
             holder.imgAnimal.setImageBitmap(oImagen);
         } else {
             holder.imgAnimal.setImageResource(R.drawable.perro_prueba);
         }
+
         holder.btnVer.setOnClickListener(view -> {
             Intent intent = new Intent(view.getContext(), ActividadVerAnimal.class);
             intent.putExtra("ID_ANIMAL", animal.getIdMascota());
             view.getContext().startActivity(intent);
         });
 
-        holder.btnEditar.setOnClickListener(view -> {
+        // Configurar el click para editar
+        View.OnClickListener listenerEditar = view -> {
             Intent intent = new Intent(view.getContext(), ActividadEditarAnimal.class);
             intent.putExtra("ID_ANIMAL", animal.getIdMascota());
             view.getContext().startActivity(intent);
-        });
+        };
+        holder.btnEditar.setOnClickListener(listenerEditar);
+        holder.itemView.setOnClickListener(listenerEditar);
 
-        holder.itemView.setOnClickListener(view -> {
-            Intent intent = new Intent(view.getContext(), ActividadEditarAnimal.class);
-            intent.putExtra("ID_ANIMAL", animal.getIdMascota());
-            view.getContext().startActivity(intent);
-        });
-
+        // ==========================================
+        // NUEVA LÓGICA DE ELIMINAR CON FIREBASE
+        // ==========================================
         holder.btnEliminar.setOnClickListener(v -> {
             new MaterialAlertDialogBuilder(holder.itemView.getContext())
                     .setTitle("¿Eliminar a " + animal.getNombre() + "?")
-                    .setMessage("Esta acción eliminará la publicación de este dispositivo.")
+                    .setMessage("Esta acción eliminará la publicación de este dispositivo y de la nube. No se puede deshacer.")
                     .setPositiveButton("Eliminar", (dialog, which) -> {
 
-                        DAOAdopcion dao = new DAOAdopcion((Activity)holder.itemView.getContext());
+                        holder.btnEliminar.setEnabled(false); // Evitar doble clic
+                        Toast.makeText(holder.itemView.getContext(), "Eliminando...", Toast.LENGTH_SHORT).show();
 
-                        if (dao.eliminarAnimal(animal.getIdMascota())) {
+                        // Usamos el repositorio en lugar del DAO
+                        DbAnimalRepositorio repo = new DbAnimalRepositorio(holder.itemView.getContext());
 
-                            //Para actualizar las tarjetas
-                            int adapterPos = holder.getBindingAdapterPosition();
-                            if (adapterPos != RecyclerView.NO_POSITION) {
-                                listaAnimales.remove(adapterPos);
-                                notifyItemRemoved(adapterPos);
-                                notifyItemRangeChanged(adapterPos, listaAnimales.size());
+                        repo.eliminarAnimal(animal.getIdMascota(), animal.getFirebaseUID(), new DbAnimalRepositorio.AnimalCallback() {
+                            @Override
+                            public void onSuccess() {
+                                int adapterPos = holder.getBindingAdapterPosition();
+                                if (adapterPos != RecyclerView.NO_POSITION) {
+                                    listaAnimales.remove(adapterPos);
+                                    notifyItemRemoved(adapterPos);
+                                    notifyItemRangeChanged(adapterPos, listaAnimales.size());
 
-                                Toast.makeText(holder.itemView.getContext(),
-                                        "Animal eliminado correctamente",
-                                        Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(holder.itemView.getContext(),
+                                            "Animal eliminado correctamente",
+                                            Toast.LENGTH_SHORT).show();
+                                }
                             }
 
-                        } else {
-                            Toast.makeText(holder.itemView.getContext(),
-                                    "Error al eliminar",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-
+                            @Override
+                            public void onError(String mensaje) {
+                                Toast.makeText(holder.itemView.getContext(),
+                                        "Error al eliminar: " + mensaje,
+                                        Toast.LENGTH_LONG).show();
+                                holder.btnEliminar.setEnabled(true);
+                            }
+                        });
                     })
                     .setNegativeButton("Cancelar", null)
                     .show();
@@ -116,10 +123,10 @@ public class AdaptadorAnimal extends RecyclerView.Adapter<AdaptadorAnimal.ViewHo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-
         TextView tvNombre, tvRaza, tvEspecie;
         ShapeableImageView imgAnimal;
         MaterialButton btnVer, btnEditar, btnEliminar;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvNombre = itemView.findViewById(R.id.tvNombrePerfil);

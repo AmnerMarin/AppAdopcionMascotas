@@ -9,6 +9,8 @@ public class Solicitud {
     private String estado;
     private byte[] fotoMascota;
 
+    private String FirebaseUID;
+
     public Solicitud() {
     }
 
@@ -35,4 +37,12 @@ public class Solicitud {
     public void setFotoMascota(byte[] fotoMascota) { this.fotoMascota = fotoMascota; }
     public int getIdMascota() { return idMascota; }
     public void setIdMascota(int idMascota) { this.idMascota = idMascota; }
+
+    public String getFirebaseUID() {
+        return FirebaseUID;
+    }
+
+    public void setFirebaseUID(String firebaseUID) {
+        FirebaseUID = firebaseUID;
+    }
 }

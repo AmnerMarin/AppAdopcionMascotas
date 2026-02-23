@@ -2,6 +2,7 @@ package sistemas.unc.edu.appadopcionmascotas.Model;
 
 public class Refugio {
     private int idUsuario;
+    private int id_refugio;
     private String nombre_refugio;
     private String desripcion;
     private String direccion;
@@ -87,6 +88,14 @@ public class Refugio {
 
     public void setFirebaseUID(String firebaseUID) {
         FirebaseUID = firebaseUID;
+    }
+
+    public int getId_refugio() {
+        return id_refugio;
+    }
+
+    public void setId_refugio(int id_refugio) {
+        this.id_refugio = id_refugio;
     }
 }
 
