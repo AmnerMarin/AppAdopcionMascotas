@@ -9,6 +9,8 @@ public class Refugio {
     private String telefono;
     private double latitud;
     private double longitud;
+    private boolean esExterno = false;
+    private String correo; // <-- NUEVO
 
     private String FirebaseUID;
 
@@ -90,12 +92,14 @@ public class Refugio {
         FirebaseUID = firebaseUID;
     }
 
-    public int getId_refugio() {
-        return id_refugio;
-    }
-
     public void setId_refugio(int id_refugio) {
         this.id_refugio = id_refugio;
     }
+
+    public boolean isEsExterno() { return esExterno; }
+    public void setEsExterno(boolean esExterno) { this.esExterno = esExterno; }
+
+    public String getCorreo() { return correo; }
+    public void setCorreo(String correo) { this.correo = correo; }
 }
 

@@ -19,6 +19,9 @@
 
         private String fotoUrl; //Firebase
 
+        //LISTADO API
+        private boolean esExterno = false;
+
         private String DireccionRefugio;
         private String NombreRefugio;
         private String TelefonoRefugio;
@@ -189,4 +192,12 @@
 
         public String getFotoUrl() { return fotoUrl; }
         public void setFotoUrl(String fotoUrl) { this.fotoUrl = fotoUrl; }
+
+        public boolean isEsExterno() {
+            return esExterno;
+        }
+
+        public void setEsExterno(boolean esExterno) {
+            this.esExterno = esExterno;
+        }
     }

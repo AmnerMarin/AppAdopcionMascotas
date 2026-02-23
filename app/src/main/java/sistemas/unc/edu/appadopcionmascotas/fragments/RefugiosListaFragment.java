@@ -1,76 +1,42 @@
 package sistemas.unc.edu.appadopcionmascotas.fragments;
 
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import java.util.ArrayList;
 import java.util.List;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
+import sistemas.unc.edu.appadopcionmascotas.API.RetrofitClient;
 import sistemas.unc.edu.appadopcionmascotas.Data.DAOAdopcion;
 import sistemas.unc.edu.appadopcionmascotas.Model.Refugio;
+import sistemas.unc.edu.appadopcionmascotas.Model.RefugioAPI;
 import sistemas.unc.edu.appadopcionmascotas.R;
 import sistemas.unc.edu.appadopcionmascotas.UI.AdaptadorUbicacionRefugios;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link RefugiosListaFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class RefugiosListaFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private RecyclerView recycler;
+    private AdaptadorUbicacionRefugios adapter;
+    private DAOAdopcion adopcion;
+    private List<Refugio> listaGlobal;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    public RefugiosListaFragment() {}
 
-    public RefugiosListaFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment RefugiosListaFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static RefugiosListaFragment newInstance(String param1, String param2) {
-        RefugiosListaFragment fragment = new RefugiosListaFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+        return new RefugiosListaFragment();
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.ly_fragment_refugios_lista, container, false);
     }
 
@@ -78,11 +44,49 @@ public class RefugiosListaFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RecyclerView recycler = view.findViewById(R.id.rv_refugios);
+        recycler = view.findViewById(R.id.rv_refugios);
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        adopcion = new DAOAdopcion(requireActivity());
 
-        DAOAdopcion adopcion =  new DAOAdopcion(requireActivity());
-        AdaptadorUbicacionRefugios adapter = new AdaptadorUbicacionRefugios(getContext(),adopcion.listarRefugio());
+        cargarRefugiosCombinados();
+    }
+
+    private void cargarRefugiosCombinados() {
+        listaGlobal = adopcion.listarRefugio();
+        adapter = new AdaptadorUbicacionRefugios(getContext(), listaGlobal);
         recycler.setAdapter(adapter);
+
+        RetrofitClient.getApiService().obtenerRefugiosExternos().enqueue(new Callback<List<RefugioAPI>>() {
+            @Override
+            public void onResponse(Call<List<RefugioAPI>> call, Response<List<RefugioAPI>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+
+                    for (RefugioAPI apiItem : response.body()) {
+                        Refugio refWeb = new Refugio();
+
+                        // Aquí pasamos los datos obligando a que se llenen
+                        refWeb.setNombre_refugio(apiItem.getNombre_refugio());
+                        refWeb.setDireccion(apiItem.getDireccion());
+                        refWeb.setTelefono(apiItem.getTelefonoAPI());
+                        refWeb.setDesripcion(apiItem.getDescripcion());
+                        refWeb.setCorreo(apiItem.getEmail());
+
+                        refWeb.setEsExterno(true);
+                        refWeb.setIdUsuario(-1);
+
+                        listaGlobal.add(refWeb);
+                    }
+
+                    if (adapter != null) {
+                        adapter.actualizarLista(listaGlobal);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<RefugioAPI>> call, Throwable t) {
+                android.util.Log.e("API_ERROR", "Fallo al conectar con Mocki: " + t.getMessage());
+            }
+        });
     }
 }
