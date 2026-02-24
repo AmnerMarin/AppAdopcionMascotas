@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +42,7 @@ public class MensajesFragment extends Fragment {
     private RecyclerView rv;
     private AdaptadorConversaciones adaptador;
     private DAOAdopcion dao;
+    private TextView tvCantidadMensajes;
 
     public MensajesFragment() {
         // Required empty public constructor
@@ -85,6 +87,7 @@ public class MensajesFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         rv = view.findViewById(R.id.rvMensajes);
+        tvCantidadMensajes = view.findViewById(R.id.tvCantidadMensajes);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         dao = new DAOAdopcion(requireActivity());
         cargarDatos();
@@ -107,6 +110,16 @@ public class MensajesFragment extends Fragment {
 
             if (lista.isEmpty()) {
                 android.util.Log.d("CHAT_DEBUG", "La lista volvió vacía del DAO");
+            }
+
+            // 🔥 ACTUALIZAR CONTADOR
+            int cantidad = lista.size();
+
+            if (cantidad > 0) {
+                tvCantidadMensajes.setText(cantidad + " nuevos");
+                tvCantidadMensajes.setVisibility(View.VISIBLE);
+            } else {
+                tvCantidadMensajes.setVisibility(View.GONE);
             }
         }
     }

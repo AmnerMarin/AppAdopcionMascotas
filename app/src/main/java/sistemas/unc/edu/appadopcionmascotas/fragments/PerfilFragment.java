@@ -120,7 +120,7 @@ public class PerfilFragment extends Fragment {
                 txtAdoptados.setText(
                         String.valueOf(stats.getOrDefault("adoptados", 0)));
 
-                txtMensajes.setText("0");
+                txtMensajes.setText(String.valueOf(stats.getOrDefault("mensajes", 0)));
             }
         }
     }

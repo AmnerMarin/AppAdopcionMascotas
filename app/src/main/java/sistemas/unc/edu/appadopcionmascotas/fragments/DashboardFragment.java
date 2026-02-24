@@ -96,7 +96,7 @@ public class DashboardFragment extends Fragment {
                 // Usar getOrDefault para estar 100% seguros de que no sea null
                 tvPublicados.setText(String.valueOf(stats.getOrDefault("publicados", 0)));
                 tvAdoptados.setText(String.valueOf(stats.getOrDefault("adoptados", 0)));
-                tvMensajes.setText("0");
+                tvMensajes.setText(String.valueOf(stats.getOrDefault("mensajes", 0)));
 
                 // 3. Configurar RecyclerView
                 rvAnimales.setLayoutManager(new LinearLayoutManager(getContext()));

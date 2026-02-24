@@ -10,6 +10,7 @@
         <item name="color">@color/orange_adopted</item>
         <item name="colorContainer">@color/gray_ligth</item>
         <item name="colorControlHighlight">@color/gray</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
     </style>
 
     <style name="Theme.AppAdopcionMascotas" parent="Base.Theme.AppAdopcionMascotas" />

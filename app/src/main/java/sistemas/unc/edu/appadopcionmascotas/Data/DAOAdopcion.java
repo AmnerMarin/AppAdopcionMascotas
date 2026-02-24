@@ -580,6 +580,7 @@ public class DAOAdopcion {
         stats.put("publicados", 0);
         stats.put("adoptados", 0);
         stats.put("activos", 0);
+        stats.put("mensajes", 0);
         SQLiteDatabase db = helper.getReadableDatabase();
 
         // 1. Total Publicados
@@ -599,6 +600,14 @@ public class DAOAdopcion {
                 new String[]{String.valueOf(idRefugio)});
         if (c3.moveToFirst()) stats.put("activos", c3.getInt(0));
         c3.close();
+
+        // 4. Total Mensajes / Conversaciones
+        Cursor c4 = db.rawQuery(
+                "SELECT COUNT(*) FROM Chat WHERE id_refugio = ?",
+                new String[]{String.valueOf(idRefugio)}
+        );
+        if (c4.moveToFirst()) stats.put("mensajes", c4.getInt(0));
+        c4.close();
 
         return stats;
     }
