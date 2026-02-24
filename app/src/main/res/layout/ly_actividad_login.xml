@@ -17,13 +17,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo_moderno" />
+        app:srcCompat="@drawable/nuevo_logo_horizontal_ajustado" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cvLogin"
         android:layout_width="356dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="17dp"
+        android:layout_marginTop="60dp"
         app:cardCornerRadius="20dp"
         app:cardElevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"

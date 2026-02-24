@@ -22,7 +22,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/logo_moderno"/>
+            android:src="@drawable/nuevo_logo_horizontal_ajustado"/>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cvRegister"
