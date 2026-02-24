@@ -46,14 +46,6 @@
                     android:textSize="15sp"
                     android:textStyle="bold"
                     />
-
-                <TextView
-                    android:id="@+id/lb_num_favoritos"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="2 mascotas"
-                    android:textSize="12sp"
-                    android:textColor="#9E9E9E"/>
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
