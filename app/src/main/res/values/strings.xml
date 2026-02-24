@@ -1,11 +1,11 @@
 <resources>
-    <string name="app_name">AppAdopcionMascotas</string>
+    <string name="app_name">AdoptaPet</string>
     <string name="contrasenia">Contraseña</string>
     <string name="texto_correo_ejemplo">correo@ejemplo.com</string>
     <string name="correo_electronico_label">Correo electrónico</string>
     <string name="inicar_sesion_para_continuar">Inicia sesión para continuar</string>
     <string name="iniciar_sesion">Iniciar Sesión</string>
-    <string name="asteriscos">********</string>
+    <string name="asteriscos" translatable="false">********</string>
     <string name="iniciar_sesion_nombre_boton">Iniciar Sesión</string>
     <string name="no_tienes_una_cuenta_registrarse">¿No tienes una cuenta? Registrarse</string>
     <string name="logo_de_adoptapet">Logo de adoptapet</string>
@@ -26,12 +26,12 @@
     <string name="responder">Responder</string>
     <string name="mar_a_garc_a">María García</string>
     <string name="maria_email_com">maria@email.com</string>
-    <string name="_31_1_2026">31/1/2026</string>
+    <string name="_31_1_2026" translatable="false">31/1/2026</string>
     <string name="agregar_fab">Agregar</string>
     <string name="perfiles">perfiles</string>
     <string name="refugio_amigos_peludos">Refugio Amigos Peludos</string>
     <string name="calle_pricnipal_123_ciudad_de_cajamarca">Calle Pricnipal 123, Ciudad de Cajamarca</string>
-    <string name="contacto_amigospeludos_com">contacto@amigospeludos.com</string>
+    <string name="contacto_amigospeludos_com" translatable="false">contacto@amigospeludos.com</string>
     <string name="direcci_n">Dirección</string>
     <string name="nete_a_nuestra_comunidad">Únete a nuestra comunidad</string>
     <string name="adoptante">Adoptante</string>
