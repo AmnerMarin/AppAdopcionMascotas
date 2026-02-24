@@ -18,7 +18,11 @@
         android:theme="@style/Theme.AppAdopcionMascotas">
         <activity
             android:name=".ActividadChat"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"
+            >
+            <!-- Para que se ajuste al teclado -->
+        </activity>
         <activity
             android:name=".ActividadMapas"
             android:exported="false" />
@@ -27,9 +31,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBKQ_NetM9ThDvtI0NCDznAo115LZVR774" />
 
-        <activity
-            android:name=".ActividadContactarRefugio"
-            android:exported="false" />
         <activity
             android:name=".ActividadRefugio"
             android:exported="false" />
@@ -40,16 +41,10 @@
             android:name=".ActividadVerAnimal"
             android:exported="false" />
         <activity
-            android:name=".ActividadAgregarAnimal"
-            android:exported="false" />
-        <activity
             android:name=".ActividadRegister"
             android:exported="false" />
         <activity
             android:name=".ActividadAdoptante"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".ActividadPublicarAnimal"

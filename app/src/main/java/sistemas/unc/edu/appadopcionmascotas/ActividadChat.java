@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -49,6 +50,18 @@ public class ActividadChat extends AppCompatActivity {
         rvChat = findViewById(R.id.recyclerMensajes);
         etMensaje = findViewById(R.id.etMensaje);
         btnEnviar = findViewById(R.id.btnEnviar);
+
+        //Toolbar
+        Toolbar toolbar = findViewById(R.id.toolbarChat);
+        setSupportActionBar(toolbar);
+
+        // Activar flecha atrás
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
+        toolbar.getNavigationIcon().setTint(getResources().getColor(R.color.primary_color));
 
         dao = new DAOAdopcion(this);
         repoMensajeria = new DbRepositorioChat(this);
@@ -127,5 +140,11 @@ public class ActividadChat extends AppCompatActivity {
         if (listenerMensajes != null) {
             listenerMensajes.remove();
         }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish(); // Cierra la actividad y regresa
+        return true;
     }
 }

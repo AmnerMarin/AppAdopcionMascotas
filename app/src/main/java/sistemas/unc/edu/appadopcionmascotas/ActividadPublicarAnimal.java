@@ -45,7 +45,7 @@ public class ActividadPublicarAnimal extends AppCompatActivity {
     private TextInputEditText txtRaza;
     private TextInputEditText txtTemperamento;
     private TextInputEditText txtHistoria, edtpeso;
-    private MaterialButton btnCancelar, btnPublicar;
+    private MaterialButton btnCancelar, btnPublicar, btnBack;
 
     private MaterialCardView cardFoto;
     private LinearLayout placeholder;
@@ -137,6 +137,7 @@ public class ActividadPublicarAnimal extends AppCompatActivity {
         actsexo = findViewById(R.id.actSexoPublicar);
         cardFoto = findViewById(R.id.cardFotoPublicar);
         placeholder = findViewById(R.id.layoutPlaceholder);
+        btnBack = findViewById(R.id.btnBack);
 
         imgFoto.setVisibility(View.GONE);
         placeholder.setVisibility(View.VISIBLE);
@@ -164,6 +165,7 @@ public class ActividadPublicarAnimal extends AppCompatActivity {
             btnPublicar.setEnabled(false); // Evitar doble clic
             insertarAnimal();
         });
+        btnBack.setOnClickListener(v -> finish());
     }
 
     private void abrirGaleria() {
