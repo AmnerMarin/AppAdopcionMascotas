@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitClient {
 
     private static Retrofit retrofit = null;
-    private static final String BASE_URL = "https://run.mocki.io/";
+    private static final String BASE_URL = "https://gist.githubusercontent.com/";
 
     public static RefugioAPIService getApiService() {
         if (retrofit == null) {
