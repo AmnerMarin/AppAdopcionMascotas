@@ -15,7 +15,7 @@
         android:layout_width="44dp"
         android:layout_height="44dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="30dp"
         android:elevation="15dp"
         app:backgroundTint="@color/tag_color"
         app:cornerRadius="22dp"

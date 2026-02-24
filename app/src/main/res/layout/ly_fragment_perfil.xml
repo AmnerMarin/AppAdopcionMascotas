@@ -18,7 +18,7 @@
                 android:layout_height="196dp"
                 android:background="@drawable/bg_header_green"
                 android:paddingStart="18dp"
-                android:paddingTop="20dp"
+                android:paddingTop="40dp"
                 android:paddingEnd="18dp"
                 android:paddingBottom="18dp"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -27,7 +27,7 @@
                 app:subtitle="Mascotas que has guardado"
                 app:subtitleTextColor="@color/white"
                 android:paddingBottom="30dp"
-                android:paddingTop="15dp">
+                android:paddingTop="30dp">
             </com.google.android.material.appbar.MaterialToolbar>
 
             <LinearLayout
