@@ -26,9 +26,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="¡Hola! 👋"
+                android:text="¡Holaaa! 👋"
                 android:textColor="@android:color/white"
-                android:textSize="33sp"
+                android:textSize="20sp"
                 android:textStyle="bold"/>
 
             <TextView
@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:text="Encuentra a tu compañero perfecto"
                 android:textColor="@android:color/white"
-                android:textSize="22sp"
+                android:textSize="13sp"
                 android:alpha="0.9"
                 android:layout_marginTop="4dp"/>
 
@@ -45,9 +45,41 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:paddingLeft="310dp">
+                android:gravity="center_vertical">
 
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="46dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="10dp"
+                    app:cardCornerRadius="23dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="@android:color/white">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingHorizontal="14dp">
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@android:drawable/ic_menu_search"
+                            app:tint="#9E9E9E"/>
+
+                        <EditText
+                            android:id="@+id/edtBuscar"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@null"
+                            android:hint="Buscar mascota..."
+                            android:textSize="13sp"
+                            android:paddingStart="8dp"
+                            android:inputType="text"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/btnFiltroContainer"
