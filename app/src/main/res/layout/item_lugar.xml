@@ -1,67 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:tools="http://schemas.android.com/tools"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cv_refugio"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="12dp"
     app:cardCornerRadius="16dp"
-    app:cardElevation="4dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    app:cardElevation="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="15dp">
-
-        <TextView
-            android:id="@+id/lb_localizacion_refugio_nombre"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Refugio Amigos Peludos"
-            android:textColor="@color/gray_oscuro"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/lb_localizacion_refugio_direccion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="Calle Principal 123, Ciudad"
-            android:textSize="14sp"
-            android:textColor="@color/gray"
-            app:layout_constraintStart_toEndOf="@+id/shapeableImageView2"
-            app:layout_constraintTop_toBottomOf="@+id/lb_localizacion_refugio_nombre" />
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/shapeableImageView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:src="@drawable/ubicacion"
-            android:tint="@color/gray_oscuro"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lb_localizacion_refugio_nombre" />
+        android:paddingBottom="15dp"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp">
 
         <com.google.android.material.chip.Chip
             android:id="@+id/lb_localizacion_chip"
             style="@style/Widget.Material3.Chip.Assist"
-            android:layout_width="91dp"
-            android:layout_height="38dp"
-            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_marginTop="12dp"
             android:backgroundTint="@color/tag_color"
             android:text="12 mascotas"
             android:textColor="@color/white1"
-            android:textSize="10dp"
+            android:textSize="10sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/lb_localizacion_refugio_nombre"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Refugio Amigos Peludos"
+            android:textColor="@color/gray_oscuro"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lb_localizacion_chip" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/shapeableImageView2"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ubicacion"
+            app:tint="@color/gray_oscuro"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lb_localizacion_refugio_nombre" />
+
+        <TextView
+            android:id="@+id/lb_localizacion_refugio_direccion"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Calle Principal 123, Ciudad"
+            android:textColor="@color/gray"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/shapeableImageView2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/shapeableImageView2"
+            app:layout_constraintTop_toTopOf="@+id/shapeableImageView2" />
 
         <LinearLayout
             android:id="@+id/layout_expandible"
@@ -69,11 +72,9 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/lb_localizacion_refugio_direccion"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
-
-        </LinearLayout>
+            app:layout_constraintTop_toBottomOf="@id/lb_localizacion_refugio_direccion" />
 
         <View
             android:id="@+id/view_linea"
@@ -82,15 +83,14 @@
             android:layout_marginTop="20dp"
             android:background="#A4A4A4"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lb_localizacion_refugio_direccion" />
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/shapeableImageView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="20dp"
             android:src="@drawable/telefono"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view_linea" />
@@ -100,39 +100,39 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="30dp"
             android:text="+34 123 456 789"
             android:textColor="@color/gray"
+            app:layout_constraintBottom_toBottomOf="@+id/shapeableImageView4"
             app:layout_constraintStart_toEndOf="@+id/shapeableImageView4"
-            app:layout_constraintTop_toBottomOf="@+id/view_linea" />
+            app:layout_constraintTop_toTopOf="@+id/shapeableImageView4" />
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/shapeableImageView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_marginTop="16dp"
             android:src="@drawable/email"
-            android:tint="@color/gray_oscuro"
+            app:tint="@color/gray_oscuro"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/shapeableImageView4" />
 
         <TextView
             android:id="@+id/lb_localizacion_refugio_email"
-            android:layout_width="203dp"
-            android:layout_height="25dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="10dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:text="contacto@amigospeludos.com"
             android:textColor="@color/gray"
-            app:layout_constraintStart_toEndOf="@+id/shapeableImageView4"
-            app:layout_constraintTop_toBottomOf="@+id/lb_localizacion_refugio_telefono" />
+            app:layout_constraintBottom_toBottomOf="@+id/shapeableImageView3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/shapeableImageView3"
+            app:layout_constraintTop_toTopOf="@+id/shapeableImageView3" />
 
         <TextView
             android:id="@+id/lb_localizacion_refugio_descripcion"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="16dp"
             android:text="Descripción del refugio o información adicional sobre la labor que realizan con los animales..."
             android:textColor="@color/gray"
             android:textSize="14sp"
@@ -143,39 +143,27 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnComoLlegar"
             android:layout_width="0dp"
-            android:layout_height="48dp"
-
+            android:layout_height="52dp"
             android:layout_marginTop="20dp"
             android:backgroundTint="@color/primary_color"
-            android:gravity="center"
-
             android:text="Cómo llegar"
-
             android:textColor="@color/white"
-
             android:textStyle="bold"
-
             app:cornerRadius="15dp"
             app:icon="@drawable/ic_enviar"
             app:iconGravity="textStart"
-
             app:iconPadding="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lb_localizacion_refugio_descripcion" /> <androidx.constraintlayout.widget.Group
-        android:id="@+id/group_expandible"
-        android:visibility="gone"
-        app:constraint_referenced_ids="
-            view_linea,
-            shapeableImageView3,
-            shapeableImageView4,
-            lb_localizacion_refugio_telefono,
-            lb_localizacion_refugio_email,
-            lb_localizacion_refugio_descripcion,
-            btnComoLlegar"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        />
+            app:layout_constraintTop_toBottomOf="@id/lb_localizacion_refugio_descripcion" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/group_expandible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="view_linea,shapeableImageView3,shapeableImageView4,lb_localizacion_refugio_telefono,lb_localizacion_refugio_email,lb_localizacion_refugio_descripcion,btnComoLlegar" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>

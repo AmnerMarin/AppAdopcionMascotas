@@ -37,7 +37,7 @@ public class DBConstruir extends SQLiteOpenHelper {
             "nombre_refugio VARCHAR(150)," +
             "direccion VARCHAR(200)," +
             "telefono VARCHAR(20)," +
-            "descripcion VARCHAR(4000),"+
+            "descripcion VARCHAR(10000),"+
             "latitud REAL," +
             "longitud REAL," +
             "FirebaseUID TEXT,"+
@@ -55,7 +55,7 @@ public class DBConstruir extends SQLiteOpenHelper {
             "edad VARCHAR(50)," +
             "sexo VARCHAR(10)," +
             "temperamento VARCHAR(150)," +
-            "historia VARCHAR(2000)," +
+            "historia VARCHAR(10000)," +
             "estado VARCHAR(15)," +
             "tamano VARCHAR(10)," +
             "foto BLOB," +

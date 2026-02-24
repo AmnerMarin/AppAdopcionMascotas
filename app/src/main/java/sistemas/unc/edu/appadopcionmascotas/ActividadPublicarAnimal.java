@@ -212,10 +212,145 @@ public class ActividadPublicarAnimal extends AppCompatActivity {
     }
 
     private boolean validarDatos() {
-        // [TU MISMO CÓDIGO DE VALIDACIÓN QUE TENÍAS ANTES, NO LO CAMBIÉ]
+
         String nombre = txtNombre.getText().toString().trim();
-        if (nombre.isEmpty()) { txtNombre.setError("Ingrese el nombre"); return false; }
-        if (foto == null) { Toast.makeText(this, "Debe seleccionar una imagen", Toast.LENGTH_SHORT).show(); return false; }
+        String especie = actEspecie.getText().toString().trim();
+        String raza = txtRaza.getText().toString().trim();
+        String edad = actedad.getText().toString().trim();
+        String tamano = actTamano.getText().toString().trim();
+        String sexo = actsexo.getText().toString().trim();
+        String temperamento = txtTemperamento.getText().toString().trim();
+        String historia = txtHistoria.getText().toString().trim();
+        String pesoStr = edtpeso.getText().toString().trim();
+
+        // -------- NOMBRE --------
+        if (nombre.isEmpty()) {
+            txtNombre.setError("Ingrese el nombre");
+            txtNombre.requestFocus();
+            return false;
+        }
+
+        if (nombre.length() < 2) {
+            txtNombre.setError("El nombre es muy corto");
+            txtNombre.requestFocus();
+            return false;
+        }
+
+        // -------- ESPECIE --------
+        if (especie.isEmpty()) {
+            actEspecie.setError("Seleccione una especie");
+            actEspecie.requestFocus();
+            return false;
+        }
+
+        // -------- RAZA --------
+        if (raza.isEmpty()) {
+            txtRaza.setError("Ingrese la raza");
+            txtRaza.requestFocus();
+            return false;
+        }
+
+        // -------- EDAD --------
+        if (edad.isEmpty()) {
+            actedad.setError("Seleccione la edad");
+            actedad.requestFocus();
+            return false;
+        }
+
+        // -------- TAMAÑO --------
+        if (tamano.isEmpty()) {
+            actTamano.setError("Seleccione el tamaño");
+            actTamano.requestFocus();
+            return false;
+        }
+
+        // -------- SEXO --------
+        if (sexo.isEmpty()) {
+            actsexo.setError("Seleccione el sexo");
+            actsexo.requestFocus();
+            return false;
+        }
+
+        // -------- TEMPERAMENTO (3 características separadas por coma) --------
+        if (temperamento.isEmpty()) {
+            txtTemperamento.setError("Ingrese 3 características separadas por comas");
+            txtTemperamento.requestFocus();
+            return false;
+        }
+
+        String[] partes = temperamento.split(",");
+
+        if (partes.length != 3) {
+            txtTemperamento.setError("Debe ingresar EXACTAMENTE 3 características separadas por comas");
+            txtTemperamento.requestFocus();
+            return false;
+        }
+
+        for (String p : partes) {
+
+            String limpio = p.trim();
+
+            if (limpio.isEmpty()) {
+                txtTemperamento.setError("Las características no pueden estar vacías");
+                txtTemperamento.requestFocus();
+                return false;
+            }
+
+            if (limpio.length() < 3) {
+                txtTemperamento.setError("Cada característica debe tener al menos 3 letras");
+                txtTemperamento.requestFocus();
+                return false;
+            }
+
+            // Solo letras y espacios
+            if (!limpio.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+                txtTemperamento.setError("Solo se permiten letras en las características");
+                txtTemperamento.requestFocus();
+                return false;
+            }
+        }
+
+        // -------- HISTORIA --------
+        if (historia.isEmpty()) {
+            txtHistoria.setError("Ingrese la historia");
+            txtHistoria.requestFocus();
+            return false;
+        }
+
+        if (historia.length() < 10) {
+            txtHistoria.setError("La historia debe tener al menos 10 caracteres");
+            txtHistoria.requestFocus();
+            return false;
+        }
+
+        // -------- PESO --------
+        if (pesoStr.isEmpty()) {
+            edtpeso.setError("Ingrese el peso");
+            edtpeso.requestFocus();
+            return false;
+        }
+
+        try {
+            double peso = Double.parseDouble(pesoStr);
+
+            if (peso <= 0) {
+                edtpeso.setError("El peso debe ser mayor a 0");
+                edtpeso.requestFocus();
+                return false;
+            }
+
+        } catch (NumberFormatException e) {
+            edtpeso.setError("Peso inválido");
+            edtpeso.requestFocus();
+            return false;
+        }
+
+        // -------- FOTO --------
+        if (foto == null) {
+            Toast.makeText(this, "Debe seleccionar una imagen", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
         return true;
     }
 }
