@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sistemas.unc.edu.appadopcionmascotas.Data.DAOAdopcion;
+import sistemas.unc.edu.appadopcionmascotas.Firebase.DbRepositorioChat;
 import sistemas.unc.edu.appadopcionmascotas.Model.Conversacion;
 import sistemas.unc.edu.appadopcionmascotas.UI.AdaptadorChat;
 import sistemas.unc.edu.appadopcionmascotas.Model.Mensaje;
@@ -90,43 +91,45 @@ public class MensajesFragment extends Fragment {
         tvCantidadMensajes = view.findViewById(R.id.tvCantidadMensajes);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         dao = new DAOAdopcion(requireActivity());
-        cargarDatos();
+
+        iniciarSincronizacion();
     }
 
-    private void cargarDatos() {
+    private void iniciarSincronizacion() {
         android.content.SharedPreferences prefs = requireActivity().getSharedPreferences("sesion_usuario", android.content.Context.MODE_PRIVATE);
         int idUsuario = prefs.getInt("id_usuario", -1);
         String rol = prefs.getString("rol_usuario", "");
 
-        // LOG DE PRUEBA: Mira esto en el Logcat de Android Studio
-        android.util.Log.d("CHAT_DEBUG", "ID: " + idUsuario + " | Rol: " + rol);
-
         if (idUsuario != -1) {
-            // Usamos equalsIgnoreCase para evitar errores de mayúsculas/minúsculas
-            List<Conversacion> lista = dao.obtenerListaConversaciones(idUsuario, rol);
+            // Descubrimos si el usuario logueado es Refugio o Adoptante
+            int idRealBuscado = rol.equalsIgnoreCase("Refugio") ?
+                    dao.obtenerIdRefugioPorUsuario(idUsuario) :
+                    dao.obtenerIdAdoptantePorUsuario(idUsuario);
 
-            adaptador = new AdaptadorConversaciones(getContext(), lista);
-            rv.setAdapter(adaptador);
+            // Activamos el radar de Firebase
+            DbRepositorioChat repoChat = new DbRepositorioChat(getContext());
+            repoChat.escucharMensajesGlobales(idRealBuscado, rol, () -> {
+                // Si detecta un mensaje nuevo en la nube, recarga la lista local
+                cargarDatos(idUsuario, rol);
+            });
 
-            if (lista.isEmpty()) {
-                android.util.Log.d("CHAT_DEBUG", "La lista volvió vacía del DAO");
-            }
-
-            // 🔥 ACTUALIZAR CONTADOR
-            int cantidad = lista.size();
-
-            if (cantidad > 0) {
-                tvCantidadMensajes.setText(cantidad + " nuevos");
-                tvCantidadMensajes.setVisibility(View.VISIBLE);
-            } else {
-                tvCantidadMensajes.setVisibility(View.GONE);
-            }
+            // Carga inicial rápida de lo que ya existe en el teléfono
+            cargarDatos(idUsuario, rol);
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        cargarDatos();
+    private void cargarDatos(int idUsuario, String rol) {
+        List<Conversacion> lista = dao.obtenerListaConversaciones(idUsuario, rol);
+
+        adaptador = new AdaptadorConversaciones(getContext(), lista);
+        rv.setAdapter(adaptador);
+
+        int cantidad = lista.size();
+        if (cantidad > 0) {
+            tvCantidadMensajes.setText(cantidad + " chats activos");
+            tvCantidadMensajes.setVisibility(View.VISIBLE);
+        } else {
+            tvCantidadMensajes.setVisibility(View.GONE);
+        }
     }
 }

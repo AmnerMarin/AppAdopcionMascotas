@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import sistemas.unc.edu.appadopcionmascotas.Data.DAOAdopcion;
+import sistemas.unc.edu.appadopcionmascotas.Firebase.DbRepositorioAdopcion;
 import sistemas.unc.edu.appadopcionmascotas.Model.Solicitud;
 import sistemas.unc.edu.appadopcionmascotas.R;
 import sistemas.unc.edu.appadopcionmascotas.UI.AdaptadorSolicitudRefugio;
@@ -89,22 +90,27 @@ public class SolicitudesRefugioFragment extends Fragment {
 
         recyclerSolicitudes = view.findViewById(R.id.recyclerSolicitudes);
         recyclerSolicitudes.setLayoutManager(new LinearLayoutManager(getContext()));
-
         dao = new DAOAdopcion(requireActivity());
-        // Obtener ID del refugio desde SharedPreferences
-        SharedPreferences prefs = requireActivity()
-                .getSharedPreferences("sesion_usuario", Context.MODE_PRIVATE);
+
+        SharedPreferences prefs = requireActivity().getSharedPreferences("sesion_usuario", Context.MODE_PRIVATE);
         int idUsuario = prefs.getInt("id_usuario", -1);
 
-        if (idUsuario == -1) {
-            return;
+        if (idUsuario != -1) {
+            int idRefugio = dao.obtenerIdRefugioPorUsuario(idUsuario);
+
+            // --- NUEVO: Sincronizar con Firebase al entrar ---
+            DbRepositorioAdopcion repo = new DbRepositorioAdopcion(getContext());
+            repo.sincronizarSolicitudesRefugio(idRefugio, () -> {
+                // Refrescar la lista de SQLite después de la sincronización
+                lista = dao.obtenerSolicitudesDelRefugio(idRefugio);
+                adapter = new AdaptadorSolicitudRefugio(getContext(), lista);
+                recyclerSolicitudes.setAdapter(adapter);
+            });
+
+            // Carga rápida inicial
+            lista = dao.obtenerSolicitudesDelRefugio(idRefugio);
+            adapter = new AdaptadorSolicitudRefugio(getContext(), lista);
+            recyclerSolicitudes.setAdapter(adapter);
         }
-
-        int idRefugio = dao.obtenerIdRefugioPorUsuario(idUsuario);
-
-        lista = dao.obtenerSolicitudesDelRefugio(idRefugio);
-
-        adapter = new AdaptadorSolicitudRefugio(getContext(), lista);
-        recyclerSolicitudes.setAdapter(adapter);
     }
 }

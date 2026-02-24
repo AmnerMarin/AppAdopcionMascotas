@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import sistemas.unc.edu.appadopcionmascotas.Data.DAOAdopcion;
+import sistemas.unc.edu.appadopcionmascotas.Firebase.DbRepositorioAdopcion;
 import sistemas.unc.edu.appadopcionmascotas.Model.Solicitud;
 import sistemas.unc.edu.appadopcionmascotas.R;
 import sistemas.unc.edu.appadopcionmascotas.UI.AdaptadorSolicitudAdoptante;
@@ -81,21 +82,26 @@ public class SolicitudesAdoptanteFragment extends Fragment {
     }
 
     //SOBRE ESCRITURA DEL METODO ONVIEWCREATED
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // 1. Inicializar componentes
         rvSolicitudes = view.findViewById(R.id.rvMisSolicitudesAdoptante);
         rvSolicitudes.setLayoutManager(new LinearLayoutManager(getContext()));
         dao = new DAOAdopcion(requireActivity());
 
-        // 2. Obtener el ID del adoptante desde SharedPreferences
         obtenerIdAdoptante();
 
-        // 3. Cargar los datos iniciales
-        cargarSolicitudes();
+        // --- NUEVO: Sincronizar con Firebase al entrar ---
+        if (idAdoptante != -1) {
+            DbRepositorioAdopcion repo = new DbRepositorioAdopcion(getContext());
+            repo.sincronizarSolicitudesAdoptante(idAdoptante, () -> {
+                // Este código se ejecuta cuando Firebase termina de bajar datos a SQLite
+                cargarSolicitudes();
+            });
+        }
+
+        cargarSolicitudes(); // Carga inicial (datos que ya estaban en SQLite)
     }
     private void obtenerIdAdoptante() {
         SharedPreferences prefs = requireActivity().getSharedPreferences("sesion_usuario", Context.MODE_PRIVATE);

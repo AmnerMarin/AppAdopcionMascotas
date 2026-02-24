@@ -29,7 +29,7 @@ public class DAOAdopcion {
 
     public DAOAdopcion(Activity contexto) {
         nombreDB = "DBAdoptaPet";
-        version = 5;
+        version = 7;
         this.contexto = contexto;
     }
 
@@ -648,8 +648,18 @@ public class DAOAdopcion {
         values.put("estado", "Pendiente");
         values.put("FirebaseUID", uid);
 
-        long resultado = db.insert("Adopcion", null, values);
-        db.close();
+        long resultado = -1;
+        try {
+            // Usamos insertOrThrow para que nos diga EXACTAMENTE por qué falla
+            resultado = db.insertOrThrow("Adopcion", null, values);
+            android.util.Log.d("SQLITE_EXITO", "¡Solicitud insertada correctamente en SQLite!");
+        } catch (android.database.sqlite.SQLiteException e) {
+            // Aquí atrapamos el error y lo mostramos en rojo en el Logcat
+            android.util.Log.e("SQLITE_ERROR", "Fallo al insertar solicitud: " + e.getMessage());
+        } finally {
+            db.close();
+        }
+
         return resultado != -1;
     }
 
@@ -895,36 +905,35 @@ public class DAOAdopcion {
     // SISTEMA DE MENSAJERÍA (ACTUALIZADO PARA FIREBASE)
     // ========================================================
 
-    // 1. OBTENER O CREAR CHAT (Ahora le agrega un FirebaseUID único)
+    // 1. OBTENER O CREAR CHAT (CON CONTROL DE ERRORES)
     public int obtenerOCrearChat(int idAdoptante, int idRefugio, int idMascota) {
         SQLiteDatabase db = new DBConstruir(contexto, nombreDB, null, version).getWritableDatabase();
         int idChat = -1;
 
-        // Buscamos si ya existe
         String sql = "SELECT id_chat FROM Chat WHERE id_adoptante = ? AND id_refugio = ? AND id_mascota = ?";
-        Cursor cursor = db.rawQuery(sql, new String[]{
-                String.valueOf(idAdoptante),
-                String.valueOf(idRefugio),
-                String.valueOf(idMascota)
-        });
+        Cursor cursor = db.rawQuery(sql, new String[]{String.valueOf(idAdoptante), String.valueOf(idRefugio), String.valueOf(idMascota)});
 
         if (cursor.moveToFirst()) {
             idChat = cursor.getInt(0);
         }
         cursor.close();
 
-        // Si no existe, lo creamos con su FirebaseUID (Ej: "1_2_5")
         if (idChat == -1) {
             String chatUID = idAdoptante + "_" + idRefugio + "_" + idMascota;
-
             ContentValues values = new ContentValues();
             values.put("id_adoptante", idAdoptante);
             values.put("id_refugio", idRefugio);
             values.put("id_mascota", idMascota);
             values.put("FirebaseUID", chatUID);
 
-            long result = db.insert("Chat", null, values);
-            idChat = (int) result;
+            try {
+                // Usamos CONFLICT_IGNORE por si falta la mascota localmente
+                long result = db.insertWithOnConflict("Chat", null, values, SQLiteDatabase.CONFLICT_IGNORE);
+                if (result != -1) idChat = (int) result;
+                else android.util.Log.e("SQLITE_CHAT", "Fallo al crear Chat local (Posible error de llave foránea)");
+            } catch (Exception e) {
+                android.util.Log.e("SQLITE_CHAT", "Error: " + e.getMessage());
+            }
         }
         return idChat;
     }
@@ -944,27 +953,32 @@ public class DAOAdopcion {
 
     public List<Conversacion> obtenerListaConversaciones(int idUsuarioActual, String rol) {
         List<Conversacion> lista = new ArrayList<>();
-        DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
+        DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version); // ¡Asegúrate de que version sea 7 arriba!
         SQLiteDatabase db = helper.getReadableDatabase();
 
         String sql;
-        // Si soy Refugio, busco el nombre del Adoptante. Si soy Adoptante, busco el nombre del Refugio.
-        // Usamos equalsIgnoreCase para mayor seguridad
+
         if (rol.equalsIgnoreCase("Refugio")) {
-            sql = "SELECT c.id_chat, ad.nombres || ' ' || ad.apellidos AS nombre_persona, m.nombre AS nombre_mascota, m.id_mascota, " +
+            // Usamos LEFT JOIN para que el chat aparezca aunque no tengamos al adoptante guardado localmente
+            sql = "SELECT c.id_chat, " +
+                    "IFNULL(ad.nombres || ' ' || ad.apellidos, 'Adoptante ' || c.id_adoptante) AS nombre_persona, " +
+                    "IFNULL(m.nombre, 'Mascota ' || c.id_mascota) AS nombre_mascota, c.id_mascota, " +
                     "(SELECT mensaje FROM Mensaje WHERE id_chat = c.id_chat ORDER BY id_mensaje DESC LIMIT 1) AS ultimo, " +
                     "(SELECT fecha_envio FROM Mensaje WHERE id_chat = c.id_chat ORDER BY id_mensaje DESC LIMIT 1) AS hora " +
                     "FROM Chat c " +
-                    "INNER JOIN Adoptante ad ON c.id_adoptante = ad.id_adoptante " +
-                    "INNER JOIN Mascota m ON c.id_mascota = m.id_mascota " +
+                    "LEFT JOIN Adoptante ad ON c.id_adoptante = ad.id_adoptante " +
+                    "LEFT JOIN Mascota m ON c.id_mascota = m.id_mascota " +
                     "WHERE c.id_refugio = (SELECT id_refugio FROM Refugio WHERE id_usuario = ?)";
         } else {
-            sql = "SELECT c.id_chat, r.nombre_refugio AS nombre_persona, m.nombre AS nombre_mascota, m.id_mascota, " +
+            // Usamos LEFT JOIN para el lado del adoptante
+            sql = "SELECT c.id_chat, " +
+                    "IFNULL(r.nombre_refugio, 'Refugio ' || c.id_refugio) AS nombre_persona, " +
+                    "IFNULL(m.nombre, 'Mascota ' || c.id_mascota) AS nombre_mascota, c.id_mascota, " +
                     "(SELECT mensaje FROM Mensaje WHERE id_chat = c.id_chat ORDER BY id_mensaje DESC LIMIT 1) AS ultimo, " +
                     "(SELECT fecha_envio FROM Mensaje WHERE id_chat = c.id_chat ORDER BY id_mensaje DESC LIMIT 1) AS hora " +
                     "FROM Chat c " +
-                    "INNER JOIN Refugio r ON c.id_refugio = r.id_refugio " +
-                    "INNER JOIN Mascota m ON c.id_mascota = m.id_mascota " +
+                    "LEFT JOIN Refugio r ON c.id_refugio = r.id_refugio " +
+                    "LEFT JOIN Mascota m ON c.id_mascota = m.id_mascota " +
                     "WHERE c.id_adoptante = (SELECT id_adoptante FROM Adoptante WHERE id_usuario = ?)";
         }
 
@@ -1003,8 +1017,10 @@ public class DAOAdopcion {
         return lista;
     }
 
-    // 3. GUARDAR MENSAJE CON SU UID DE FIREBASE
+    // 3. GUARDAR MENSAJE (CON CONTROL DE ERRORES)
     public boolean insertarMensajeConUID(int idChat, int idEmisor, String texto, String firebaseUID) {
+        if (idChat == -1) return false; // Si no se pudo crear el chat, no guardamos el mensaje
+
         DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -1012,7 +1028,21 @@ public class DAOAdopcion {
         values.put("id_emisor", idEmisor);
         values.put("mensaje", texto);
         values.put("FirebaseUID", firebaseUID);
-        return db.insert("Mensaje", null, values) > 0;
+
+        long resultado = -1;
+        try {
+            resultado = db.insertWithOnConflict("Mensaje", null, values, SQLiteDatabase.CONFLICT_IGNORE);
+            if (resultado == -1) {
+                android.util.Log.e("SQLITE_MENSAJE", "No se pudo insertar el mensaje. Falla de llave foránea (idEmisor no existe localmente)");
+            } else {
+                android.util.Log.d("SQLITE_MENSAJE", "Mensaje guardado con éxito.");
+            }
+        } catch (Exception e) {
+            android.util.Log.e("SQLITE_MENSAJE", "Error: " + e.getMessage());
+        } finally {
+            db.close();
+        }
+        return resultado != -1;
     }
 
     // 4. VERIFICAR SI EL MENSAJE YA EXISTE PARA NO DUPLICAR
@@ -1039,6 +1069,23 @@ public class DAOAdopcion {
         boolean existe = c.moveToFirst();
         c.close();
         db.close();
+        return existe;
+    }// ==========================================
+    // VERIFICAR SI EXISTE SOLICITUD POR FIREBASE UID
+    // ==========================================
+    public boolean existeSolicitudPorUID(String firebaseUID) {
+        DBConstruir helper = new DBConstruir(contexto, nombreDB, null, version);
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(
+                "SELECT id_adopcion FROM Adopcion WHERE FirebaseUID = ?",
+                new String[]{firebaseUID}
+        );
+
+        boolean existe = cursor.moveToFirst();
+        cursor.close();
+        db.close();
+
         return existe;
     }
 }

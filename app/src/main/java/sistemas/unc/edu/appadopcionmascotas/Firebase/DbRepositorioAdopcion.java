@@ -107,32 +107,53 @@ public class DbRepositorioAdopcion {
             new Thread(() -> {
                 boolean cambios = false;
                 for (QueryDocumentSnapshot doc : task.getResult()) {
-                    int idAdopt = doc.getLong("idAdoptante") != null ? doc.getLong("idAdoptante").intValue() : -1;
-                    int idMasc = doc.getLong("idMascota") != null ? doc.getLong("idMascota").intValue() : -1;
+
+                    // 1. OBTENER DATOS CON SEGURIDAD (Evitar NullPointerException)
+                    Long objAdopt = doc.getLong("idAdoptante");
+                    Long objMasc = doc.getLong("idMascota");
+
+                    int idAdopt = objAdopt != null ? objAdopt.intValue() : -1;
+                    int idMasc = objMasc != null ? objMasc.intValue() : -1;
+
                     String estadoFB = doc.getString("estado");
                     String fechaFB = doc.getString("fecha_adopcion");
                     String uid = doc.getId();
 
                     if (idAdopt != -1 && idMasc != -1) {
-                        // Insertar si no existía
-                        if (!daoAdopcion.existeSolicitud(idAdopt, idMasc)) {
+
+                        // 2. BUSCAR SI YA EXISTE USANDO EL UID DE FIREBASE
+                        // (Necesitarás crear este método en tu DAO, ver más abajo)
+                        boolean existeLocal = daoAdopcion.existeSolicitudPorUID(uid);
+
+                        if (!existeLocal) {
+                            // Insertar si no existía en SQLite
                             daoAdopcion.insertarSolicitudConUID(idAdopt, idMasc, fechaFB, uid);
                             cambios = true;
                         }
 
-                        // Forzar el estado de Firebase a nuestro SQLite (por si nos aprobaron/rechazaron)
+                        // 3. Forzar el estado de Firebase a nuestro SQLite (por si nos aprobaron/rechazaron)
                         daoAdopcion.actualizarEstadoSolicitudPorUID(uid, estadoFB);
 
+                        // 4. Actualizar la mascota si fue aprobada
                         if ("Aprobada".equals(estadoFB)) {
                             daoAdopcion.actualizarEstadoMascota(idMasc, "Adoptado");
                             cambios = true;
                         }
                     }
                 }
-                if (cambios && alTerminar != null) {
+
+                // 5. AVISAR A LA UI QUE TERMINE
+                // Quitamos la condición 'if (cambios)' para asegurar que el Runnable
+                // SIEMPRE se ejecute y quite la pantalla de carga, haya o no haya cambios.
+                if (alTerminar != null) {
                     new Handler(Looper.getMainLooper()).post(alTerminar);
                 }
             }).start();
+        } else {
+            // Si falla la consulta a Firebase, igual avisamos a la UI para que no se quede colgada
+            if (alTerminar != null) {
+                new Handler(Looper.getMainLooper()).post(alTerminar);
+            }
         }
     }
 }

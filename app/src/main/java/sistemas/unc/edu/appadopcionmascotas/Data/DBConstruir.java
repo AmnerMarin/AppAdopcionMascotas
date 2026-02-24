@@ -87,29 +87,21 @@ public class DBConstruir extends SQLiteOpenHelper {
             "FOREIGN KEY(id_mascota) REFERENCES Mascota(id_mascota)" +
             ")";
 
-    String tabla_chat = "CREATE TABLE Chat (" +
-            "id_chat INTEGER PRIMARY KEY AUTOINCREMENT," +
-            "id_mascota INTEGER," +
+    // 🔥 TABLA CHAT (Le quitamos el FOREIGN KEY para que no bloquee)
+    String tabla_chat = "CREATE TABLE Chat (id_chat INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            "id_mascota INTEGER, " +
             "id_adoptante INTEGER," +
-            "id_refugio INTEGER," +
-            "fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP," +
-            "FirebaseUID TEXT,"+
-            "FOREIGN KEY(id_mascota) REFERENCES Mascota(id_mascota)," +
-            "FOREIGN KEY(id_adoptante) REFERENCES Adoptante(id_adoptante)," +
-            "FOREIGN KEY(id_refugio) REFERENCES Refugio(id_refugio))";
+            "id_refugio INTEGER, " +
+            "fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP, " +
+            "FirebaseUID TEXT)";
 
-    String tabla_mensaje = "CREATE TABLE Mensaje (" +
-            "id_mensaje INTEGER PRIMARY KEY AUTOINCREMENT," +
-            "id_chat INTEGER," +
+    // 🔥 TABLA MENSAJE (Le quitamos el FOREIGN KEY para que no bloquee)
+    String tabla_mensaje = "CREATE TABLE Mensaje (id_mensaje INTEGER PRIMARY KEY AUTOINCREMENT," +
+            " id_chat INTEGER, " +
             "id_emisor INTEGER," +
-            "mensaje TEXT," +
-            "fecha_envio DATETIME DEFAULT CURRENT_TIMESTAMP," +
-            "FirebaseUID TEXT,"+
-            "FOREIGN KEY(id_chat) REFERENCES Chat(id_chat)," +
-            "FOREIGN KEY(id_emisor) REFERENCES Usuario(id_usuario))";
-
-
-
+            " mensaje TEXT, " +
+            "fecha_envio DATETIME DEFAULT CURRENT_TIMESTAMP, " +
+            "FirebaseUID TEXT)";
     public DBConstruir(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
