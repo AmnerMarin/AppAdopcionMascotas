@@ -29,7 +29,7 @@ public class DAOAdopcion {
 
     public DAOAdopcion(Activity contexto) {
         nombreDB = "DBAdoptaPet";
-        version = 7;
+        version = 9;
         this.contexto = contexto;
     }
 
